@@ -21,7 +21,7 @@ class ShopifyController extends Controller {
         if ($user->count() > 0) {
 //            if (!$user->first()->get_webhook)
 //                $this->registerWebHooks($user->first());
-            return view('welcome');
+            return view('index');
         }
         return $this->doAuth($shopUrl);
     }
