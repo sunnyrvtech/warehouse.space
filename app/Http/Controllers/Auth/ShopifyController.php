@@ -43,24 +43,27 @@ class ShopifyController extends Controller {
         $webhook_array = array(
             [
                 'name' => "app/uninstalled",
-                'url' => 'https://fb-feed7.herokuapp.com/'
+                'url' => route('webhook.uninstalled')
             ],
             [
                 'name' => "inventory_items/create",
-                'url' => 'https://fb-feed7.herokuapp.com/'
+                'url' => route('webhook.inventory')
             ],
             [
                 'name' => "inventory_items/update",
-                'url' => 'https://fb-feed7.herokuapp.com/'
+                'url' => route('webhook.inventory')
             ],
             [
                 'name' => "inventory_items/delete",
-                'url' => 'https://fb-feed7.herokuapp.com/'
+                'url' => route('webhook.inventory')
             ]
         );
         
         
-      
+        $shopinfo = $sh->call(['URL' => 'webhooks.json', 'METHOD' => 'GET']);
+        
+        
+        dd($shopinfo);
         
         $insert_array = array();
         foreach($webhook_array as $key=>$value){
