@@ -60,6 +60,8 @@ class ShopifyController extends Controller {
             ]
         );
         
+        dd($webhook_array);
+        
         $insert_array = array();
         foreach($webhook_array as $key=>$value){
             $webhook = $sh->call(['URL' => 'webhooks.json', 'METHOD' => 'POST', "DATA" => ["webhook" => array("topic" => $value['name'], "address" => $value['url'], "format" => "json")]]);
