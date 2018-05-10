@@ -68,13 +68,14 @@ class ShopifyController extends Controller {
         $insert_array = array();
         foreach($webhook_array as $key=>$value){
             $webhook = $sh->call(['URL' => 'webhooks.json', 'METHOD' => 'POST', "DATA" => ["webhook" => array("topic" => $value['name'], "address" => $value['url'], "format" => "json")]]);
-            dd($webhook);
             $insert_array[$key]['user_id'] = $user->id;
             $insert_array[$key]['name'] = $value['name'];
             $insert_array[$key]['webhook_id'] = $webhook->webhook->id;
+            $insert_array[$key]['created_at'] = date('Y-m-d H:i:s',strtotime($webhook->webhook->created_at));
+            $insert_array[$key]['updated_at'] = date('Y-m-d H:i:s',strtotime($webhook->webhook->updated_at));
         }
         
-        dd($insert_array);
+//        dd($insert_array);
 
         Webhook::create($insert_array);
         return true;
