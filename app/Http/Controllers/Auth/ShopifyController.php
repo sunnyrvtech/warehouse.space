@@ -60,7 +60,6 @@ class ShopifyController extends Controller {
             ]
         );
         
-        dd($webhook_array);
         
         $insert_array = array();
         foreach($webhook_array as $key=>$value){
@@ -72,7 +71,7 @@ class ShopifyController extends Controller {
             $insert_array[$key]['updated_at'] = date('Y-m-d H:i:s',strtotime($webhook->webhook->updated_at));
         }
         
-//        dd($insert_array);
+        dd($insert_array);
 
         Webhook::insert($insert_array);
         return true;
