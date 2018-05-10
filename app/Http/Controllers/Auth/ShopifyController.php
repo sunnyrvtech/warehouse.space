@@ -60,10 +60,10 @@ class ShopifyController extends Controller {
         );
         
         
-        $shopinfo = $sh->call(['URL' => 'webhooks.json', 'METHOD' => 'GET']);
-        
-        
-        dd($shopinfo);
+//        $shopinfo = $sh->call(['URL' => 'webhooks.json', 'METHOD' => 'GET']);
+//        
+//        
+//        dd($shopinfo);
         
         $insert_array = array();
         foreach($webhook_array as $key=>$value){
