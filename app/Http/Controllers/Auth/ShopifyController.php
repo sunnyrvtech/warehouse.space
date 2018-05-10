@@ -67,7 +67,7 @@ class ShopifyController extends Controller {
             $insert_array[$key]['webhook_id'] = $webhook->webhook->id;
         }
         
-//        dd($insert_array);
+        dd($insert_array);
 
         Webhook::create($insert_array);
         return true;
