@@ -26,3 +26,5 @@ Route::get('auth/install', 'Auth\ShopifyController@installShop');
 Route::get('auth/callback', 'Auth\ShopifyController@processOAuthResultRedirect');
 Route::post('webhooks/inventory', 'InventoryController@handleInventory')->name('webhook.inventory');
 Route::post('webhooks/uninstalled', 'Auth\ShopifyController@handleAppUninstallation')->name('webhook.uninstalled');
+
+Route::get('auth/check_webhook/{id}', 'Auth\ShopifyController@getWebhooks');

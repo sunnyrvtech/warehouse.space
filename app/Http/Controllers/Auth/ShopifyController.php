@@ -59,12 +59,6 @@ class ShopifyController extends Controller {
             ]
         );
         
-        
-//        $shopinfo = $sh->call(['URL' => 'webhooks.json', 'METHOD' => 'GET']);
-//        
-//        
-//        dd($shopinfo);
-        
         $insert_array = array();
         foreach($webhook_array as $key=>$value){
             $webhook = $sh->call(['URL' => 'webhooks.json', 'METHOD' => 'POST', "DATA" => ["webhook" => array("topic" => $value['name'], "address" => $value['url'], "format" => "json")]]);
@@ -131,6 +125,15 @@ class ShopifyController extends Controller {
         $shopUrl = $request->get('domain');
         $user = User::where(['shop_url' => $shopUrl])->first();
         $user->delete();
+    }
+    
+    public function getWebhooks(Request $request,$id){
+        $user = User::find($id);
+        $sh = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url,'ACCESS_TOKEN' => $user->access_token]);
+
+        $webhookinfo = $sh->call(['URL' => 'webhooks.json', 'METHOD' => 'GET']);
+       dd($webhookinfo);
+        
     }
 
 }
