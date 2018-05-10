@@ -77,7 +77,7 @@ class ShopifyController extends Controller {
         
 //        dd($insert_array);
 
-        Webhook::create($insert_array);
+        Webhook::insert($insert_array);
         return true;
     }
 
