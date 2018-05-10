@@ -43,24 +43,24 @@ class ShopifyController extends Controller {
         $webhook_array = array(
             [
                 'name' => "app/uninstalled",
-                'url' => route('webhook.uninstalled')
+                'url' => 'http://34.242.3.151/warehouse.space/public/api/webhooks/uninstalled'
             ],
             [
                 'name' => "inventory_items/create",
-                'url' => route('webhook.inventory')
+                'url' => 'http://34.242.3.151/warehouse.space/public/api/webhooks/inventory'
             ],
             [
                 'name' => "inventory_items/update",
-                'url' => route('webhook.inventory')
+                'url' => 'http://34.242.3.151/warehouse.space/public/api/webhooks/inventory'
             ],
             [
                 'name' => "inventory_items/delete",
-                'url' => route('webhook.inventory')
+                'url' => 'http://34.242.3.151/warehouse.space/public/api/webhooks/inventory'
             ]
         );
         
         
-        dd($webhook_array);
+      
         
         $insert_array = array();
         foreach($webhook_array as $key=>$value){
