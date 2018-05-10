@@ -19,8 +19,8 @@ class ShopifyController extends Controller {
         }
         $user = User::Where('shop_url', $shopUrl);
         if ($user->count() > 0) {
-//            if (!$user->first()->get_webhook)
-//                $this->registerWebHooks($user->first());
+            if (!$user->first()->get_webhook)
+                $this->registerWebHooks($user->first());
             return view('index');
         }
         return $this->doAuth($shopUrl);
@@ -67,7 +67,7 @@ class ShopifyController extends Controller {
             $insert_array[$key]['webhook_id'] = $webhook->webhook->id;
         }
         
-        dd($insert_array);
+//        dd($insert_array);
 
         Webhook::create($insert_array);
         return true;
