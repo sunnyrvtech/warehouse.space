@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use App\Webhook;
 use App;
+use Log;
 use Carbon\Carbon;
 
 class ShopifyController extends Controller {
