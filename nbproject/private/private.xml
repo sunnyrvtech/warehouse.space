@@ -2,11 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/var/www/html/warehousespace/app/Http/Controllers/Auth/ShopifyController.php</file>
-            <file>file:/var/www/html/warehousespace/app/Http/Controllers/InventoryController.php</file>
-            <file>file:/var/www/html/warehousespace/resources/views/index.blade.php</file>
-            <file>file:/var/www/html/warehousespace/.env</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
