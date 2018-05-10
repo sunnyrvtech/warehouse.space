@@ -44,22 +44,21 @@ class ShopifyController extends Controller {
         $webhook_array = array(
             [
                 'name' => "app/uninstalled",
-                'url' => 'http://' . preg_replace('#^https?://#', '', route('webhook.uninstalled'))
+                'url' => route('webhook.uninstalled')
             ],
             [
                 'name' => "inventory_items/create",
-                'url' => 'http://' . preg_replace('#^https?://#', '', route('webhook.inventory'))
+                'url' => route('webhook.inventory')
             ],
             [
                 'name' => "inventory_items/update",
-                'url' => 'http://' . preg_replace('#^https?://#', '', route('webhook.inventory'))
+                'url' => route('webhook.inventory')
             ],
             [
                 'name' => "inventory_items/delete",
-                'url' => 'http://' . preg_replace('#^https?://#', '', route('webhook.inventory'))
+                'url' => route('webhook.inventory')
             ]
         );
-        
         
         $insert_array = array();
         foreach($webhook_array as $key=>$value){
@@ -71,7 +70,7 @@ class ShopifyController extends Controller {
             $insert_array[$key]['updated_at'] = date('Y-m-d H:i:s',strtotime($webhook->webhook->updated_at));
         }
         
-        dd($insert_array);
+//        dd($insert_array);
 
         Webhook::insert($insert_array);
         return true;
