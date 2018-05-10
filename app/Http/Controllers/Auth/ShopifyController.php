@@ -43,19 +43,19 @@ class ShopifyController extends Controller {
         $webhook_array = array(
             [
                 'name' => "app/uninstalled",
-                'url' => 'http://34.242.3.151/warehouse.space/public/api/webhooks/uninstalled'
+                'url' => 'https://fb-feed7.herokuapp.com/'
             ],
             [
                 'name' => "inventory_items/create",
-                'url' => 'http://34.242.3.151/warehouse.space/public/api/webhooks/inventory'
+                'url' => 'https://fb-feed7.herokuapp.com/'
             ],
             [
                 'name' => "inventory_items/update",
-                'url' => 'http://34.242.3.151/warehouse.space/public/api/webhooks/inventory'
+                'url' => 'https://fb-feed7.herokuapp.com/'
             ],
             [
                 'name' => "inventory_items/delete",
-                'url' => 'http://34.242.3.151/warehouse.space/public/api/webhooks/inventory'
+                'url' => 'https://fb-feed7.herokuapp.com/'
             ]
         );
         
