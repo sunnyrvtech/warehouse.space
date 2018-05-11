@@ -97,7 +97,7 @@ class ShopifyController extends Controller {
             );
         }
         $insert_array['user_id'] = $user->id;
-        $insert_array['webhook'] = json_endcode($insert_array);
+        $insert_array['webhook'] = json_encode($insert_array);
         $insert_array[$key]['created_at'] = date('Y-m-d H:i:s');
         $insert_array[$key]['updated_at'] = date('Y-m-d H:i:s');
 
