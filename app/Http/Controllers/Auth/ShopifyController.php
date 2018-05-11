@@ -48,16 +48,44 @@ class ShopifyController extends Controller {
             ],
             [
                 'name' => "inventory_items/create",
-                'url' => route('webhook.inventory')
+                'url' => route('webhook.inventory_items','create')
             ],
             [
                 'name' => "inventory_items/update",
-                'url' => route('webhook.inventory')
+                'url' => route('webhook.inventory_items','update')
             ],
             [
                 'name' => "inventory_items/delete",
-                'url' => route('webhook.inventory')
-            ]
+                'url' => route('webhook.inventory_items','delete')
+            ],
+            [
+                'name' => "products/create",
+                'url' => route('webhook.products','create')
+            ],
+            [
+                'name' => "products/update",
+                'url' => route('webhook.products','update')
+            ],
+            [
+                'name' => "products/delete",
+                'url' => route('webhook.products','delete')
+            ],
+            [
+                'name' => "orders/create",
+                'url' => route('webhook.orders','delete')
+            ],
+            [
+                'name' => "orders/updated",
+                'url' => route('webhook.orders','update')
+            ],
+            [
+                'name' => "orders/delete",
+                'url' => route('webhook.orders','delete')
+            ],
+            [
+                'name' => "orders/cancelled",
+                'url' => route('webhook.orders','delete')
+            ],
         );
         
         $insert_array = array();

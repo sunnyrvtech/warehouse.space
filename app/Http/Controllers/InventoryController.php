@@ -7,7 +7,7 @@ use Log;
 
 class InventoryController extends Controller
 {
-    public function handleInventory(Request $request){
-         Log::info('Inventory:'.json_encode($request->all()));
+    public function handleInventoryItems(Request $request,$slug){
+         Log::info('Inventory '.$slug.':'.json_encode($request->all()));
     }
 }

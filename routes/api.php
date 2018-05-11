@@ -17,14 +17,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/users', function (Request $request) {
-    return 'hello';
-});
-
-
 Route::get('auth/install', 'Auth\ShopifyController@installShop');
 Route::get('auth/callback', 'Auth\ShopifyController@processOAuthResultRedirect');
-Route::post('webhooks/inventory', 'InventoryController@handleInventory')->name('webhook.inventory');
 Route::post('webhooks/uninstalled', 'Auth\ShopifyController@handleAppUninstallation')->name('webhook.uninstalled');
+Route::post('webhooks/inventory_items{slug}', 'InventoryController@handleInventoryItems')->name('webhook.inventory_items');
+Route::post('webhooks/products{slug}', 'ProductController@handleProducts')->name('webhook.products');
+Route::post('webhooks/orders{slug}', 'OrderController@handleOrders')->name('webhook.orders');
 
 Route::get('auth/check_webhook/{id}', 'Auth\ShopifyController@getWebhooks');
