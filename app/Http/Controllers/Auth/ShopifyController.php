@@ -96,7 +96,6 @@ class ShopifyController extends Controller {
                 'webhook_id' => $webhook->webhook->id
             );
         }
-        dd($insert_array);
         
         $insert_array['webhook'] = json_encode($insert_array);
         $insert_array['user_id'] = $user->id;
