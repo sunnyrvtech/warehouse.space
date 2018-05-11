@@ -48,59 +48,62 @@ class ShopifyController extends Controller {
             ],
             [
                 'name' => "inventory_items/create",
-                'url' => route('webhook.inventory_items','create')
+                'url' => route('webhook.inventory_items', 'create')
             ],
             [
                 'name' => "inventory_items/update",
-                'url' => route('webhook.inventory_items','update')
+                'url' => route('webhook.inventory_items', 'update')
             ],
             [
                 'name' => "inventory_items/delete",
-                'url' => route('webhook.inventory_items','delete')
+                'url' => route('webhook.inventory_items', 'delete')
             ],
             [
                 'name' => "products/create",
-                'url' => route('webhook.products','create')
+                'url' => route('webhook.products', 'create')
             ],
             [
                 'name' => "products/update",
-                'url' => route('webhook.products','update')
+                'url' => route('webhook.products', 'update')
             ],
             [
                 'name' => "products/delete",
-                'url' => route('webhook.products','delete')
+                'url' => route('webhook.products', 'delete')
             ],
             [
                 'name' => "orders/create",
-                'url' => route('webhook.orders','delete')
+                'url' => route('webhook.orders', 'delete')
             ],
             [
                 'name' => "orders/updated",
-                'url' => route('webhook.orders','update')
+                'url' => route('webhook.orders', 'update')
             ],
             [
                 'name' => "orders/delete",
-                'url' => route('webhook.orders','delete')
+                'url' => route('webhook.orders', 'delete')
             ],
             [
                 'name' => "orders/cancelled",
-                'url' => route('webhook.orders','delete')
+                'url' => route('webhook.orders', 'delete')
             ],
         );
-        
+
         $insert_array = array();
-        foreach($webhook_array as $key=>$value){
+        foreach ($webhook_array as $key => $value) {
             $webhook = $sh->call(['URL' => 'webhooks.json', 'METHOD' => 'POST', "DATA" => ["webhook" => array("topic" => $value['name'], "address" => $value['url'], "format" => "json")]]);
-            $insert_array[$key]['user_id'] = $user->id;
-            $insert_array[$key]['name'] = $value['name'];
-            $insert_array[$key]['webhook_id'] = $webhook->webhook->id;
-            $insert_array[$key]['created_at'] = date('Y-m-d H:i:s',strtotime($webhook->webhook->created_at));
-            $insert_array[$key]['updated_at'] = date('Y-m-d H:i:s',strtotime($webhook->webhook->updated_at));
+            $insert_array[$key] = array(
+                'name' => $value['name'],
+                'webhook_id' => $webhook->webhook->id
+            );
         }
-        
+        $insert_array['user_id'] = $user->id;
+        $insert_array['webhook'] = json_endcode($insert_array);
+        $insert_array[$key]['created_at'] = date('Y-m-d H:i:s');
+        $insert_array[$key]['updated_at'] = date('Y-m-d H:i:s');
+
 //        dd($insert_array);
 
-        Webhook::insert($insert_array);
+        Webhook::create($insert_array);
         return true;
     }
 
@@ -148,22 +151,21 @@ class ShopifyController extends Controller {
             return redirect()->to($redirect_url);
         }
     }
-    
-     public function handleAppUninstallation(Request $request) {
-        Log::info('Uninstall:'.json_encode($request->all()));
+
+    public function handleAppUninstallation(Request $request) {
+        Log::info('Uninstall:' . json_encode($request->all()));
         $shopUrl = $request->get('domain');
         $user = User::where(['shop_url' => $shopUrl])->first();
         $user->delete();
     }
-    
-    public function getWebhooks(Request $request,$id){
+
+    public function getWebhooks(Request $request, $id) {
         $user = User::find($id);
-        
-        $sh = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url,'ACCESS_TOKEN' => $user->access_token]);
+
+        $sh = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
 
         $webhookinfo = $sh->call(['URL' => 'webhooks.json', 'METHOD' => 'GET']);
-       dd($webhookinfo);
-        
+        dd($webhookinfo);
     }
 
 }
