@@ -16,9 +16,9 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
 Route::get('auth/install', 'Auth\ShopifyController@installShop')->name('auth.install');
 Route::get('auth/callback', 'Auth\ShopifyController@processOAuthResultRedirect');
-Route::get('auth/warehouse/setting', 'Auth\ShopifyController@warehouseSetting')->name('warehouse.setting');
 Route::post('webhooks/uninstalled', 'Auth\ShopifyController@handleAppUninstallation')->name('webhook.uninstalled');
 Route::post('webhooks/inventory_items{slug}', 'InventoryController@handleInventoryItems')->name('webhook.inventory_items');
 Route::post('webhooks/products{slug}', 'ProductController@handleProducts')->name('webhook.products');

@@ -11,6 +11,10 @@ use Log;
 use Carbon\Carbon;
 
 class ShopifyController extends Controller {
+    
+    public function index(Request $request) {
+          return view('index');
+    }
 
     public function installShop(Request $request) {
         $shopUrl = $request->get('shop');

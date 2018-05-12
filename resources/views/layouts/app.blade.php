@@ -21,7 +21,7 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="{{ route('auth.install') }}">Instructions</a>
+                            <a class="nav-link" href="{{ route('dashboard') }}">Instructions</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('warehouse.setting') }}">Settings</a>

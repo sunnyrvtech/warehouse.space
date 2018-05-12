@@ -14,3 +14,9 @@
 Route::get('/', function () {
     return view('index');
 });
+
+
+
+Route::get('/dasboard', 'Auth\ShopifyController@index')->name('dashboard');
+Route::get('warehouse/setting', 'Auth\ShopifyController@warehouseSetting')->name('warehouse.setting');
+
