@@ -18,8 +18,8 @@ class SettingController extends Controller {
         $this->validate($request, [
             'wsdl_url' => 'required|max:50',
             'percentage_product' => 'required|max:50',
-            'page_size' => 'required|number|max:50',
-            'offset' => 'required|number|max:50',
+            'page_size' => 'required|digits:10',
+            'offset' => 'required|digits:10',
         ]);
 
 

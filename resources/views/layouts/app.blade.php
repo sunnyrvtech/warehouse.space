@@ -10,7 +10,7 @@
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-dark default-color fixed-top">
+        <nav class="navbar navbar-expand-lg navbar-dark default-color">
             <div class="container">
                 <a class="ws-logo" href="#">
                     <img src="{{ asset('/images/WSLogo.png') }}" alt="logo">
