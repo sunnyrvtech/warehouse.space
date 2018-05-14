@@ -25,7 +25,6 @@ class ShopifyController extends Controller {
         $user = User::Where('shop_url', $shopUrl);
         if ($user->count() > 0) {
             if (!auth()->check()) {
-                die;
                 return redirect()->route('authenticate', $shopUrl);
             }
             return redirect()->to('/dashboard');
@@ -178,7 +177,7 @@ class ShopifyController extends Controller {
 
     public function storeAuthenticate(Request $request, $shop_url) {
         $user = User::Where('shop_url', $shop_url)->first();
-        if (!$user->first()->get_webhook)
+        if (!$user->get_webhook)
             $this->registerWebHooks($user);
         auth()->login($user);
         return redirect()->to('/dashboard');
