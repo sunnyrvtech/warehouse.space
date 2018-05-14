@@ -31,7 +31,11 @@ class ShopifyController extends Controller {
                 $this->registerWebHooks($user->first());
             
             
-            dd($user);
+       if (auth()->check()){
+           die("hello");
+       }
+       
+       dd($user->first());
             
             return redirect()->to('/dashboard');
         }
