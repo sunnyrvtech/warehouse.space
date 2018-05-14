@@ -25,8 +25,7 @@ class ShopifyController extends Controller {
         $user = User::Where('shop_url', $shopUrl);
         if ($user->count() > 0) {
             if (!auth()->check()){
-                    $userss = User::first();
-                    auth()->login($userss);
+                auth()->login($user->first());
             }
             if (!$user->first()->get_webhook)
                 $this->registerWebHooks($user->first());
@@ -175,6 +174,8 @@ class ShopifyController extends Controller {
     }
 
     public function warehouseSetting(Request $request) {
+        
+        dd($request->all());
         return view('setting');
     }
 
