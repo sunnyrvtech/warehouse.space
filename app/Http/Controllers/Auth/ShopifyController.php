@@ -32,10 +32,10 @@ class ShopifyController extends Controller {
             
             
        if (auth()->check()){
-           die("hello");
+           dd(auth()->user());
        }
        
-       dd($user->first());
+       //dd($user->first());
             
             return redirect()->to('/dashboard');
         }
