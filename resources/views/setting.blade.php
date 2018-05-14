@@ -72,108 +72,111 @@
             </form>
         </div>
         <div class="tab-pane fade" id="panel_api" role="tabpanel">
-            <div class="form-group">
-                <div class="col-md-6">
-                    <label for="material_bulk">MaterialBulk enabled</label>
-                    <select class="form-control" name="material_bulk">
-                        <option @if(@($users->get_dev_setting->material_bulk) && $users->get_dev_setting->material_bulk == 1)selected @endif value="1">Yes</option>
-                        <option @if(@($users->get_dev_setting->material_bulk) && $users->get_dev_setting->material_bulk == 0)selected @endif value="0">No</option>
-                    </select>
+             <form action="{{ route('warehouse.api.setting')}}" method="post">
+                {{ csrf_field()}}
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <label for="material_bulk">MaterialBulk enabled</label>
+                        <select class="form-control" name="material_bulk">
+                            <option @if(isset($users->get_api_setting->material_bulk) && $users->get_api_setting->material_bulk == 1)selected @endif value="1">Yes</option>
+                            <option @if(isset($users->get_api_setting->material_bulk) && $users->get_api_setting->material_bulk == 0)selected @endif value="0">No</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-6">
-                    <label for="OrderStatus">ChangeOrderStatus enabled</label>
-                    <select class="form-control" name="order_status">
-                        <option @if(@($users->get_dev_setting->order_status) && $users->get_dev_setting->order_status == 1)selected @endif value="1">Yes</option>
-                        <option @if(@($users->get_dev_setting->order_status) && $users->get_dev_setting->order_status == 0)selected @endif value="0">No</option>
-                    </select>
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <label for="OrderStatus">ChangeOrderStatus enabled</label>
+                        <select class="form-control" name="order_status">
+                            <option @if(isset($users->get_api_setting->order_status) && $users->get_api_setting->order_status == 1)selected @endif value="1">Yes</option>
+                            <option @if(isset($users->get_api_setting->order_status) && $users->get_api_setting->order_status == 0)selected @endif value="0">No</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-6">
-                    <label for="orderDetail">OrderDetail enabled</label>
-                    <select class="form-control" name="order_detail">
-                        <option @if(@($users->get_dev_setting->order_detail) && $users->get_dev_setting->order_detail == 1)selected @endif value="1">Yes</option>
-                        <option @if(@($users->get_dev_setting->order_detail) && $users->get_dev_setting->order_detail == 0)selected @endif value="0">No</option>
-                    </select>
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <label for="orderDetail">OrderDetail enabled</label>
+                        <select class="form-control" name="order_detail">
+                            <option @if(isset($users->get_api_setting->order_detail) && $users->get_api_setting->order_detail == 1)selected @endif value="1">Yes</option>
+                            <option @if(isset($users->get_api_setting->order_detail) && $users->get_api_setting->order_detail == 0)selected @endif value="0">No</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-6">
-                    <label for="completedOrderItems">CompletedOrderItems enabled</label>
-                    <select class="form-control" name="order_item_complete">
-                        <option @if(@($users->get_dev_setting->order_item_complete) && $users->get_dev_setting->order_item_complete == 1)selected @endif value="1">Yes</option>
-                        <option @if(@($users->get_dev_setting->order_item_complete) && $users->get_dev_setting->order_item_complete == 0)selected @endif value="0">No</option>
-                    </select>
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <label for="completedOrderItems">CompletedOrderItems enabled</label>
+                        <select class="form-control" name="order_item_complete">
+                            <option @if(isset($users->get_api_setting->order_item_complete) && $users->get_api_setting->order_item_complete == 1)selected @endif value="1">Yes</option>
+                            <option @if(isset($users->get_api_setting->order_item_complete) && $users->get_api_setting->order_item_complete == 0)selected @endif value="0">No</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-6">
-                    <label for="deleteCompletedOrderItems">DeleteCompletedOrderItems enabled</label>
-                    <select class="form-control" name="delete_order_item_complete">
-                        <option @if(@($users->get_dev_setting->delete_order_item_complete) && $users->get_dev_setting->delete_order_item_complete == 1)selected @endif value="1">Yes</option>
-                        <option @if(@($users->get_dev_setting->delete_order_item_complete) && $users->get_dev_setting->delete_order_item_complete == 0)selected @endif value="0">No</option>
-                    </select>
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <label for="deleteCompletedOrderItems">DeleteCompletedOrderItems enabled</label>
+                        <select class="form-control" name="delete_order_item_complete">
+                            <option @if(isset($users->get_api_setting->delete_order_item_complete) && $users->get_api_setting->delete_order_item_complete == 1)selected @endif value="1">Yes</option>
+                            <option @if(isset($users->get_api_setting->delete_order_item_complete) && $users->get_api_setting->delete_order_item_complete == 0)selected @endif value="0">No</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-6">
-                    <label for="stockItems">StockItems enabled</label>
-                    <select class="form-control" name="stock_item">
-                        <option @if(@($users->get_dev_setting->stock_item) && $users->get_dev_setting->stock_item == 1)selected @endif value="1">Yes</option>
-                        <option @if(@($users->get_dev_setting->stock_item) && $users->get_dev_setting->stock_item == 0)selected @endif value="0">No</option>
-                    </select>
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <label for="stockItems">StockItems enabled</label>
+                        <select class="form-control" name="stock_item">
+                            <option @if(isset($users->get_api_setting->stock_item) && $users->get_api_setting->stock_item == 1)selected @endif value="1">Yes</option>
+                            <option @if(isset($users->get_api_setting->stock_item) && $users->get_api_setting->stock_item == 0)selected @endif value="0">No</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-6">
-                    <label for="deleteStockItems">DeleteStockItems enabled</label>
-                    <select class="form-control" name="stock_item_delete">
-                        <option value="1">Yes</option>
-                        <option value="0">No</option>
-                    </select>
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <label for="deleteStockItems">DeleteStockItems enabled</label>
+                        <select class="form-control" name="stock_item_delete">
+                            <option @if(isset($users->get_api_setting->stock_item_delete) && $users->get_api_setting->stock_item_delete == 1)selected @endif value="1">Yes</option>
+                            <option @if(isset($users->get_api_setting->stock_item_delete) && $users->get_api_setting->stock_item_delete == 0)selected @endif value="0">No</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-6">
-                    <label for="getShipmentRate">GetShipmentRate enabled</label>
-                    <select class="form-control" name="ship_rate">
-                        <option value="1">Yes</option>
-                        <option value="0">No</option>
-                    </select>
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <label for="getShipmentRate">GetShipmentRate enabled</label>
+                        <select class="form-control" name="ship_rate">
+                            <option @if(isset($users->get_api_setting->ship_rate) && $users->get_api_setting->ship_rate == 1)selected @endif value="1">Yes</option>
+                            <option @if(isset($users->get_api_setting->ship_rate) && $users->get_api_setting->ship_rate == 0)selected @endif value="0">No</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-6">
-                    <label for="shippingWarehouseOptions">ShippingWarehouseOptions enabled</label>
-                    <select class="form-control" name="warehouse_option">
-                        <option value="1">Yes</option>
-                        <option value="0">No</option>
-                    </select>
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <label for="shippingWarehouseOptions">ShippingWarehouseOptions enabled</label>
+                        <select class="form-control" name="warehouse_option">
+                            <option @if(isset($users->get_api_setting->warehouse_option) && $users->get_api_setting->warehouse_option == 1)selected @endif value="1">Yes</option>
+                            <option @if(isset($users->get_api_setting->warehouse_option) && $users->get_api_setting->warehouse_option == 1)selected @endif value="0">No</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-6">
-                    <label for="getOrderTrackingInfo">getOrderTrackingInfo enabled</label>
-                    <select class="form-control" name="track_order">
-                        <option value="1">Yes</option>
-                        <option value="0">No</option>
-                    </select>
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <label for="getOrderTrackingInfo">getOrderTrackingInfo enabled</label>
+                        <select class="form-control" name="track_order">
+                            <option @if(isset($users->get_api_setting->track_order) && $users->get_api_setting->track_order == 1)selected @endif value="1">Yes</option>
+                            <option @if(isset($users->get_api_setting->track_order) && $users->get_api_setting->track_order == 0)selected @endif value="0">No</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-6">
-                    <label for="getStock">getStock enabled</label>
-                    <select class="form-control" name="stock">
-                        <option value="1">Yes</option>
-                        <option value="0">No</option>
-                    </select>
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <label for="getStock">getStock enabled</label>
+                        <select class="form-control" name="stock">
+                            <option @if(isset($users->get_api_setting->stock) && $users->get_api_setting->stock == 1)selected @endif value="1">Yes</option>
+                            <option @if(isset($users->get_api_setting->stock) && $users->get_api_setting->stock == 0)selected @endif value="0">No</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <buttom type="submit" class="btn btn-primary">save</button>
-            </div>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary" value="save">
+                </div>
+            </form>
         </div>
 
         <div class="tab-pane fade" id="panel_sync" role="tabpanel">

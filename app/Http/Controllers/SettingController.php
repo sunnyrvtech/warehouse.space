@@ -31,8 +31,11 @@ class SettingController extends Controller {
         ]);
 
         $data['user_id'] = auth()->id();
-
-        ApiSetting::create($data);
+        if ($api_data = ApiSetting::Where('user_id', auth()->id())->first()) {
+            $api_data->fill($data)->save();
+        } else {
+            ApiSetting::create($data);
+        }
         return redirect()->back()
                         ->with('success-message', 'Api setting saved successfully!');
     }
@@ -48,7 +51,11 @@ class SettingController extends Controller {
 
         $data['user_id'] = auth()->id();
 
-        DeveloperSetting::create($data);
+        if ($dev_data = DeveloperSetting::Where('user_id', auth()->id())->first()) {
+            $dev_data->fill($data)->save();
+        } else {
+            DeveloperSetting::create($data);
+        }
         if (!ApiSetting::Where('user_id', auth()->id())->first())
             ApiSetting::create($data);
         return redirect()->back()
