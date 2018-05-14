@@ -23,7 +23,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('warehouse/setting', 'Auth\ShopifyController@warehouseSetting')->name('warehouse.setting');
 });
 
-Route::get('Aunthenticate/{shop_url}','Auth\ShopifyController@storeAuthenticate')->name('authenticate');
+Route::get('aunthenticate/{shop_url}','Auth\ShopifyController@storeAuthenticate')->name('authenticate');
 
 Route::group(['prefix' => 'admin_warehouse','middleware' => 'IsAdmin'], function () {
    Route::get('/', 'Admin\IndexController@index')->name('admin');
