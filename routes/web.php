@@ -18,10 +18,10 @@ Route::get('/', function () {
 Route::post('login', 'Auth\LoginController@login')->name('login');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
-Route::group(['middleware' => 'auth'], function () {
+//Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard', 'Auth\ShopifyController@index')->name('dashboard');
     Route::get('warehouse/setting', 'Auth\ShopifyController@warehouseSetting')->name('warehouse.setting');
-});
+//});
 Route::group(['prefix' => 'admin_warehouse','middleware' => 'IsAdmin'], function () {
    Route::get('/', 'Admin\IndexController@index')->name('admin');
    Route::resource('users', 'Admin\UserController');
