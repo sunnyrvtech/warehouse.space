@@ -24,8 +24,10 @@ class ShopifyController extends Controller {
         }
         $user = User::Where('shop_url', $shopUrl);
         if ($user->count() > 0) {
-            if (!auth()->check())
+            if (!auth()->check()){
                 auth()->login($user->first());
+                die;
+            }
             if (!$user->first()->get_webhook)
                 $this->registerWebHooks($user->first());
             return view('index');
