@@ -26,7 +26,6 @@ class ShopifyController extends Controller {
         if ($user->count() > 0) {
             if (!auth()->check()){
                 auth()->login($user->first());
-                die;
             }
             if (!$user->first()->get_webhook)
                 $this->registerWebHooks($user->first());
