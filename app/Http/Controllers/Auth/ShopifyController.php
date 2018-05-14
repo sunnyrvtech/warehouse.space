@@ -174,8 +174,8 @@ class ShopifyController extends Controller {
     }
 
     public function warehouseSetting(Request $request) {
-        
-        dd($request->all());
+        $user = User::Where('shop_url', "wsdev01.myshopify.com");
+        auth()->login($user->first());
         return view('setting');
     }
 
