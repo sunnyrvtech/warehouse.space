@@ -29,14 +29,6 @@ class ShopifyController extends Controller {
             }
             if (!$user->first()->get_webhook)
                 $this->registerWebHooks($user->first());
-            
-            
-       if (auth()->check()){
-           dd(auth()->user());
-       }
-       
-       //dd($user->first());
-            
             return redirect()->to('/dashboard');
         }
         return $this->doAuth($shopUrl);
