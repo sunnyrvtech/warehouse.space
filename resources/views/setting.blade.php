@@ -20,33 +20,54 @@
 
 
         <div class="tab-pane fade in show active" id="panel_dev" role="tabpanel">
-            <form>
+            <form action="{{ route('warehouse.api.setting')}}" method="post">
+                {{ csrf_field()}}
                 <div class="form-group">
                     <div class="col-md-6">
                         <label for="wsdl_url">WSDL URI</label>
-                        <input class="form-control" type="text" name="wsdl_url" placeholder="WSDL URI">
+                        <input class="form-control{{ $errors->has('wsdl_url') ? ' is-invalid' : '' }}" type="text" name="wsdl_url" placeholder="WSDL URI">
+                        @if ($errors->has('wsdl_url'))
+                        <span class="invalid-feedback">
+                            <strong>{{ $errors->first('wsdl_url') }}</strong>
+                        </span>
+                        @endif
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-md-6">
                         <label for="percentage_product">Percent of synchronized products</label>
-                        <input class="form-control" type="text" name="percentage_product" placeholder="Percent of synchronized products">
+                        <input class="form-control{{ $errors->has('percentage_product') ? ' is-invalid' : '' }}" type="text" name="percentage_product" placeholder="Percent of synchronized products">
+                        @if ($errors->has('percentage_product'))
+                        <span class="invalid-feedback">
+                            <strong>{{ $errors->first('percentage_product') }}</strong>
+                        </span>
+                        @endif
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-md-6">
                         <label for="page_size">Page Size</label>
-                        <input class="form-control" type="text" name="page_size" placeholder="Page Size">
+                        <input class="form-control{{ $errors->has('page_size') ? ' is-invalid' : '' }}" type="text" name="page_size" placeholder="Page Size">
+                        @if ($errors->has('page_size'))
+                        <span class="invalid-feedback">
+                            <strong>{{ $errors->first('page_size') }}</strong>
+                        </span>
+                        @endif
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-md-6">
                         <label for="Offset">Offset</label>
-                        <input class="form-control" type="text" name="offset" placeholder="Offset">
+                        <input class="form-control{{ $errors->has('offset') ? ' is-invalid' : '' }}" type="text" name="offset" placeholder="Offset">
+                        @if ($errors->has('offset'))
+                        <span class="invalid-feedback">
+                            <strong>{{ $errors->first('offset') }}</strong>
+                        </span>
+                        @endif
                     </div>
                 </div>
                 <div class="form-group">
-                    <buttom type="submit" class="btn btn-primary">save</button>
+                    <input type="submit" class="btn btn-primary" value="save">
                 </div>
             </form>
         </div>
