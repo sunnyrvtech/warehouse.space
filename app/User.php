@@ -30,4 +30,10 @@ class User extends Authenticatable
     public function get_Webhook (){
          return $this->belongsTo('App\Webhook', 'id','user_id');
     }
+    public function get_api_setting (){
+         return $this->belongsTo('App\ApiSetting', 'id','user_id');
+    }
+    public function get_dev_setting (){
+         return $this->belongsTo('App\DeveloperSetting', 'id','user_id');
+    }
 }

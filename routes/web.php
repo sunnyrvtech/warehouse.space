@@ -20,7 +20,9 @@ Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard', 'Auth\ShopifyController@index')->name('dashboard');
-    Route::get('warehouse/setting', 'Auth\ShopifyController@warehouseSetting')->name('warehouse.setting');
+    Route::get('warehouse/setting', 'SettingController@warehouseSetting')->name('warehouse.setting');
+    Route::post('warehouse/api/setting', 'SettingController@apiPostSetting')->name('warehouse.api.setting');
+    Route::post('warehouse/dev/setting', 'SettingController@devPostSetting')->name('warehouse.dev.setting');
 });
 
 Route::get('aunthenticate/{shop_url}','Auth\ShopifyController@storeAuthenticate')->name('authenticate');

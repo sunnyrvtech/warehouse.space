@@ -171,10 +171,6 @@ class ShopifyController extends Controller {
         dd($webhookinfo);
     }
 
-    public function warehouseSetting(Request $request) {
-        return view('setting');
-    }
-
     public function storeAuthenticate(Request $request, $shop_url) {
         $user = User::Where('shop_url', $shop_url)->first();
         if (!$user->get_webhook)
