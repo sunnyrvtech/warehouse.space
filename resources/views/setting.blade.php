@@ -20,12 +20,12 @@
 
 
         <div class="tab-pane fade in show active" id="panel_dev" role="tabpanel">
-            <form action="{{ route('warehouse.api.setting')}}" method="post">
+            <form action="{{ route('warehouse.dev.setting')}}" method="post">
                 {{ csrf_field()}}
                 <div class="form-group">
                     <div class="col-md-6">
                         <label for="wsdl_url">WSDL URI</label>
-                        <input class="form-control{{ $errors->has('wsdl_url') ? ' is-invalid' : '' }}" type="text" name="wsdl_url" placeholder="WSDL URI">
+                        <input class="form-control{{ $errors->has('wsdl_url') ? ' is-invalid' : '' }}" type="text" value="{{ isset($users->get_dev_setting->wsdl_url)?$users->get_dev_setting->wsdl_url:'' }}" name="wsdl_url" placeholder="WSDL URI">
                         @if ($errors->has('wsdl_url'))
                         <span class="invalid-feedback">
                             <strong>{{ $errors->first('wsdl_url') }}</strong>
@@ -36,7 +36,7 @@
                 <div class="form-group">
                     <div class="col-md-6">
                         <label for="percentage_product">Percent of synchronized products</label>
-                        <input class="form-control{{ $errors->has('percentage_product') ? ' is-invalid' : '' }}" type="text" name="percentage_product" placeholder="Percent of synchronized products">
+                        <input class="form-control{{ $errors->has('percentage_product') ? ' is-invalid' : '' }}" type="text" value="{{ isset($users->get_dev_setting->percentage_product)?$users->get_dev_setting->percentage_product:'' }}" name="percentage_product" placeholder="Percent of synchronized products">
                         @if ($errors->has('percentage_product'))
                         <span class="invalid-feedback">
                             <strong>{{ $errors->first('percentage_product') }}</strong>
@@ -47,7 +47,7 @@
                 <div class="form-group">
                     <div class="col-md-6">
                         <label for="page_size">Page Size</label>
-                        <input class="form-control{{ $errors->has('page_size') ? ' is-invalid' : '' }}" type="text" name="page_size" placeholder="Page Size">
+                        <input class="form-control{{ $errors->has('page_size') ? ' is-invalid' : '' }}" type="text" value="{{ isset($users->get_dev_setting->page_size)?$users->get_dev_setting->page_size:'' }}" name="page_size" placeholder="Page Size">
                         @if ($errors->has('page_size'))
                         <span class="invalid-feedback">
                             <strong>{{ $errors->first('page_size') }}</strong>
@@ -58,7 +58,7 @@
                 <div class="form-group">
                     <div class="col-md-6">
                         <label for="Offset">Offset</label>
-                        <input class="form-control{{ $errors->has('offset') ? ' is-invalid' : '' }}" type="text" name="offset" placeholder="Offset">
+                        <input class="form-control{{ $errors->has('offset') ? ' is-invalid' : '' }}" type="text" name="offset" value="{{ isset($users->get_dev_setting->offset)?$users->get_dev_setting->offset:'' }}" placeholder="Offset">
                         @if ($errors->has('offset'))
                         <span class="invalid-feedback">
                             <strong>{{ $errors->first('offset') }}</strong>
@@ -76,8 +76,8 @@
                 <div class="col-md-6">
                     <label for="material_bulk">MaterialBulk enabled</label>
                     <select class="form-control" name="material_bulk">
-                        <option value="1">Yes</option>
-                        <option value="0">No</option>
+                        <option @if(@($users->get_dev_setting->material_bulk) && $users->get_dev_setting->material_bulk == 1)selected @endif value="1">Yes</option>
+                        <option @if(@($users->get_dev_setting->material_bulk) && $users->get_dev_setting->material_bulk == 0)selected @endif value="0">No</option>
                     </select>
                 </div>
             </div>
@@ -85,8 +85,8 @@
                 <div class="col-md-6">
                     <label for="OrderStatus">ChangeOrderStatus enabled</label>
                     <select class="form-control" name="order_status">
-                        <option value="1">Yes</option>
-                        <option value="0">No</option>
+                        <option @if(@($users->get_dev_setting->order_status) && $users->get_dev_setting->order_status == 1)selected @endif value="1">Yes</option>
+                        <option @if(@($users->get_dev_setting->order_status) && $users->get_dev_setting->order_status == 0)selected @endif value="0">No</option>
                     </select>
                 </div>
             </div>
@@ -94,8 +94,8 @@
                 <div class="col-md-6">
                     <label for="orderDetail">OrderDetail enabled</label>
                     <select class="form-control" name="order_detail">
-                        <option value="1">Yes</option>
-                        <option value="0">No</option>
+                        <option @if(@($users->get_dev_setting->order_detail) && $users->get_dev_setting->order_detail == 1)selected @endif value="1">Yes</option>
+                        <option @if(@($users->get_dev_setting->order_detail) && $users->get_dev_setting->order_detail == 0)selected @endif value="0">No</option>
                     </select>
                 </div>
             </div>
@@ -103,8 +103,8 @@
                 <div class="col-md-6">
                     <label for="completedOrderItems">CompletedOrderItems enabled</label>
                     <select class="form-control" name="order_item_complete">
-                        <option value="1">Yes</option>
-                        <option value="0">No</option>
+                        <option @if(@($users->get_dev_setting->order_item_complete) && $users->get_dev_setting->order_item_complete == 1)selected @endif value="1">Yes</option>
+                        <option @if(@($users->get_dev_setting->order_item_complete) && $users->get_dev_setting->order_item_complete == 0)selected @endif value="0">No</option>
                     </select>
                 </div>
             </div>
@@ -112,8 +112,8 @@
                 <div class="col-md-6">
                     <label for="deleteCompletedOrderItems">DeleteCompletedOrderItems enabled</label>
                     <select class="form-control" name="delete_order_item_complete">
-                        <option value="1">Yes</option>
-                        <option value="0">No</option>
+                        <option @if(@($users->get_dev_setting->delete_order_item_complete) && $users->get_dev_setting->delete_order_item_complete == 1)selected @endif value="1">Yes</option>
+                        <option @if(@($users->get_dev_setting->delete_order_item_complete) && $users->get_dev_setting->delete_order_item_complete == 0)selected @endif value="0">No</option>
                     </select>
                 </div>
             </div>
@@ -121,8 +121,8 @@
                 <div class="col-md-6">
                     <label for="stockItems">StockItems enabled</label>
                     <select class="form-control" name="stock_item">
-                        <option value="1">Yes</option>
-                        <option value="0">No</option>
+                        <option @if(@($users->get_dev_setting->stock_item) && $users->get_dev_setting->stock_item == 1)selected @endif value="1">Yes</option>
+                        <option @if(@($users->get_dev_setting->stock_item) && $users->get_dev_setting->stock_item == 0)selected @endif value="0">No</option>
                     </select>
                 </div>
             </div>
