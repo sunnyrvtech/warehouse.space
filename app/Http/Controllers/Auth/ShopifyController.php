@@ -25,7 +25,7 @@ class ShopifyController extends Controller {
         $user = User::Where('shop_url', $shopUrl);
         if ($user->count() > 0) {
             if (!auth()->check()) {
-                return redirect()->route('Aunthenticate', $shopUrl);
+                return redirect()->route('authenticate', $shopUrl);
             }
             return redirect()->to('/dashboard');
         }
