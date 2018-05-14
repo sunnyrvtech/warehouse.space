@@ -11,9 +11,9 @@ use Log;
 use Carbon\Carbon;
 
 class ShopifyController extends Controller {
-    
+
     public function index(Request $request) {
-          return view('index');
+        return view('index');
     }
 
     public function installShop(Request $request) {
@@ -24,6 +24,8 @@ class ShopifyController extends Controller {
         }
         $user = User::Where('shop_url', $shopUrl);
         if ($user->count() > 0) {
+            if (!auth()->check())
+                auth()->login($user);
             if (!$user->first()->get_webhook)
                 $this->registerWebHooks($user->first());
             return view('index');
@@ -100,7 +102,7 @@ class ShopifyController extends Controller {
                 'webhook_id' => $webhook->webhook->id
             );
         }
-        
+
         $insert_array['webhook'] = json_encode($insert_array);
         $insert_array['user_id'] = $user->id;
         $insert_array[$key]['created_at'] = date('Y-m-d H:i:s');
@@ -132,9 +134,9 @@ class ShopifyController extends Controller {
             echo '<pre>Error: ' . $e->getMessage() . '</pre>';
             die;
         }
-        // $chars is used to generate random password 
+// $chars is used to generate random password 
         $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-=+;:,.?";
-        
+
         $sh = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $shopUrl, 'ACCESS_TOKEN' => $accessToken]);
 
         $shopinfo = $sh->call(['URL' => 'shop.json', 'METHOD' => 'GET']);
@@ -144,7 +146,7 @@ class ShopifyController extends Controller {
         $user->email = $shopinfo->shop->email;
         $user->shop_name = $shopinfo->shop->name;
         $user->shop_url = $shopUrl;
-        $user->password = substr(str_shuffle( $chars ),0,10);
+        $user->password = substr(str_shuffle($chars), 0, 10);
         $user->access_token = $accessToken;
         $user->created_at = Carbon::now();
         $user->updated_at = Carbon::now();
@@ -173,8 +175,8 @@ class ShopifyController extends Controller {
         $webhookinfo = $sh->call(['URL' => 'webhooks.json', 'METHOD' => 'GET']);
         dd($webhookinfo);
     }
-    
-    public function warehouseSetting(Request $request){
+
+    public function warehouseSetting(Request $request) {
         return view('setting');
     }
 
