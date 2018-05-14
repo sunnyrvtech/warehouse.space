@@ -26,9 +26,6 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('warehouse.setting') }}">Settings</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/') }}">login</a>
-                        </li>
                     </ul>
                 </div>
             </div>

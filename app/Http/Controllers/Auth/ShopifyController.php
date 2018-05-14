@@ -29,7 +29,7 @@ class ShopifyController extends Controller {
             }
             if (!$user->first()->get_webhook)
                 $this->registerWebHooks($user->first());
-            return view('index');
+            return redirect()->to('/');
         }
         return $this->doAuth($shopUrl);
     }
@@ -174,8 +174,6 @@ class ShopifyController extends Controller {
     }
 
     public function warehouseSetting(Request $request) {
-        $user = User::Where('shop_url', "wsdev01.myshopify.com");
-        auth()->login($user->first());
         return view('setting');
     }
 
