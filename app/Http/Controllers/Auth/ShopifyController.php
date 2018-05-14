@@ -24,11 +24,9 @@ class ShopifyController extends Controller {
         }
         $user = User::Where('shop_url', $shopUrl);
         if ($user->count() > 0) {
-            if (!auth()->check()){
-                auth()->login($user->first());
+            if (!auth()->check()) {
+                return redirect()->route('Aunthenticate', $shopUrl);
             }
-            if (!$user->first()->get_webhook)
-                $this->registerWebHooks($user->first());
             return redirect()->to('/dashboard');
         }
         return $this->doAuth($shopUrl);
@@ -175,6 +173,14 @@ class ShopifyController extends Controller {
 
     public function warehouseSetting(Request $request) {
         return view('setting');
+    }
+
+    public function storeAuthenticate(Request $request, $shop_url) {
+        $user = User::Where('shop_url', $shopUrl)->first();
+        if (!$user->first()->get_webhook)
+            $this->registerWebHooks($user);
+        auth()->login($user);
+        return redirect()->to('/dashboard');
     }
 
 }
