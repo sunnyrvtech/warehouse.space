@@ -135,9 +135,6 @@ class ShopifyController extends Controller {
             echo '<pre>Error: ' . $e->getMessage() . '</pre>';
             die;
         }
-// $chars is used to generate random password 
-        $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-=+;:,.?";
-
         $sh = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $shopUrl, 'ACCESS_TOKEN' => $accessToken]);
 
         $shopinfo = $sh->call(['URL' => 'shop.json', 'METHOD' => 'GET']);
@@ -147,7 +144,6 @@ class ShopifyController extends Controller {
         $user->email = $shopinfo->shop->email;
         $user->shop_name = $shopinfo->shop->name;
         $user->shop_url = $shopUrl;
-        $user->password = substr(str_shuffle($chars), 0, 10);
         $user->access_token = $accessToken;
         $user->created_at = Carbon::now();
         $user->updated_at = Carbon::now();
