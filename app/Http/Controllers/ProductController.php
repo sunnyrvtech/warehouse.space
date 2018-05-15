@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Log;
 use SoapClient;
+use App;
 
 class ProductController extends Controller {
 
@@ -17,7 +18,8 @@ class ProductController extends Controller {
      * WarehouseSpace_Warehouse_Model_Api constructor.
      */
     public function __construct() {
-        $this->middleware(function ($request, $next,SoapClient $soap_client) {
+        App::alias('request', 'SoapClient');
+        $this->middleware(function ($request, $next) {
             $this->_user = auth()->user();
             $user = $this->_user;
             if (isset($user->get_dev_setting)) {
@@ -26,7 +28,7 @@ class ProductController extends Controller {
                 $debug = true;
                 $wsdl = $user->get_dev_setting->wsdl_url;
                 try {
-                    $this->_client = new $soap_client($wsdl, array(
+                    $this->_client = new $request->SoapClient($wsdl, array(
                         'cache_wsdl' => $debug ? WSDL_CACHE_NONE : WSDL_CACHE_MEMORY,
                         'trace' => true,
                         'exceptions' => true,
