@@ -54,11 +54,9 @@ class SettingController extends Controller {
         // it is used to register webhooks that we needed duton product synchronization
         $user = auth()->user();
         $count_webhook = count(json_decode($user->get_webhook->webhook));
-        
-        dd($count_webhook);
-        
-       //     $this->registerWebHooks($user);
-        
+        if ($count_webhook == 1)
+            $this->registerWebHooks($user);
+
         if ($dev_data = DeveloperSetting::Where('user_id', auth()->id())->first()) {
             $dev_data->fill($data)->save();
         } else {
@@ -116,23 +114,18 @@ class SettingController extends Controller {
             ],
         );
 
-        $insert_array = array();
+        $update_array = json_decode($user->get_webhook->webhook);
         foreach ($webhook_array as $key => $value) {
             $webhook = $sh->call(['URL' => 'webhooks.json', 'METHOD' => 'POST', "DATA" => ["webhook" => array("topic" => $value['name'], "address" => $value['url'], "format" => "json")]]);
-            $insert_array[$key] = array(
+            $update_array[$key + 1] = array(
                 'name' => $value['name'],
                 'webhook_id' => $webhook->webhook->id
             );
         }
 
-        $insert_array['webhook'] = json_encode($insert_array);
-        $insert_array['user_id'] = $user->id;
-        $insert_array[$key]['created_at'] = date('Y-m-d H:i:s');
-        $insert_array[$key]['updated_at'] = date('Y-m-d H:i:s');
-
-//        dd($insert_array);
-
-        Webhook::create($insert_array);
+        $update_array['webhook'] = json_encode($update_array);
+        $webhook = Webhook::Where('user_id', $user->id)->first();
+        $webhook->fill($update_array)->save();
         return true;
     }
 
