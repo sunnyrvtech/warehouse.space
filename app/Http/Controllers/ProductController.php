@@ -55,7 +55,7 @@ class ProductController extends Controller {
         
         $shopify = $this->_shopify;
         
-        $productinfo = $sh->call(['URL' => 'products.json', 'METHOD' => 'GET']);
+        $productinfo = $shopify->call(['URL' => 'products.json', 'METHOD' => 'GET']);
         dd($productinfo);
         
         
