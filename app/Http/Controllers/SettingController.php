@@ -115,8 +115,8 @@ class SettingController extends Controller {
             ],
         );
 
-        $update_array = json_decode($user->get_webhook->webhook);
-        dd($update_array->name);
+        $old_value_array = json_decode($user->get_webhook->webhook);
+        $update_array[0] = $old_value_array;
         foreach ($webhook_array as $key => $value) {
             $webhook = $sh->call(['URL' => 'webhooks.json', 'METHOD' => 'POST', "DATA" => ["webhook" => array("topic" => $value['name'], "address" => $value['url'], "format" => "json")]]);
             $update_array[$key + 1] = array(
