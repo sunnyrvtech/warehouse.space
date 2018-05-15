@@ -14,9 +14,19 @@
                     <th>Id</th>
                     <th>Name</th>
                     <th>Email</th>
-                    <th>Status</th>
                     <th>Created At</th>
                 </tr>
+                <tr>
+                    @forelse ($users as $user)
+                    <td>{{ $user->name }}</td>
+                    <td>{{ $user->email }}</td>
+                    <td>{{ $user->created_at }}</td>
+                    <td><a href="{{ route('customer.login',$user->id) }}" class="btn btn-outline-success">Login</a></td>
+                    @empty
+                    <td><p>No records found !</p></td>
+                    @endforelse
+            </tr>
+
             </thead>
         </table>
     </div>
