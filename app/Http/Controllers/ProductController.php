@@ -54,6 +54,12 @@ class ProductController extends Controller {
         $client = $this->_client;
         
         $shopify = $this->_shopify;
+        
+        $productinfo = $sh->call(['URL' => 'products.json', 'METHOD' => 'GET']);
+        dd($productinfo);
+        
+        
+        
 
 //        $parameters = (object) array();
 //        $parameters->article = 214;
@@ -76,7 +82,7 @@ class ProductController extends Controller {
 //        $parameters->warehouse = $this->_warehouseNumber;
 //        $parameters->AccountKey = $this->_accountKey;
         
-        dd($shopify);
+       
 //        dd($client->__getFunctions());
         
 //        $obj = $client->material($parameters);
