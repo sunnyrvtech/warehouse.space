@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\ApiSetting;
 use App\DeveloperSetting;
+use App;
 
 class SettingController extends Controller {
 
