@@ -52,14 +52,19 @@ class ProductController extends Controller {
     public function synchronizeProducts(Request $request) {
         $user = $this->_user;
         $client = $this->_client;
-        
         $shopify = $this->_shopify;
-        
-        $productinfo = $shopify->call(['URL' => 'products.json?limit=5&page=2', 'METHOD' => 'GET']);
-        dd($productinfo);
-        
-        
-        
+
+        if ($client != null && $shopify != null) {
+            $limit = $user->get_dev_setting->page_size;
+            $page = $user->get_dev_setting->offset;
+            $productinfo = $shopify->call(['URL' => 'products.json?limit='.$limit.'&page='.$page, 'METHOD' => 'GET']);
+            dd($productinfo);
+        }
+
+
+
+
+
 
 //        $parameters = (object) array();
 //        $parameters->article = 214;
@@ -81,10 +86,7 @@ class ProductController extends Controller {
 //        $parameters->Category = 'dsdsda';
 //        $parameters->warehouse = $this->_warehouseNumber;
 //        $parameters->AccountKey = $this->_accountKey;
-        
-       
 //        dd($client->__getFunctions());
-        
 //        $obj = $client->material($parameters);
 //        dd($obj);
     }
