@@ -125,6 +125,12 @@ class ShopifyController extends Controller {
 
     public function storeAuthenticate(Request $request, $shop_url) {
         $user = User::Where('shop_url', $shop_url)->first();
+        
+        
+        dd($user);
+        
+        
+        
         if (!$user->get_webhook)
             $this->registerUninstallWebHook($user);
         auth()->login($user);
