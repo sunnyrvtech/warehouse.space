@@ -25,6 +25,7 @@ class ShopifyController extends Controller {
         $user = User::Where('shop_url', $shopUrl);
         if ($user->count() > 0) {
             if (!auth()->check()) {
+                auth()->login($user);
                 return redirect()->route('authenticate', $shopUrl);
             }
             return redirect()->to('/dashboard');
@@ -42,70 +43,20 @@ class ShopifyController extends Controller {
         return redirect()->to($permission_url);
     }
 
-    public function registerWebHooks($user) {
+    public function registerUninstallWebHook($user) {
 
         $sh = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
 
-        $webhook_array = array(
-            [
-                'name' => "app/uninstalled",
-                'url' => route('webhook.uninstalled')
-            ],
-            [
-                'name' => "inventory_items/create",
-                'url' => route('webhook.inventory_items', 'create')
-            ],
-            [
-                'name' => "inventory_items/update",
-                'url' => route('webhook.inventory_items', 'update')
-            ],
-            [
-                'name' => "inventory_items/delete",
-                'url' => route('webhook.inventory_items', 'delete')
-            ],
-            [
-                'name' => "products/create",
-                'url' => route('webhook.products', 'create')
-            ],
-            [
-                'name' => "products/update",
-                'url' => route('webhook.products', 'update')
-            ],
-            [
-                'name' => "products/delete",
-                'url' => route('webhook.products', 'delete')
-            ],
-            [
-                'name' => "orders/create",
-                'url' => route('webhook.orders', 'delete')
-            ],
-            [
-                'name' => "orders/updated",
-                'url' => route('webhook.orders', 'update')
-            ],
-            [
-                'name' => "orders/delete",
-                'url' => route('webhook.orders', 'delete')
-            ],
-            [
-                'name' => "orders/cancelled",
-                'url' => route('webhook.orders', 'delete')
-            ],
+        $webhook = $sh->call(['URL' => 'webhooks.json', 'METHOD' => 'POST', "DATA" => ["webhook" => array("topic" => "app/uninstalled", "address" => route('webhook.uninstalled'), "format" => "json")]]);
+        $insert_array = array(
+            'name' => $value['name'],
+            'webhook_id' => $webhook->webhook->id
         );
-
-        $insert_array = array();
-        foreach ($webhook_array as $key => $value) {
-            $webhook = $sh->call(['URL' => 'webhooks.json', 'METHOD' => 'POST', "DATA" => ["webhook" => array("topic" => $value['name'], "address" => $value['url'], "format" => "json")]]);
-            $insert_array[$key] = array(
-                'name' => $value['name'],
-                'webhook_id' => $webhook->webhook->id
-            );
-        }
 
         $insert_array['webhook'] = json_encode($insert_array);
         $insert_array['user_id'] = $user->id;
-        $insert_array[$key]['created_at'] = date('Y-m-d H:i:s');
-        $insert_array[$key]['updated_at'] = date('Y-m-d H:i:s');
+        $insert_array['created_at'] = date('Y-m-d H:i:s');
+        $insert_array['updated_at'] = date('Y-m-d H:i:s');
 
 //        dd($insert_array);
 
@@ -142,6 +93,7 @@ class ShopifyController extends Controller {
         $user->email = $shopinfo->shop->email;
         $user->shop_name = $shopinfo->shop->name;
         $user->shop_url = $shopUrl;
+        $user->status = 1;
         $user->access_token = $accessToken;
         $user->created_at = Carbon::now();
         $user->updated_at = Carbon::now();
@@ -174,7 +126,7 @@ class ShopifyController extends Controller {
     public function storeAuthenticate(Request $request, $shop_url) {
         $user = User::Where('shop_url', $shop_url)->first();
         if (!$user->get_webhook)
-            $this->registerWebHooks($user);
+            $this->registerUninstallWebHook($user);
         auth()->login($user);
         return redirect()->to('/dashboard');
     }

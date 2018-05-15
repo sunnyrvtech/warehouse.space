@@ -10,9 +10,11 @@
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#panel_api" role="tab" aria-selected="false">Api Setting</a>
             </li>
+            @if(isset($users->get_dev_setting) && isset($users->get_api_setting))
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#panel_sync" role="tab" aria-selected="false">Resynchronize Products</a>
+                <a class="nav-link" data-toggle="tab" href="#panel_sync" role="tab" aria-selected="false">Synchronize Products</a>
             </li>
+            @endif
         </ul>
     </div>
     <!-- Tab panels -->
@@ -29,6 +31,28 @@
                         @if ($errors->has('wsdl_url'))
                         <span class="invalid-feedback">
                             <strong>{{ $errors->first('wsdl_url') }}</strong>
+                        </span>
+                        @endif
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <label for="warehouse_number">Warehouse Number</label>
+                        <input class="form-control{{ $errors->has('warehouse_number') ? ' is-invalid' : '' }}" type="text" value="{{ isset($users->get_dev_setting->warehouse_number)?$users->get_dev_setting->warehouse_number:'' }}" name="warehouse_number" placeholder="Warehouse Number">
+                        @if ($errors->has('warehouse_number'))
+                        <span class="invalid-feedback">
+                            <strong>{{ $errors->first('warehouse_number') }}</strong>
+                        </span>
+                        @endif
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <label for="account_key">Warehouse Account Key</label>
+                        <input class="form-control{{ $errors->has('account_key') ? ' is-invalid' : '' }}" type="text" value="{{ isset($users->get_dev_setting->account_key)?$users->get_dev_setting->account_key:'' }}" name="account_key" placeholder="Warehouse Account Key">
+                        @if ($errors->has('account_key'))
+                        <span class="invalid-feedback">
+                            <strong>{{ $errors->first('account_key') }}</strong>
                         </span>
                         @endif
                     </div>
@@ -66,13 +90,13 @@
                         @endif
                     </div>
                 </div>
-                <div class="form-group">
-                    <input type="submit" class="btn btn-primary" value="save">
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-outline-primary">Save</button>
                 </div>
             </form>
         </div>
         <div class="tab-pane fade" id="panel_api" role="tabpanel">
-             <form action="{{ route('warehouse.api.setting')}}" method="post">
+            <form action="{{ route('warehouse.api.setting')}}" method="post">
                 {{ csrf_field()}}
                 <div class="form-group">
                     <div class="col-md-6">
@@ -151,7 +175,7 @@
                         <label for="shippingWarehouseOptions">ShippingWarehouseOptions enabled</label>
                         <select class="form-control" name="warehouse_option">
                             <option @if(isset($users->get_api_setting->warehouse_option) && $users->get_api_setting->warehouse_option == 1)selected @endif value="1">Yes</option>
-                            <option @if(isset($users->get_api_setting->warehouse_option) && $users->get_api_setting->warehouse_option == 1)selected @endif value="0">No</option>
+                            <option @if(isset($users->get_api_setting->warehouse_option) && $users->get_api_setting->warehouse_option == 0)selected @endif value="0">No</option>
                         </select>
                     </div>
                 </div>
@@ -173,17 +197,18 @@
                         </select>
                     </div>
                 </div>
-                <div class="form-group">
-                    <input type="submit" class="btn btn-primary" value="save">
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-outline-primary">Save</button>
                 </div>
             </form>
         </div>
-
+        @if(isset($users->get_dev_setting) && isset($users->get_api_setting))
         <div class="tab-pane fade" id="panel_sync" role="tabpanel">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil odit magnam minima, soluta doloribus
-                reiciendis molestiae placeat unde eos molestias. Quisquam aperiam, pariatur. Tempora, placeat ratione
-                porro voluptate odit minima.</p>
+            <div class="text-center">
+                <button type="button" class="btn btn-outline-success">Synchronize Products</button>
+            </div>
         </div>
+        @endif
     </div>
 </section>
 @endsection
