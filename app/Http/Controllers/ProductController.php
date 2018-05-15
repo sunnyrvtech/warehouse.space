@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Log;
 use SoapClient;
+use App;
 
 class ProductController extends Controller {
 
     protected $_accountKey = '';
     protected $_warehouseNumber = '';
     protected $_client = null;
+    protected $_shopify = null;
     protected $_user;
 
     /**
@@ -21,6 +23,7 @@ class ProductController extends Controller {
             $this->_user = auth()->user();
             $user = $this->_user;
             if (isset($user->get_dev_setting)) {
+                $this->_shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
                 $this->_accountKey = $user->get_dev_setting->account_key;
                 $this->_warehouseNumber = $user->get_dev_setting->warehouse_number;
                 $debug = true;
@@ -49,6 +52,8 @@ class ProductController extends Controller {
     public function synchronizeProducts(Request $request) {
         $user = $this->_user;
         $client = $this->_client;
+        
+        $shopify = $this->_shopify;
 
 //        $parameters = (object) array();
 //        $parameters->article = 214;
@@ -71,7 +76,8 @@ class ProductController extends Controller {
 //        $parameters->warehouse = $this->_warehouseNumber;
 //        $parameters->AccountKey = $this->_accountKey;
         
-        dd($client->__getFunctions());
+        dd($shopify);
+//        dd($client->__getFunctions());
         
 //        $obj = $client->material($parameters);
 //        dd($obj);
