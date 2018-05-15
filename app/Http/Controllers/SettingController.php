@@ -132,10 +132,4 @@ class SettingController extends Controller {
         return true;
     }
 
-    public function synchronizeProducts(Request $request) {
-        $users = auth()->user();
-
-        dd($users->get_dev_setting);
-    }
-
 }

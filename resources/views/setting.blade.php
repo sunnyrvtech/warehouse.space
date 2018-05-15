@@ -205,7 +205,7 @@
         @if(isset($users->get_dev_setting) && isset($users->get_api_setting))
         <div class="tab-pane fade" id="panel_sync" role="tabpanel">
             <div class="text-center">
-                <button type="button" class="btn btn-outline-success">Synchronize Products</button>
+                <a href="{{ route('warehouse.product.sync') }}" class="btn btn-outline-success">Synchronize Products</a>
             </div>
         </div>
         @endif

@@ -16,19 +16,23 @@
                     <th>Email</th>
                     <th>Created At</th>
                 </tr>
+                @forelse ($users as $user)
                 <tr>
-                    @forelse ($users as $user)
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->created_at }}</td>
                     <td><a href="{{ route('customer.login',$user->id) }}" class="btn btn-outline-success">Login</a></td>
-                    @empty
+                </tr>
+                @empty
+                <tr>
                     <td><p>No records found !</p></td>
-                    @endforelse
-            </tr>
+                </tr>
+                @endforelse
 
             </thead>
         </table>
+        <div class="pagination_main_wrapper">{{ $users->appends($_GET)->links() }}</div>
+
     </div>
 </div>
 @push('scripts')
