@@ -10,11 +10,9 @@
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#panel_api" role="tab" aria-selected="false">Api Setting</a>
             </li>
-            @if(isset($users->get_dev_setting) && isset($users->get_api_setting))
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#panel_sync" role="tab" aria-selected="false">Synchronize Products</a>
             </li>
-            @endif
         </ul>
     </div>
     <!-- Tab panels -->
@@ -202,13 +200,11 @@
                 </div>
             </form>
         </div>
-        @if(isset($users->get_dev_setting) && isset($users->get_api_setting))
         <div class="tab-pane fade" id="panel_sync" role="tabpanel">
             <div class="text-center">
                 <a href="{{ route('warehouse.product.sync') }}" class="btn btn-outline-success">Synchronize Products</a>
             </div>
         </div>
-        @endif
     </div>
 </section>
 @endsection
