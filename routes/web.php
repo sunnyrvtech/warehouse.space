@@ -30,7 +30,7 @@ Route::get('aunthenticate/{shop_url}','Auth\ShopifyController@storeAuthenticate'
 Route::group(['prefix' => 'admin_warehouse','middleware' => 'IsAdmin'], function () {
    Route::get('/', 'Admin\IndexController@index')->name('admin');
    Route::resource('users', 'Admin\UserController');
-   Route::post('customer/login/{id}', 'Admin\IndexController@customerLogin')->name('customer.login');
+   Route::get('customer/login/{id}', 'Admin\IndexController@customerLogin')->name('customer.login');
 });
 
 
