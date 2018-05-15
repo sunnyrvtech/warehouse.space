@@ -48,7 +48,7 @@ class ShopifyController extends Controller {
 
         $webhook = $sh->call(['URL' => 'webhooks.json', 'METHOD' => 'POST', "DATA" => ["webhook" => array("topic" => "app/uninstalled", "address" => route('webhook.uninstalled'), "format" => "json")]]);
         $insert_array = array(
-            'name' => $value['name'],
+            'name' => "app/uninstalled",
             'webhook_id' => $webhook->webhook->id
         );
 
