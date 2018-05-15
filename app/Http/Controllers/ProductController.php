@@ -17,7 +17,7 @@ class ProductController extends Controller {
      * WarehouseSpace_Warehouse_Model_Api constructor.
      */
     public function __construct() {
-        $this->middleware(function ($request, $next) {
+        $this->middleware(function ($request, $next,SoapClient $soap_client) {
             $this->_user = auth()->user();
             $user = $this->_user;
             if (isset($user->get_dev_setting)) {
@@ -26,7 +26,7 @@ class ProductController extends Controller {
                 $debug = true;
                 $wsdl = $user->get_dev_setting->wsdl_url;
                 try {
-                    $this->_client = new SoapClient($wsdl, array(
+                    $this->_client = new $soap_client($wsdl, array(
                         'cache_wsdl' => $debug ? WSDL_CACHE_NONE : WSDL_CACHE_MEMORY,
                         'trace' => true,
                         'exceptions' => true,
