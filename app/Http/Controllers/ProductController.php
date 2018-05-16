@@ -59,6 +59,41 @@ class ProductController extends Controller {
             $page = $user->get_dev_setting->offset;
             $productinfo = $shopify->call(['URL' => 'products.json?limit=1&page=2', 'METHOD' => 'GET']);
             dd($productinfo);
+
+            $product_array = array();
+            foreach ($productinfo as $key => $product) {
+                
+                
+                foreach($product->variants as $item_value){
+                    echo $item_value->id;
+                }
+                
+                
+//                $item_array = (object) array();
+//                $item_array->Article = $product->id;
+//                $item_array->Description = 'ff' . $i;
+//                $item_array->UOM = 'each';
+//                $item_array->BuyPrice = 0;
+//                $item_array->SellPrice = 12;
+//                $item_array->Supplier = "";
+//                $item_array->Images = "";
+//                $item_array->Manufacturer = "";
+//                $item_array->MinQuantity = 10;
+//                $item_array->ItemWeight = 10;
+//                $item_array->ItemHeight = 10;
+//                $item_array->ItemWidth = 10;
+//                $item_array->ItemDepth = 10;
+//                $item_array->WeightCat = "";
+//                $item_array->Model = "";
+//                $item_array->Category = 'dsdsda';
+//                $item_array->Warehouse = $this->_warehouseNumber;
+//                $item_array->AccountKey = $this->_accountKey;
+//
+//                $product_array[$i] = $item_array;
+            }
+            die;
+//            $final_product_array = (object) array();
+//            $final_product_array->ArticlesList = $product_array;
         }
 
 
@@ -66,29 +101,7 @@ class ProductController extends Controller {
 
 
 
-//        $parameters = (object) array();
-//        $parameters->article = 214;
-//        $parameters->description = 'ddddd';
-//        $parameters->UOM = 'each';
-//        $parameters->BuyPrice = 0;
-//        $parameters->SellPrice = 12;
-//        $parameters->Supplier = "";
-//        $parameters->Images = "";
-//
-//        $parameters->Manufacturer = "";
-//        $parameters->minQty = 10;
-//        $parameters->itemWeight = 10;
-//        $parameters->itemHeight = 10;
-//        $parameters->itemWidth = 10;
-//        $parameters->itemDepth = 10;
-//        $parameters->weightCat = "";
-//        $parameters->model = "";
-//        $parameters->Category = 'dsdsda';
-//        $parameters->warehouse = $this->_warehouseNumber;
-//        $parameters->AccountKey = $this->_accountKey;
-//        dd($client->__getFunctions());
-//        $obj = $client->material($parameters);
-//        dd($obj);
+
     }
 
 }
