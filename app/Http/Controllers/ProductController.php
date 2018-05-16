@@ -64,7 +64,7 @@ class ProductController extends Controller {
             foreach ($productinfo as $key => $product) {
                 
                 
-                foreach($product->variants as $item_value){
+                foreach($product['variants'] as $item_value){
                     echo $item_value->id;
                 }
                 
