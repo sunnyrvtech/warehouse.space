@@ -62,11 +62,11 @@ class ProductController extends Controller {
 
             $product_array = array();
             foreach ($productinfo as $key => $product) {
+                dd($product);
                 
-                
-                foreach($product['variants'] as $item_value){
-                    echo $item_value->id;
-                }
+//                foreach($product['variants'] as $item_value){
+//                    echo $item_value->id;
+//                }
                 
                 
 //                $item_array = (object) array();
