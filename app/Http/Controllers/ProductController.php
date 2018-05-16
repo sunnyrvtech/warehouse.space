@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Log;
 use SoapClient;
+use SoapFault;
 use App;
 
 class ProductController extends Controller {
@@ -37,8 +38,7 @@ class ProductController extends Controller {
                             )
                     );
                 } catch (SoapFault $fault) {
-                    WarehouseSpace_Warehouse_Helper_Data::log('Soap client error: ' . $fault->getMessage());
-                    //throw new Mage_Core_Exception('We could not connect to Warehouse.Space');
+                    Log::info('Soap client error: ' . $fault->getMessage());
                 }
             }
             return $next($request);
