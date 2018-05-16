@@ -57,7 +57,7 @@ class ProductController extends Controller {
         if ($client != null && $shopify != null) {
             $limit = $user->get_dev_setting->page_size;
             $page = $user->get_dev_setting->offset;
-            $productinfo = $shopify->call(['URL' => 'products.json?limit=2&page=2', 'METHOD' => 'GET']);
+            $productinfo = $shopify->call(['URL' => 'products.json?limit=1&page=2', 'METHOD' => 'GET']);
             dd($productinfo);
         }
 
