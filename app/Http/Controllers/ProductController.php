@@ -28,7 +28,7 @@ class ProductController extends Controller {
                 $this->_accountKey = $user->get_dev_setting->account_key;
                 $this->_warehouseNumber = $user->get_dev_setting->warehouse_number;
                 $debug = true;
-                $wsdl = $user->get_dev_setting->wsdl_url;
+                $wsdl = env('WSDL_URL');
                 try {
                     $this->_client = new SoapClient($wsdl, array(
                         'connection_timeout' => 5000,
@@ -59,13 +59,16 @@ class ProductController extends Controller {
             $page = $user->get_dev_setting->offset;
             $productinfo = $shopify->call(['URL' => 'products.json', 'METHOD' => 'GET']);
             $i = 0;
+
             $product_array = array();
             foreach ($productinfo->products as $key => $product) {
                 $product_images = array_column($product->images, 'src');
+                
                 foreach ($product->variants as $item_value) {
                     $item_array = (object) array();
-                    $item_array->Article = $item_value->id;
-                    $item_array->Description = "";
+                    $item_array->ProductID = $item_value->id;
+                    $item_array->Article = $item_value->sku;
+                    $item_array->Description = strip_tags($product->body_html);
                     $item_array->UOM = 'each';
                     $item_array->BuyPrice = $item_value->price;
                     $item_array->SellPrice = $item_value->compare_at_price;
@@ -99,6 +102,8 @@ class ProductController extends Controller {
                 return redirect()->back()
                                 ->with('error-message', 'Something went wrong,please try again later!');
         }
+        return redirect()->back()
+                        ->with('error-message', 'Something went wrong,please try again later!');
     }
 
 }
