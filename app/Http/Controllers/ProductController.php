@@ -51,6 +51,7 @@ class ProductController extends Controller {
 
             $shop_url = $request->headers->get('x-shopify-shop-domain');
             Log::info('Products ' . $slug . '(id):' . $shop_url);
+            return true;
         }
         Log::info('Products ' . $slug);
         return true;
