@@ -54,6 +54,8 @@ class ProductController extends Controller {
             $user = User::Where('shop_url', $shopUrl)->first();
             if (isset($user->get_dev_setting)) {
                 $product_images = array_column($request->get('images'), 'src');
+                $i = 0;
+                $product_array = array();
                 foreach ($request->get('variants') as $item_value) {
                     $item_value = (object) $item_value;
                     $item_array = (object) array();
@@ -86,10 +88,10 @@ class ProductController extends Controller {
 
 //                $result = $client->MaterialBulk($final_product_array);
                 Log::info('Products ' . $slug . '(id):' . json_encode($final_product_array));
-                 exit();
+                exit();
             }
             Log::info('Products ' . $slug . 'not saved account setting yet !');
-             exit();
+            exit();
         }
         Log::info('Products ' . $slug);
         exit();
