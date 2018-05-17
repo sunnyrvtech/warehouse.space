@@ -87,7 +87,7 @@ class ProductController extends Controller {
                 $final_product_array->ArticlesList = $product_array;
 
                 $result = $client->MaterialBulk($final_product_array);
-                Log::info('Products ' . $slug . '(id):' . $result->MaterialBulkResult);
+                Log::info('Products ' . $slug . '(id):' . json_encode($final_product_array));
                 exit();
             }
             Log::info('Products ' . $slug . 'not saved account setting yet !');
