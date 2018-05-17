@@ -52,7 +52,7 @@ class ProductController extends Controller {
 
             $shop_url = $request->headers->get('x-shopify-shop-domain');
             Log::info('Products ' . $slug . '(id):' . $shop_url);
-                return true;
+            exit();
             $user = User::Where('shop_url', $shopUrl)->first();
             
             Log::info('Products ' . $slug . '(id):' . json_encode($user));
