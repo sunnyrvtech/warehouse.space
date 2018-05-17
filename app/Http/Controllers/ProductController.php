@@ -47,6 +47,8 @@ class ProductController extends Controller {
     }
 
     public function handleProducts(Request $request, $slug) {
+         Log::info('Products ' . $slug . '(id):' . $slug);
+                 exit();
         if ($slug == "create" && $slug == "update") {
             $shop_url = $request->headers->get('x-shopify-shop-domain');
             Log::info('Products ' . $slug . '(id):' . $shop_url);
