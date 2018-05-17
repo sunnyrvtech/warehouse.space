@@ -76,8 +76,8 @@ class ProductController extends Controller {
                     $item_array->WeightCat = 0;
                     $item_array->Model = "";
                     $item_array->Category = "";
-                    $item_array->Warehouse = $user->get_dev_setting->account_key;
-                    $item_array->AccountKey = $user->get_dev_setting->warehouse_number;
+                    $item_array->Warehouse = $user->get_dev_setting->warehouse_number;
+                    $item_array->AccountKey = $user->get_dev_setting->account_key;
 
                     $product_array[$i] = $item_array;
                     $i++;
@@ -87,7 +87,7 @@ class ProductController extends Controller {
                 $final_product_array->ArticlesList = $product_array;
 
                 $result = $client->MaterialBulk($final_product_array);
-                Log::info('Products ' . $slug . '(id):' . json_encode($final_product_array));
+                Log::info('Products ' . $slug . '(id):' . $result->MaterialBulkResult);
                 exit();
             }
             Log::info('Products ' . $slug . 'not saved account setting yet !');
