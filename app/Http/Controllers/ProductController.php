@@ -47,7 +47,44 @@ class ProductController extends Controller {
     }
 
     public function handleProducts(Request $request, $slug) {
-        Log::info('Products ' . $slug . ':' . json_encode($request->all()));
+        $client = $this->_client;
+        if ($slug == "create" && $slug == "update") {
+            $product_images = array_column($request->get('images'), 'src');
+            foreach ($request->get('variants') as $item_value) {
+                $item_array = (object) array();
+                $item_array->ProductID = $item_value->id;
+                $item_array->Article = $item_value->sku;
+                $item_array->Description = strip_tags($request->get('body_html'));
+                $item_array->UOM = 'each';
+                $item_array->BuyPrice = $item_value->price;
+                $item_array->SellPrice = $item_value->compare_at_price;
+                $item_array->Supplier = "";
+                $item_array->Images = $product_images;
+                $item_array->Manufacturer = "";
+                $item_array->MinQuantity = $item_value->inventory_quantity;
+                $item_array->ItemWeight = $item_value->weight;
+                $item_array->ItemHeight = 0;
+                $item_array->ItemWidth = 0;
+                $item_array->ItemDepth = 0;
+                $item_array->WeightCat = 0;
+                $item_array->Model = "";
+                $item_array->Category = "";
+                $item_array->Warehouse = $this->_warehouseNumber;
+                $item_array->AccountKey = $this->_accountKey;
+
+                $product_array[$i] = $item_array;
+                $i++;
+            }
+
+            $final_product_array = (object) array();
+            $final_product_array->ArticlesList = $product_array;
+
+            $result = $client->MaterialBulk($final_product_array);
+            Log::info('Products ' . $slug . '(id):' . $request->get('id'));
+            return true;
+        }
+        Log::info('Products ' . $slug);
+        return true;
     }
 
     public function synchronizeProducts(Request $request) {
@@ -55,15 +92,15 @@ class ProductController extends Controller {
         $client = $this->_client;
         $shopify = $this->_shopify;
         if ($client != null && $shopify != null) {
-            $limit = $user->get_dev_setting->page_size;
-            $page = $user->get_dev_setting->offset;
+//            $limit = $user->get_dev_setting->page_size;
+//            $page = $user->get_dev_setting->offset;
             $productinfo = $shopify->call(['URL' => 'products.json', 'METHOD' => 'GET']);
             $i = 0;
 
             $product_array = array();
             foreach ($productinfo->products as $key => $product) {
                 $product_images = array_column($product->images, 'src');
-                
+
                 foreach ($product->variants as $item_value) {
                     $item_array = (object) array();
                     $item_array->ProductID = $item_value->id;
