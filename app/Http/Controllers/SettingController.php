@@ -45,10 +45,9 @@ class SettingController extends Controller {
     public function devPostSetting(Request $request) {
         $data = $request->all();
         $this->validate($request, [
-            'wsdl_url' => 'required|max:50',
+            'warehouse_number' => 'required|max:50',
+            'account_key' => 'required|max:50',
             'percentage_product' => 'required|max:50',
-            'page_size' => 'required|digits_between:1,10',
-            'offset' => 'required|digits_between:1,10',
         ]);
 
         $data['user_id'] = auth()->id();

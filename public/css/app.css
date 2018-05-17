@@ -9,9 +9,3 @@
  .main-wrapper-content { padding-top: 10px; }
  .default-color { background-color: #2bbbad !important; }
  .ws-logo img { max-width:65px; }
- .tabs-cyan { background-color: #00bcd4 !important; }
- .classic-tabs.tabs-cyan li a.active { border-color: #ffeb3b; }
- .classic-tabs li:first-child { margin-left: 56px; }
-.classic-tabs li a.active { border-bottom: 3px solid;color: #fff; }
-.classic-tabs li a { display: block;padding: 20px 24px;font-size: 13px;text-transform: uppercase;color: rgba(255,255,255,.7);text-align: center;-webkit-border-radius: 0;border-radius: 0; }
-.tab-content { padding: 1rem;padding-top: 2rem;z-index: 1; }
