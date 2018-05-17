@@ -48,7 +48,7 @@ class ProductController extends Controller {
 
     public function handleProducts(Request $request, $slug) {
         $client = $this->_client;
-        if ($slug == "create" && $slug == "update") {
+        if ($slug == "create" || $slug == "update") {
             $shop_url = $request->headers->get('x-shopify-shop-domain');
             $user = User::Where('shop_url', $shopUrl)->first();
             if (isset($user->get_dev_setting)) {
@@ -84,10 +84,10 @@ class ProductController extends Controller {
 
                 $result = $client->MaterialBulk($final_product_array);
                 Log::info('Products ' . $slug . '(id):' . $request->get('id'));
-                return true;
+                 exit();
             }
             Log::info('Products ' . $slug . 'not saved account setting yet !');
-            return true;
+             exit();
         }
         Log::info('Products ' . $slug);
         exit();
