@@ -47,7 +47,7 @@ class ProductController extends Controller {
     }
 
     public function handleProducts(Request $request, $slug) {
-        $client = $this->_client;
+        //$client = $this->_client;
         
          Log::info('Products ' . $slug . '(id):' .json_encode($request->all()));
          
