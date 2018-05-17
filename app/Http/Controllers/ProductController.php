@@ -47,26 +47,10 @@ class ProductController extends Controller {
     }
 
     public function handleProducts(Request $request, $slug) {
-        //$client = $this->_client;
-        if ($slug == "create" && $slug == "update") {
+      if ($slug == "create" && $slug == "update") {
 
             $shop_url = $request->headers->get('x-shopify-shop-domain');
             Log::info('Products ' . $slug . '(id):' . $shop_url);
-            exit();
-            $user = User::Where('shop_url', $shopUrl)->first();
-            
-            Log::info('Products ' . $slug . '(id):' . json_encode($user));
-                return true;
-            
-            
-            
-            if (isset($user->get_dev_setting)) {
-                $product_images = array_column($request->get('images'), 'src');
-                Log::info('Products ' . $slug . '(id):' . json_encode($product_images));
-                return true;
-            }
-            Log::info('Products ' . $slug . 'not saved account setting yet !');
-            return true;
         }
         Log::info('Products ' . $slug);
         return true;
