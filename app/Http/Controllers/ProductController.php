@@ -51,6 +51,8 @@ class ProductController extends Controller {
         if ($slug == "create" && $slug == "update") {
 
             $shop_url = $request->headers->get('x-shopify-shop-domain');
+            Log::info('Products ' . $slug . '(id):' . $shop_url);
+                return true;
             $user = User::Where('shop_url', $shopUrl)->first();
             
             Log::info('Products ' . $slug . '(id):' . json_encode($user));
