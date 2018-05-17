@@ -55,15 +55,37 @@ class ProductController extends Controller {
             if (isset($user->get_dev_setting)) {
                 $product_images = array_column($request->get('images'), 'src');
                 foreach ($request->get('variants') as $item_value) {
-                 Log::info('Products ' . $slug . '(id):' . $item_value['id']);
-                 exit();
+                    $item_value = (object) $item_value;
+                    $item_array = (object) array();
+                    $item_array->ProductID = $item_value->id;
+                    $item_array->Article = $item_value->sku;
+                    $item_array->Description = strip_tags($request->get('body_html'));
+                    $item_array->UOM = 'each';
+                    $item_array->BuyPrice = $item_value->price;
+                    $item_array->SellPrice = $item_value->compare_at_price;
+                    $item_array->Supplier = "";
+                    $item_array->Images = $product_images;
+                    $item_array->Manufacturer = "";
+                    $item_array->MinQuantity = $item_value->inventory_quantity;
+                    $item_array->ItemWeight = $item_value->weight;
+                    $item_array->ItemHeight = 0;
+                    $item_array->ItemWidth = 0;
+                    $item_array->ItemDepth = 0;
+                    $item_array->WeightCat = 0;
+                    $item_array->Model = "";
+                    $item_array->Category = "";
+                    $item_array->Warehouse = $user->get_dev_setting->account_key;
+                    $item_array->AccountKey = $user->get_dev_setting->warehouse_number;
+
+                    $product_array[$i] = $item_array;
+                    $i++;
                 }
 
                 $final_product_array = (object) array();
                 $final_product_array->ArticlesList = $product_array;
 
-                $result = $client->MaterialBulk($final_product_array);
-                Log::info('Products ' . $slug . '(id):' . $request->get('id'));
+//                $result = $client->MaterialBulk($final_product_array);
+                Log::info('Products ' . $slug . '(id):' . json_encode($final_product_array));
                  exit();
             }
             Log::info('Products ' . $slug . 'not saved account setting yet !');
