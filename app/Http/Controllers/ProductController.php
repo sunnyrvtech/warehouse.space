@@ -31,6 +31,7 @@ class ProductController extends Controller {
                 $wsdl = $user->get_dev_setting->wsdl_url;
                 try {
                     $this->_client = new SoapClient($wsdl, array(
+                        'connection_timeout' => 5000,
                         'cache_wsdl' => $debug ? WSDL_CACHE_NONE : WSDL_CACHE_MEMORY,
                         'trace' => true,
                         'exceptions' => true,
@@ -53,55 +54,51 @@ class ProductController extends Controller {
         $user = $this->_user;
         $client = $this->_client;
         $shopify = $this->_shopify;
-
         if ($client != null && $shopify != null) {
             $limit = $user->get_dev_setting->page_size;
             $page = $user->get_dev_setting->offset;
-            $productinfo = $shopify->call(['URL' => 'products.json?limit=1&page=2', 'METHOD' => 'GET']);
-
-
+            $productinfo = $shopify->call(['URL' => 'products.json', 'METHOD' => 'GET']);
+            $i = 0;
             $product_array = array();
-            foreach ($productinfo as $key => $product) {
-                dd($product);
-                
-//                foreach($product['variants'] as $item_value){
-//                    echo $item_value->id;
-//                }
-                
-                
-//                $item_array = (object) array();
-//                $item_array->Article = $product->id;
-//                $item_array->Description = 'ff' . $i;
-//                $item_array->UOM = 'each';
-//                $item_array->BuyPrice = 0;
-//                $item_array->SellPrice = 12;
-//                $item_array->Supplier = "";
-//                $item_array->Images = "";
-//                $item_array->Manufacturer = "";
-//                $item_array->MinQuantity = 10;
-//                $item_array->ItemWeight = 10;
-//                $item_array->ItemHeight = 10;
-//                $item_array->ItemWidth = 10;
-//                $item_array->ItemDepth = 10;
-//                $item_array->WeightCat = "";
-//                $item_array->Model = "";
-//                $item_array->Category = 'dsdsda';
-//                $item_array->Warehouse = $this->_warehouseNumber;
-//                $item_array->AccountKey = $this->_accountKey;
-//
-//                $product_array[$i] = $item_array;
+            foreach ($productinfo->products as $key => $product) {
+                $product_images = array_column($product->images, 'src');
+                foreach ($product->variants as $item_value) {
+                    $item_array = (object) array();
+                    $item_array->Article = $item_value->id;
+                    $item_array->Description = "";
+                    $item_array->UOM = 'each';
+                    $item_array->BuyPrice = $item_value->price;
+                    $item_array->SellPrice = $item_value->compare_at_price;
+                    $item_array->Supplier = "";
+                    $item_array->Images = $product_images;
+                    $item_array->Manufacturer = "";
+                    $item_array->MinQuantity = $item_value->inventory_quantity;
+                    $item_array->ItemWeight = $item_value->weight;
+                    $item_array->ItemHeight = 0;
+                    $item_array->ItemWidth = 0;
+                    $item_array->ItemDepth = 0;
+                    $item_array->WeightCat = 0;
+                    $item_array->Model = "";
+                    $item_array->Category = "";
+                    $item_array->Warehouse = $this->_warehouseNumber;
+                    $item_array->AccountKey = $this->_accountKey;
+
+                    $product_array[$i] = $item_array;
+                    $i++;
+                }
             }
-            die;
-//            $final_product_array = (object) array();
-//            $final_product_array->ArticlesList = $product_array;
+
+            $final_product_array = (object) array();
+            $final_product_array->ArticlesList = $product_array;
+
+            $result = $client->MaterialBulk($final_product_array);
+            if ($result->MaterialBulkResult)
+                return redirect()->back()
+                                ->with('success-message', 'Product synchronization successfully!');
+            else
+                return redirect()->back()
+                                ->with('error-message', 'Something went wrong,please try again later!');
         }
-
-
-
-
-
-
-
     }
 
 }
