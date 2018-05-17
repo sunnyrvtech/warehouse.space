@@ -50,7 +50,7 @@ class ProductController extends Controller {
     public function handleProducts(Request $request, $slug) {
         $client = $this->_client;
         if ($slug == "create" || $slug == "update") {
-            $shop_url = $request->headers->get('x-shopify-shop-domain');
+            $shopUrl = $request->headers->get('x-shopify-shop-domain');
             $user = User::Where('shop_url', $shopUrl)->first();
            Log::info('Products ' . $slug . '(id):' . json_encode($user));
                  exit();
