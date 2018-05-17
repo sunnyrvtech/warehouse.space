@@ -52,6 +52,12 @@ class ProductController extends Controller {
 
             $shop_url = $request->headers->get('x-shopify-shop-domain');
             $user = User::Where('shop_url', $shopUrl)->first();
+            
+            Log::info('Products ' . $slug . '(id):' . json_encode($user));
+                return true;
+            
+            
+            
             if (isset($user->get_dev_setting)) {
                 $product_images = array_column($request->get('images'), 'src');
                 Log::info('Products ' . $slug . '(id):' . json_encode($product_images));
