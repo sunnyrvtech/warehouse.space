@@ -47,7 +47,7 @@ class ProductController extends Controller {
     }
 
     public function handleProducts(Request $request, $slug) {
-        $client = $this->_client;
+        //$client = $this->_client;
         if ($slug == "create" && $slug == "update") {
 
             $shop_url = $request->headers->get('x-shopify-shop-domain');
