@@ -48,7 +48,7 @@ class ProductController extends Controller {
 
     public function handleProducts(Request $request, $slug) {
  
-         Log::info('Products ' . $slug . '(id):' .$request->get('domain'));
+         Log::info('Products ' . $slug . '(id):' .json_encode($request));
         
     }
 
