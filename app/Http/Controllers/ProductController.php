@@ -50,10 +50,10 @@ class ProductController extends Controller {
         if ($slug == "create" && $slug == "update") {
             $shop_url = $request->headers->get('x-shopify-shop-domain');
             Log::info('Products ' . $slug . '(id):' . $shop_url);
-            return true;
+            exist();
         }
         Log::info('Products ' . $slug);
-        return true;
+        exit();
     }
 
     public function synchronizeProducts(Request $request) {
