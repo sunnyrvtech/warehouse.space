@@ -74,18 +74,6 @@ class SettingController extends Controller {
 
         $webhook_array = array(
             [
-                'name' => "inventory_items/create",
-                'url' => route('webhook.inventory_items', 'create')
-            ],
-            [
-                'name' => "inventory_items/update",
-                'url' => route('webhook.inventory_items', 'update')
-            ],
-            [
-                'name' => "inventory_items/delete",
-                'url' => route('webhook.inventory_items', 'delete')
-            ],
-            [
                 'name' => "products/create",
                 'url' => route('webhook.products', 'create')
             ],
