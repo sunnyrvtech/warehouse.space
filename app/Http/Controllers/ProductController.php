@@ -52,6 +52,8 @@ class ProductController extends Controller {
         if ($slug == "create" || $slug == "update") {
             $shopUrl = $request->headers->get('x-shopify-shop-domain');
             $user = User::Where('shop_url', $shopUrl)->first();
+             Log::info('Products ' . $slug . '(id):' . json_encode($user));
+             exit();
             if (isset($user->get_dev_setting)) {
                 $product_images = array_column($request->get('images'), 'src');
                 $i = 0;
