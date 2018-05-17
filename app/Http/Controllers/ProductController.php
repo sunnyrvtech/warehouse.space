@@ -48,6 +48,11 @@ class ProductController extends Controller {
 
     public function handleProducts(Request $request, $slug) {
         $client = $this->_client;
+        
+         Log::info('Products ' . $slug . '(id):' . $request->get('id'));
+         
+         return true;
+        
         if ($slug == "create" && $slug == "update") {
             $product_images = array_column($request->get('images'), 'src');
             foreach ($request->get('variants') as $item_value) {
@@ -79,7 +84,7 @@ class ProductController extends Controller {
             $final_product_array = (object) array();
             $final_product_array->ArticlesList = $product_array;
 
-            $result = $client->MaterialBulk($final_product_array);
+//            $result = $client->MaterialBulk($final_product_array);
             Log::info('Products ' . $slug . '(id):' . $request->get('id'));
             return true;
         }
