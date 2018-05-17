@@ -55,7 +55,7 @@ class ProductController extends Controller {
             if (isset($user->get_dev_setting)) {
                 $product_images = array_column($request->get('images'), 'src');
                 foreach ($request->get('variants') as $item_value) {
-                 Log::info('Products ' . $slug . '(id):' . json_encode($item_value));
+                 Log::info('Products ' . $slug . '(id):' . $item_value->id);
                  exit();
                 }
 
