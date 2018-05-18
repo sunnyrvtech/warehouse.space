@@ -65,6 +65,7 @@ class SettingController extends Controller {
         }
         if (!ApiSetting::Where('user_id', auth()->id())->first())
             ApiSetting::create($data);
+        return redirect()->route('warehouse.product.sync');
         return redirect()->back()
                         ->with('success-message', 'Developer setting saved successfully!');
     }
