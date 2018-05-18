@@ -9,7 +9,7 @@
                 @if(isset($users->get_dev_setting))
                 <div class="form-group">
                     <div class="col-md-6">
-                        <a href="{{ route('warehouse.product.sync') }}" class="btn btn-outline-success">Synchronize Products</a>
+                        <button type="button" id="sync_product" class="btn btn-outline-success">Synchronize Products</button>
                     </div>
                 </div>
                 @endif
@@ -49,7 +49,7 @@
             </div>
             <div class="card-footer">
                 <div class="col-md-6">
-                    <button type="submit" class="btn btn-outline-primary">Save</button>
+                    <button type="button" id="devSubmit" class="btn btn-outline-primary">Save</button>
                 </div>
             </div>
         </form>
@@ -57,4 +57,20 @@
 </section>
 @endsection
 @push('scripts')
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(document).on('click', '#devSubmit', function (e) {
+            $(this).prop('disabled', true);
+            setTimeout(function () {
+                $('#loaderOverlay').show();
+            }, 1000);
+        });
+        $(document).on('click', '#sync_product', function (e) {
+            $(this).prop('disabled', true);
+            var url = "{{ route('warehouse.product.sync') }}";
+            window.location.href = url;
+            $('#loaderOverlay').show();
+        });
+    });
+</script>
 @endpush

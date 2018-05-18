@@ -10,6 +10,18 @@
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     </head>
     <body>
+        <div id="loaderOverlay">
+            <div class="loader">
+                <div class="side"></div>
+                <div class="side"></div>
+                <div class="side"></div>
+                <div class="side"></div>
+                <div class="side"></div>
+                <div class="side"></div>
+                <div class="side"></div>
+                <div class="side"></div>
+            </div>
+        </div>
         <nav class="navbar navbar-expand-lg navbar-dark default-color">
             <div class="container">
                 <a class="ws-logo" href="#">
