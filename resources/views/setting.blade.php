@@ -9,7 +9,8 @@
                 @if(isset($users->get_dev_setting))
                 <div class="form-group">
                     <div class="col-md-6">
-                        <button type="button" id="sync_product" class="btn btn-outline-success">Synchronize Products</button>
+                        <button type="button" id="sync_product" class="btn btn-outline-success">Synchronize Products</button><br>
+                        <span class="lebel-msg">This will synchronized all products from your store to warehouse space.It will take time while synchronization and you will get a message of success/failure.</span>
                     </div>
                 </div>
                 @endif
@@ -17,6 +18,7 @@
                     <div class="col-md-6">
                         <label for="warehouse_number">Warehouse Number</label>
                         <input class="form-control{{ $errors->has('warehouse_number') ? ' is-invalid' : '' }}" type="text" value="{{ isset($users->get_dev_setting->warehouse_number)?$users->get_dev_setting->warehouse_number:'' }}" name="warehouse_number" placeholder="Warehouse Number">
+                        <span class="lebel-msg">Please click here <a href="https://warehouse.space/" target="_blank">warehouse.space</a> to get your warehouse number</span>
                         @if ($errors->has('warehouse_number'))
                         <span class="invalid-feedback">
                             <strong>{{ $errors->first('warehouse_number') }}</strong>
@@ -28,6 +30,7 @@
                     <div class="col-md-6">
                         <label for="account_key">Warehouse Account Key</label>
                         <input class="form-control{{ $errors->has('account_key') ? ' is-invalid' : '' }}" type="text" value="{{ isset($users->get_dev_setting->account_key)?$users->get_dev_setting->account_key:'' }}" name="account_key" placeholder="Warehouse Account Key">
+                        <span class="lebel-msg">Please click here <a href="https://warehouse.space/" target="_blank">warehouse.space</a> to get your account key</span>
                         @if ($errors->has('account_key'))
                         <span class="invalid-feedback">
                             <strong>{{ $errors->first('account_key') }}</strong>
