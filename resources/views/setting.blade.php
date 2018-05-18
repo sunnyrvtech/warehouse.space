@@ -3,7 +3,7 @@
 <section>
     <div class="card">
         <div class="card-header bg-info text-white">Settings</div>
-        <form action="{{ route('warehouse.dev.setting')}}" method="post">
+        <form id="syncForm" action="{{ route('warehouse.dev.setting')}}" method="post">
             {{ csrf_field()}}
             <div class="card-body">
                 <h4 class="lebel-msg">Connect your Shopify Store to Warehouse.space</h4>
@@ -46,7 +46,7 @@
             </div>
             <div class="card-footer">
                 <div class="col-md-6">
-                    <button type="submit" id="devSubmit" class="btn btn-outline-primary">Save</button>
+                    <button type="button" id="devSubmit" class="btn btn-outline-primary">Save</button>
                 </div>
             </div>
         </form>
@@ -58,9 +58,8 @@
     $(document).ready(function () {
         $(document).on('click', '#devSubmit', function (e) {
             $(this).prop('disabled', true);
-            setTimeout(function () {
-                $('#loaderOverlay').show();
-            }, 1000);
+            $('#loaderOverlay').show();
+            document.getElementById("syncForm").submit();
         });
         $(document).on('click', '#sync_product', function (e) {
             $(this).prop('disabled', true);
