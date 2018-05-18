@@ -44,10 +44,6 @@ class SettingController extends Controller {
 
     public function devPostSetting(Request $request) {
         $data = $request->all();
-        
-        die('heelo');
-        
-        
         $this->validate($request, [
             'warehouse_number' => 'required|max:50',
             'account_key' => 'required|max:50',
