@@ -49,7 +49,7 @@
             </div>
             <div class="card-footer">
                 <div class="col-md-6">
-                    <button type="button" id="devSubmit" class="btn btn-outline-primary">Save</button>
+                    <button type="submit" id="devSubmit" class="btn btn-outline-primary">Save</button>
                 </div>
             </div>
         </form>
