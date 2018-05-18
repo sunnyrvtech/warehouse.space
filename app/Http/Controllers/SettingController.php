@@ -47,7 +47,7 @@ class SettingController extends Controller {
         $this->validate($request, [
             'warehouse_number' => 'required|max:50',
             'account_key' => 'required|max:50',
-            'percentage_product' => 'required|max:50',
+//            'percentage_product' => 'required|max:50',
         ]);
 
         $data['user_id'] = auth()->id();

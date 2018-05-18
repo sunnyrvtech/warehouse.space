@@ -30,24 +30,19 @@
                         @endif
                     </div>
                 </div>
+                @if(isset($users->get_dev_setting))
+                <!--                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <button type="button" id="sync_product" class="btn btn-outline-success">Synchronize Products</button><br>
+                                    </div>
+                                </div>-->
+                @endif
                 <div class="form-group">
                     <div class="col-md-6">
-                        <label for="percentage_product">Percent of synchronized products</label>
-                        <input class="form-control{{ $errors->has('percentage_product') ? ' is-invalid' : '' }}" type="text" value="{{ isset($users->get_dev_setting->percentage_product)?$users->get_dev_setting->percentage_product:'' }}" name="percentage_product" placeholder="Percent of synchronized products">
-                        @if ($errors->has('percentage_product'))
-                        <span class="invalid-feedback">
-                            <strong>{{ $errors->first('percentage_product') }}</strong>
-                        </span>
-                        @endif
+                        <p>Pressing the Save button, will begin the process of syncing your products to your warehouse.space account.</p>
+                        <p>If you have a large number of products, this process may take some time</p>
                     </div>
                 </div>
-                @if(isset($users->get_dev_setting))
-<!--                <div class="form-group">
-                    <div class="col-md-6">
-                        <button type="button" id="sync_product" class="btn btn-outline-success">Synchronize Products</button><br>
-                    </div>
-                </div>-->
-                @endif
             </div>
             <div class="card-footer">
                 <div class="col-md-6">
