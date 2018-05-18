@@ -126,7 +126,7 @@ class ProductController extends Controller {
                     $item_array->Supplier = "";
                     $item_array->Images = $product_images;
                     $item_array->Manufacturer = "";
-                    $item_array->MinQuantity = $item_value->inventory_quantity;
+                    $item_array->MinQuantity = 0;
                     $item_array->ItemWeight = $item_value->weight;
                     $item_array->ItemHeight = 0;
                     $item_array->ItemWidth = 0;
