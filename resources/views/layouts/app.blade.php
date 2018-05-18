@@ -49,7 +49,7 @@
         </div>
         @endif
         <div class="main-wrapper-content">
-            <h1 class="text-center">Warehouse Space Dashboard</h1>
+            <h1 class="text-center">Warehouse.space</h1>
             <div class="container">
                 @yield('content')
             </div>
