@@ -61,6 +61,7 @@ class ProductController extends Controller {
                     $item_array = (object) array();
                     $item_array->ProductID = $item_value->id;
                     $item_array->Article = $item_value->sku;
+                    $item_array->Title = $request->get('title');
                     $item_array->Barcode = $item_value->barcode;
                     $item_array->Description = strip_tags($request->get('body_html'));
                     $item_array->UOM = 'each';
@@ -116,6 +117,7 @@ class ProductController extends Controller {
                     $item_array = (object) array();
                     $item_array->ProductID = $item_value->id;
                     $item_array->Article = $item_value->sku;
+                    $item_array->Title = $product->title;
                     $item_array->Barcode = $item_value->barcode;
                     $item_array->Description = strip_tags($product->body_html);
                     $item_array->UOM = 'each';
