@@ -64,6 +64,9 @@ class ProductController extends Controller {
                     $item_array->Title = $request->get('title');
                     $item_array->Barcode = $item_value->barcode;
                     $item_array->Description = strip_tags($request->get('body_html'));
+                    $item_array->ErpTimeStamp = "";
+                    $item_array->TimeStamp = "";
+//                    $item_array->HSCode = isset($hscode->metafields[0]->value) ? $hscode->metafields[0]->value : "";
                     $item_array->UOM = 'each';
                     $item_array->BuyPrice = $item_value->price;
                     $item_array->SellPrice = $item_value->compare_at_price;
@@ -114,12 +117,18 @@ class ProductController extends Controller {
                 $product_images = array_column($product->images, 'src');
 
                 foreach ($product->variants as $item_value) {
+
+//                    $hscode = $shopify->call(['URL' => 'products/'.$product->id.'/variants/'.$item_value->id.'/metafields.json', 'METHOD' => 'GET']);
+
                     $item_array = (object) array();
                     $item_array->ProductID = $item_value->id;
                     $item_array->Article = $item_value->sku;
                     $item_array->Title = $product->title;
                     $item_array->Barcode = $item_value->barcode;
                     $item_array->Description = strip_tags($product->body_html);
+                    $item_array->ErpTimeStamp = "";
+                    $item_array->TimeStamp = "";
+//                    $item_array->HSCode = isset($hscode->metafields[0]->value) ? $hscode->metafields[0]->value : "";
                     $item_array->UOM = 'each';
                     $item_array->BuyPrice = $item_value->price;
                     $item_array->SellPrice = $item_value->compare_at_price;
