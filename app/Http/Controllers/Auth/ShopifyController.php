@@ -107,8 +107,8 @@ class ShopifyController extends Controller {
     }
 
     public function handleAppUninstallation(Request $request) {
-        Log::info('Uninstall:' . json_encode($request->all()));
         $shopUrl = $request->get('domain');
+        Log::info('Uninstall:' . $shopUrl);
         $user = User::where(['shop_url' => $shopUrl])->first();
         $user->delete();
     }
