@@ -70,14 +70,14 @@ class ProductController extends Controller {
                     $item_array->Supplier = "";
                     $item_array->Images = $product_images;
                     $item_array->Manufacturer = "";
-                    $item_array->MinQuantity = $item_value->inventory_quantity;
+                    $item_array->MinQuantity = 0;
                     $item_array->ItemWeight = $item_value->weight;
                     $item_array->ItemHeight = 0;
                     $item_array->ItemWidth = 0;
                     $item_array->ItemDepth = 0;
                     $item_array->WeightCat = 0;
                     $item_array->Model = "";
-                    $item_array->Category = "";
+                    $item_array->Category = $item_value->product_type;
                     $item_array->Warehouse = $user->get_dev_setting->warehouse_number;
                     $item_array->AccountKey = $user->get_dev_setting->account_key;
 
@@ -133,7 +133,7 @@ class ProductController extends Controller {
                     $item_array->ItemDepth = 0;
                     $item_array->WeightCat = 0;
                     $item_array->Model = "";
-                    $item_array->Category = "";
+                    $item_array->Category = $item_value->product_type;
                     $item_array->Warehouse = $this->_warehouseNumber;
                     $item_array->AccountKey = $this->_accountKey;
 
