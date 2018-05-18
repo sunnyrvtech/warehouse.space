@@ -77,7 +77,7 @@ class ProductController extends Controller {
                     $item_array->ItemDepth = 0;
                     $item_array->WeightCat = 0;
                     $item_array->Model = "";
-                    $item_array->Category = $item_value->product_type;
+                    $item_array->Category = $request->get('product_type');
                     $item_array->Warehouse = $user->get_dev_setting->warehouse_number;
                     $item_array->AccountKey = $user->get_dev_setting->account_key;
 
@@ -133,7 +133,7 @@ class ProductController extends Controller {
                     $item_array->ItemDepth = 0;
                     $item_array->WeightCat = 0;
                     $item_array->Model = "";
-                    $item_array->Category = $item_value->product_type;
+                    $item_array->Category = $product->product_type;
                     $item_array->Warehouse = $this->_warehouseNumber;
                     $item_array->AccountKey = $this->_accountKey;
 
