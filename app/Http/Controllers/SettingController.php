@@ -88,7 +88,7 @@ class SettingController extends Controller {
             ],
             [
                 'name' => "orders/create",
-                'url' => route('webhook.orders', 'delete')
+                'url' => route('webhook.orders', 'create')
             ],
             [
                 'name' => "orders/updated",
@@ -100,7 +100,7 @@ class SettingController extends Controller {
             ],
             [
                 'name' => "orders/cancelled",
-                'url' => route('webhook.orders', 'delete')
+                'url' => route('webhook.orders', 'cancelled')
             ],
         );
 
