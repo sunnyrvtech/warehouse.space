@@ -100,116 +100,7 @@ class OrderController extends Controller {
                 $order_array->Warehouse = $user->get_dev_setting->warehouse_number;
                 $order_array->AccountKey = $user->get_dev_setting->account_key;
 
-                // $result = $client->OrderDetail($order_array);
-                Log::info('Orders ' . $slug . json_encode($order_array));
-                exit();
-            }
-            Log::info('Orders ' . $slug . 'not saved account setting yet !');
-            exit();
-        } else {
-            if ($slug != "delete")
-                Log::info('Orders ' . $slug . 'problem in soap client !');
-            exit();
-        }
-    }
-
-    public function test_order(Request $request) {
-        //Log::info('Orders ' . $slug . ':' . json_encode($request->all()));
-        $slug = 'update';
-        $client = $this->_client;
-//        echo "<pre>";
-//        print_r($client);
-//        
-//        die;
-
-        if ($client != null && ($slug == "create" || $slug == "update")) {
-            $shopUrl = 'wsdev01.myshopify.com';
-            $user = User::Where('shop_url', $shopUrl)->first();
-
-            $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
-
-            $orderinfo = $shopify->call(['URL' => 'orders/383573426229.json', 'METHOD' => 'GET']);
-            $orderinfo = $orderinfo->order;
-
-            // dd($orderinfo);
-
-            if (isset($user->get_dev_setting)) {
-
-
-                $billing_first_name = '';
-                $billing_last_name = '';
-                $shipping_first_name = '';
-                $shipping_last_name = '';
-                if (isset($orderinfo->billing_address->first_name))
-                    $billing_first_name = $orderinfo->billing_address->first_name;
-
-                if (isset($orderinfo->billing_address->last_name))
-                    $billing_last_name = $orderinfo->billing_address->last_name;
-
-                if (isset($orderinfo->shipping_address->first_name))
-                    $shipping_first_name = $orderinfo->shipping_address->first_name;
-
-                if (isset($orderinfo->shipping_address->last_name))
-                    $shipping_last_name = $orderinfo->shipping_address->last_name;
-
-                $order_array = (object) array();
-                $article_array = array();
-                foreach ($orderinfo->line_items as $key => $item_data) {
-                    $article_array[$key] = (object) array(
-                                'Article' => $item_data->sku,
-                                'ArticleDescr' => $item_data->name,
-                                'ProductId' => $item_data->variant_id,
-                                'Quantity' => $item_data->quantity
-                    );
-                }
-                $order_array->ArticlesList = $article_array;
-
-                $order_array->InvNumber = $orderinfo->id;
-                $order_array->Customer = $billing_first_name . ' ' . $billing_last_name;
-                $order_array->Comments = '';
-                $order_array->ContactPersonName = $shipping_first_name . ' ' . $shipping_last_name;
-                $order_array->ContactPersonPhone = $orderinfo->shipping_address->phone;
-                $order_array->Shipper = $orderinfo->processing_method;
-                $order_array->InvReference = $orderinfo->id;
-                $order_array->InvStatus = 0;
-                $order_array->InvDate = date('Y-m-d-H:i', strtotime($orderinfo->created_at));
-                $order_array->InvDueDate = "";
-                $order_array->InvTotal = $orderinfo->total_price;
-                $order_array->InvAmountDue = 0;
-                $order_array->ErpTimestamp = date('Y-m-d H:i');
-                $order_array->PartnerKey = '';
-                $order_array->DeliverAddress = $orderinfo->shipping_address->address1;
-                $order_array->DeliveryPostCodeZIP = $orderinfo->shipping_address->zip;
-                $order_array->Country = $orderinfo->shipping_address->country;
-                $order_array->CountryCode = $orderinfo->shipping_address->country_code;
-                $order_array->City = $orderinfo->shipping_address->city;
-                $order_array->StateOrProvinceCode = $orderinfo->shipping_address->province_code;
-                $order_array->EmailAddress = $orderinfo->email;
-                $order_array->PaymentMethod = $orderinfo->gateway;
-                $order_array->PaymentDescription = $orderinfo->gateway;
-                $order_array->OrderTotalWeight = $orderinfo->total_weight;
-                $order_array->OrderType = 4;
-                $order_array->InvoiceID = "";
-                $order_array->ShortCode = "";
-                $order_array->Warehouse = $user->get_dev_setting->warehouse_number;
-                $order_array->AccountKey = $user->get_dev_setting->account_key;
-
-
-
-
-
-
-
-
-
-
-//                echo "<pre>";
-//                print_r($order_array);
-//                die;
-
                 $result = $client->OrderDetail($order_array);
-
-                dd($result);
                 Log::info('Orders ' . $slug . json_encode($result));
                 exit();
             }
@@ -221,5 +112,4 @@ class OrderController extends Controller {
             exit();
         }
     }
-
 }
