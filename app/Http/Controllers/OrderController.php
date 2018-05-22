@@ -30,12 +30,8 @@ class OrderController extends Controller {
     }
 
     public function handleOrders(Request $request, $slug) {
-        Log::info('Orders ' . $slug . ':' . json_encode($request->all()));
-    }
-
-    public function testOrder(Request $request) {
+        //Log::info('Orders ' . $slug . ':' . json_encode($request->all()));
         $client = $this->_client;
-        $slug = "create";
         if ($client != null && ($slug == "create" || $slug == "update")) {
             $shopUrl = $request->headers->get('x-shopify-shop-domain');
             $user = User::Where('shop_url', $shopUrl)->first();
@@ -55,8 +51,6 @@ class OrderController extends Controller {
 
                 if (isset($request->get('shipping_address')->last_name))
                     $shipping_last_name = $request->get('billing_address')->last_name;
-
-
 
                 $order_array = array();
                 $order_array['InvNumber'] = $request->get('id');
