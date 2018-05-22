@@ -83,11 +83,41 @@ class OrderController extends Controller {
                 $order_array['OrderTotalWeight'] = $request->get('total_weight');
                 $article_array = array();
                 foreach ($request->get('line_items') as $key => $item_data) {
-                    $article_array[$key] = ['quantity' => $item_data['quantity'], 'name' => $item_data['title']];
+                    $article_array[$key] = array(
+                        'quantity' => $item_data['quantity'],
+                        'name' => $item_data['title']
+                    );
                 }
 
 
                 $order_array['ArticleList'] = $article_array;
+               // $result = $client->OrderDetail($order_array);
+                Log::info('Orders ' . $slug . json_encode($order_array));
+                exit();
+            }
+            Log::info('Orders ' . $slug . 'not saved account setting yet !');
+            exit();
+        } else {
+            if ($slug != "delete")
+                Log::info('Orders ' . $slug . 'problem in soap client !');
+            exit();
+        }
+    }
+
+    public function test_order(Request $request) {
+        //Log::info('Orders ' . $slug . ':' . json_encode($request->all()));
+        $slug = 'update';
+        $client = $this->_client;
+        if ($client != null && ($slug == "create" || $slug == "update")) {
+            $shopUrl = 'wsdev01.myshopify.com';
+            $user = User::Where('shop_url', $shopUrl)->first();
+            if (isset($user->get_dev_setting)) {
+                $order_data = '{"InvNumber":383573426229,"Customer":"rvtech magento","Comments":"","ContactPersonName":"rvtech magento","ContactPersonPhone":null,"Shipper":"free","InvReference":383573426229,"InvStatus":0,"InvDate":"2018-05-21-08:43","InvTotal":"0.00","InvAmountDue":0,"PartnerKey":"","DeliverAddress":"rvtechnologies","DeliveryPostCodeZIP":"160036","Country":"India","CountryCode":"IN","City":"Chandigarh","StateOrProvinceCode":"HP","EmailAddress":"rvtechmagento@gmail.com","PaymentMethod":null,"PaymentDescription":null,"OrderTotalWeight":10000,"ArticleList":[{"quantity":1,"name":"Asus ZenPad 3 8.0 Z581KL"}]}';
+
+                $order_array = json_decode($order_data);
+                echo "<pre>";
+                print_r($order_array);
+                die;
                 $result = $client->OrderDetail($order_array);
                 Log::info('Orders ' . $slug . json_encode($result));
                 exit();
