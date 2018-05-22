@@ -88,8 +88,8 @@ class OrderController extends Controller {
 
 
                 $order_array['ArticleList'] = $article_array;
-                //$result = $client->MaterialBulk($final_product_array);
-                Log::info('Orders ' . $slug . json_encode($order_array));
+                $result = $client->OrderDetail($order_array);
+                Log::info('Orders ' . $slug . json_encode($result));
                 exit();
             }
             Log::info('Orders ' . $slug . 'not saved account setting yet !');
