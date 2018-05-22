@@ -61,7 +61,7 @@ class OrderController extends Controller {
                 $order_array['Customer'] = $billing_first_name . ' ' . $billing_last_name;
                 $order_array['Comments'] = '';
                 $order_array['ContactPersonName'] = $shipping_first_name . ' ' . $shipping_last_name;
-                $order_array['ContactPersonPhone'] = $request->get('shipping_address')->phone;
+                //$order_array['ContactPersonPhone'] = $request->get('shipping_address')->phone;
                 $order_array['Shipper'] = $request->get('processing_method');
                 $order_array['InvReference'] = $request->get('id');
                 $order_array['InvStatus'] = 0;
@@ -71,12 +71,12 @@ class OrderController extends Controller {
                 $order_array['InvAmountDue'] = 0;
 //                $order_array['ErpTimestamp'] = $request->get('id');
                 $order_array['PartnerKey'] = '';
-                $order_array['DeliverAddress'] = $request->get('shipping_address')->address1;
-                $order_array['DeliveryPostCodeZIP'] = $request->get('shipping_address')->zip;
-                $order_array['Country'] = $request->get('shipping_address')->country;
-                $order_array['CountryCode'] = $request->get('shipping_address')->country_code;
-                $order_array['City'] = $request->get('shipping_address')->city;
-                $order_array['StateOrProvinceCode'] = $request->get('shipping_address')->province_code;
+              //  $order_array['DeliverAddress'] = $request->get('shipping_address')->address1;
+               // $order_array['DeliveryPostCodeZIP'] = $request->get('shipping_address')->zip;
+                //$order_array['Country'] = $request->get('shipping_address')->country;
+                //$order_array['CountryCode'] = $request->get('shipping_address')->country_code;
+                //$order_array['City'] = $request->get('shipping_address')->city;
+               // $order_array['StateOrProvinceCode'] = $request->get('shipping_address')->province_code;
                 $order_array['EmailAddress'] = $request->get('email');
                 $order_array['PaymentMethod'] = $request->get('gateway');
                 $order_array['PaymentDescription'] = $request->get('gateway');
