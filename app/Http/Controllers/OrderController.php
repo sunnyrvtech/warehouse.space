@@ -41,9 +41,14 @@ class OrderController extends Controller {
             $user = User::Where('shop_url', $shopUrl)->first();
             if (isset($user->get_dev_setting)) {
 
-                if ($request->get('fulfillment_status') == 'fulfilled') {
-                    Log::info('Orders ' . $slug . "Order already fulfilled");
-                    exit();
+//                if ($request->get('fulfillment_status') == 'fulfilled') {
+//                    Log::info('Orders ' . $slug . "Order already fulfilled");
+//                    exit();
+//                }
+                if ($request->get('financial_status') == 'pending') {
+                    $order_status = 7;
+                } else {
+                    $order_status = 0;
                 }
 
 
@@ -84,7 +89,7 @@ class OrderController extends Controller {
                 $order_array->ContactPersonPhone = $request->get('shipping_address')['phone'];
                 $order_array->Shipper = $request->get('processing_method');
                 $order_array->InvReference = $request->get('id');
-                $order_array->InvStatus = 0;
+                $order_array->InvStatus = $order_status;
                 $order_array->InvDate = date('Y-m-d-H:i', strtotime($request->get('created_at')));
                 $order_array->InvDueDate = "";
                 $order_array->InvTotal = $request->get('total_price');
@@ -137,7 +142,7 @@ class OrderController extends Controller {
 
             $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
 
-            $orderinfo = $shopify->call(['URL' => 'orders/368021700661.json', 'METHOD' => 'GET']);
+            $orderinfo = $shopify->call(['URL' => 'orders/384213155893.json', 'METHOD' => 'GET']);
             $orderinfo = $orderinfo->order;
 
             dd($orderinfo);
