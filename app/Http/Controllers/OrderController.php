@@ -81,10 +81,10 @@ class OrderController extends Controller {
                 $order_array['PaymentMethod'] = $request->get('gateway');
                 $order_array['PaymentDescription'] = $request->get('gateway');
                 $order_array['OrderTotalWeight'] = $request->get('total_weight');
-                $article_array = array();
-                foreach ($request->get('line_items') as $key => $item_data) {
-                    $article_array[$key] = ['quantity' => $item_data->quantity, 'name' => $item_data->title];
-                }
+//                $article_array = array();
+//                foreach ($request->get('line_items') as $key => $item_data) {
+//                    $article_array[$key] = ['quantity' => $item_data->quantity, 'name' => $item_data->title];
+//                }
 
 
                 $order_array['ArticleList'] = $article_array;
