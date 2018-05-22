@@ -130,7 +130,7 @@ class OrderController extends Controller {
                 $order_array = array();
                 $order_array->WarehouseID = $user->get_dev_setting->warehouse_number;
                 $order_array->LicenseKey = $user->get_dev_setting->account_key;
-                $order_array->OrderNumber = $request->get('id');
+                $order_array->InvNumber = $request->get('id');
                 $order_array->Status = $order_status;
 
                 $result = $client->ChangeOrderStatus($order_array);
@@ -163,12 +163,18 @@ class OrderController extends Controller {
 
             $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
 
-            $orderinfo = $shopify->call(['URL' => 'orders/384213155893.json', 'METHOD' => 'GET']);
+            $orderinfo = $shopify->call(['URL' => 'orders/384264798261.json', 'METHOD' => 'GET']);
             $orderinfo = $orderinfo->order;
 
-            dd($orderinfo);
+       //     dd($orderinfo);
 
-
+ $order_array = (object) array();
+                $order_array->WarehouseID = $user->get_dev_setting->warehouse_number;
+                $order_array->LicenseKey = $user->get_dev_setting->account_key;
+                $order_array->InvNumber = $orderinfo->id;
+                $order_array->Status = 7;
+                echo "<pre>";
+                print_r($order_array);
             die;
         }
     }
