@@ -36,17 +36,17 @@ class OrderController extends Controller {
     public function handleOrders(Request $request, $slug) {
         //Log::info('Orders ' . $slug . ':' . json_encode($request->all()));
         $client = $this->_client;
-        if ($client != null && ($slug == "create" || $slug == "update")) {
+        if ($client != null && ($slug == "create")) {
             $shopUrl = $request->headers->get('x-shopify-shop-domain');
             $user = User::Where('shop_url', $shopUrl)->first();
             if (isset($user->get_dev_setting)) {
-                
-                if($request->get('fulfillment_status') == 'fulfilled'){
+
+                if ($request->get('fulfillment_status') == 'fulfilled') {
                     Log::info('Orders ' . $slug . "Order already fulfilled");
                     exit();
                 }
-                
-                
+
+
                 $billing_first_name = '';
                 $billing_last_name = '';
                 $shipping_first_name = '';
@@ -114,8 +114,10 @@ class OrderController extends Controller {
             Log::info('Orders ' . $slug . 'not saved account setting yet !');
             exit();
         } else {
-            if ($slug != "delete")
+            if ($slug == "create")
                 Log::info('Orders ' . $slug . 'problem in soap client !');
+            else
+                Log::info('Orders ' . $slug);
             exit();
         }
     }
@@ -138,10 +140,10 @@ class OrderController extends Controller {
             $orderinfo = $shopify->call(['URL' => 'orders/368021700661.json', 'METHOD' => 'GET']);
             $orderinfo = $orderinfo->order;
 
-             dd($orderinfo);
+            dd($orderinfo);
 
-  
-           die;
+
+            die;
         }
     }
 
