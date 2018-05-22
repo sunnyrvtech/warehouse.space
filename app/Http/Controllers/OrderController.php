@@ -127,7 +127,7 @@ class OrderController extends Controller {
                 } else {
                     $order_status = 0;
                 }
-                $order_array = array();
+                $order_array = (object) array();
                 $order_array->WarehouseID = $user->get_dev_setting->warehouse_number;
                 $order_array->LicenseKey = $user->get_dev_setting->account_key;
                 $order_array->InvNumber = $request->get('id');
