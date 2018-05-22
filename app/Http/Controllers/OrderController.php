@@ -85,7 +85,7 @@ class OrderController extends Controller {
                 $order_array->Shipper = $request->get('processing_method');
                 $order_array->InvReference = $request->get('id');
                 $order_array->InvStatus = 0;
-                $order_array->InvDate = date('Y-m-d-H:i', strtotime($request->get('created_at')));
+                $order_array->InvDate = date('Y-m-d H:i', strtotime($request->get('created_at')));
                 $order_array->InvDueDate = "";
                 $order_array->InvTotal = $request->get('total_price');
                 $order_array->InvAmountDue = 0;
