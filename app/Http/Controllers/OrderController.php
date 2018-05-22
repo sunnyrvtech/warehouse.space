@@ -83,10 +83,11 @@ class OrderController extends Controller {
                 $order_array['OrderTotalWeight'] = $request->get('total_weight');
                 $article_array = array();
                 foreach ($request->get('line_items') as $key => $item_data) {
-                    $article_array[$key] = array(
+                    $child_array = array(
                         'quantity' => $item_data['quantity'],
                         'name' => $item_data['title']
                     );
+                     $article_array[$key] = $child_array;
                 }
 
 
