@@ -83,8 +83,24 @@ class SettingController extends Controller {
                 'url' => route('webhook.products', 'update')
             ],
             [
+                'name' => "products/delete",
+                'url' => route('webhook.products', 'delete')
+            ],
+            [
                 'name' => "orders/create",
                 'url' => route('webhook.orders', 'create')
+            ],
+            [
+                'name' => "orders/updated",
+                'url' => route('webhook.orders', 'update')
+            ],
+            [
+                'name' => "orders/delete",
+                'url' => route('webhook.orders', 'delete')
+            ],
+            [
+                'name' => "orders/cancelled",
+                'url' => route('webhook.orders', 'cancelled')
             ],
         );
 
