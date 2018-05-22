@@ -64,8 +64,8 @@ class ProductController extends Controller {
                     $item_array->Title = $request->get('title');
                     $item_array->Barcode = $item_value->barcode;
                     $item_array->Description = strip_tags($request->get('body_html'));
-                    $item_array->ErpTimeStamp = date('Y-m-d H:i');
-                    $item_array->TimeStamp = date('Y-m-d H:i');
+                    $item_array->ErpTimeStamp = date('Y-m-d-H:i');
+                    $item_array->TimeStamp = date('Y-m-d-H:i');
                     $item_array->HSCode = "";
                     $item_array->UOM = 'each';
                     $item_array->BuyPrice = $item_value->price;
@@ -128,8 +128,8 @@ class ProductController extends Controller {
                     $item_array->Title = $product->title;
                     $item_array->Barcode = $item_value->barcode;
                     $item_array->Description = strip_tags($product->body_html);
-                    $item_array->ErpTimeStamp = date('Y-m-d H:i');
-                    $item_array->TimeStamp = date('Y-m-d H:i');
+                    $item_array->ErpTimeStamp = date('Y-m-d-H:i');
+                    $item_array->TimeStamp = date('Y-m-d-H:i');
                     $item_array->HSCode = "";
                     $item_array->UOM = 'each';
                     $item_array->BuyPrice = $item_value->price;
