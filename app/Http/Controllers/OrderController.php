@@ -40,6 +40,13 @@ class OrderController extends Controller {
             $shopUrl = $request->headers->get('x-shopify-shop-domain');
             $user = User::Where('shop_url', $shopUrl)->first();
             if (isset($user->get_dev_setting)) {
+                
+                if($request->get('fulfillment_status') == 'fulfilled'){
+                    Log::info('Orders ' . $slug . "Order already fulfilled");
+                    exit();
+                }
+                
+                
                 $billing_first_name = '';
                 $billing_last_name = '';
                 $shipping_first_name = '';
@@ -112,4 +119,30 @@ class OrderController extends Controller {
             exit();
         }
     }
+
+    public function test_order(Request $request) {
+        //Log::info('Orders ' . $slug . ':' . json_encode($request->all()));
+        $slug = 'update';
+        $client = $this->_client;
+//        echo "<pre>";
+//        print_r($client);
+//        
+//        die;
+
+        if ($client != null && ($slug == "create" || $slug == "update")) {
+            $shopUrl = 'wsdev01.myshopify.com';
+            $user = User::Where('shop_url', $shopUrl)->first();
+
+            $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
+
+            $orderinfo = $shopify->call(['URL' => 'orders/368021700661.json', 'METHOD' => 'GET']);
+            $orderinfo = $orderinfo->order;
+
+             dd($orderinfo);
+
+  
+           die;
+        }
+    }
+
 }
