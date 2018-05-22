@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Log;
+use SoapClient;
+use SoapFault;
+use App\User;
+use App;
 
 class OrderController extends Controller {
 
