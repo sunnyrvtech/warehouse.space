@@ -114,6 +114,7 @@ class OrderController extends Controller {
 
                 $result = $client->OrderDetail($order_array);
                 Log::info('Orders ' . $slug . json_encode($result));
+                Log::info('Orders ' . $slug . json_encode($order_array));
                 exit();
             }
             Log::info('Orders ' . $slug . 'not saved account setting yet !');
