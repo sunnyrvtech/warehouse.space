@@ -41,14 +41,14 @@ class OrderController extends Controller {
         if ($client != null) {
             if (isset($user->get_dev_setting)) {
                 if ($slug == "create") {
-                    $result = createOrder($request, $user);
+                    $result = $this->createOrder($request, $user);
                     Log::info('Orders ' . $slug . json_encode($result));
                     exit();
                 } else if ($slug == "update") {
                     Log::info('Orders ' . $slug);
                     exit();
                 } else if ($slug == "paid" || $slug == "cancelled") {
-                    $result = changeOrderStatus($request, $user);
+                    $result = $this->changeOrderStatus($request, $user);
                     Log::info('Orders ' . $slug . json_encode($result));
                     exit();
                 } else {///    this is use to handle delete request
