@@ -99,6 +99,10 @@ class SettingController extends Controller {
                 'url' => route('webhook.orders', 'delete')
             ],
             [
+                'name' => "orders/paid",
+                'url' => route('webhook.orders', 'paid')
+            ],
+            [
                 'name' => "orders/cancelled",
                 'url' => route('webhook.orders', 'cancelled')
             ],
