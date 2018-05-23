@@ -36,7 +36,7 @@ class OrderController extends Controller {
     public function handleOrders(Request $request, $slug) {
         //Log::info('Orders ' . $slug . ':' . json_encode($request->all()));
         $client = $this->_client;
-        if ($client != null && $slug == "create") {
+        if ($client != null && ($slug == "create" || $slug == "update")) {
             $shopUrl = $request->headers->get('x-shopify-shop-domain');
             $user = User::Where('shop_url', $shopUrl)->first();
             if (isset($user->get_dev_setting)) {
@@ -113,7 +113,6 @@ class OrderController extends Controller {
                 $order_array->AccountKey = $user->get_dev_setting->account_key;
 
                 $result = $client->OrderDetail($order_array);
-                Log::info('Orders ' . $slug . $order_status);
                 Log::info('Orders ' . $slug . json_encode($result));
                 exit();
             }
@@ -135,7 +134,6 @@ class OrderController extends Controller {
                 $order_array->Status = $order_status;
 
                 $result = $client->ChangeOrderStatus($order_array);
-                Log::info('Orders ' . $slug . $order_status);
                 Log::info('Orders ' . $slug . json_encode($result));
                 exit();
             }
