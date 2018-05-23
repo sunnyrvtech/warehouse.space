@@ -35,7 +35,6 @@ class OrderController extends Controller {
 
     public function handleOrders(Request $request, $slug) {
         //Log::info('Orders ' . $slug . ':' . json_encode($request->all()));
-        $client = $this->_client;
         $shopUrl = $request->headers->get('x-shopify-shop-domain');
         $user = User::Where('shop_url', $shopUrl)->first();
         if ($client != null) {
@@ -64,6 +63,7 @@ class OrderController extends Controller {
     }
 
     public function createOrder($request, $user) {
+        $client = $this->_client;
         if ($request->get('financial_status') == 'pending') {
             $order_status = 6;
         } else {
@@ -136,20 +136,21 @@ class OrderController extends Controller {
     }
 
     public function changeOrderStatus($request, $user) {
-        
-            if ($request->get('financial_status') == 'paid') {
-                $order_status = 0;
-            } else {
-                $order_status = 7;
-            }
-            
-            $order_array = (object) array();
-            $order_array->LicenseKey = $user->get_dev_setting->account_key;
-            $order_array->InvNumber = $request->get('id');
-            $order_array->Status = $order_status;
+        $client = $this->_client;
 
-            $result = $client->ChangeOrderStatus($order_array);
-            return $result;
+        if ($request->get('financial_status') == 'paid') {
+            $order_status = 0;
+        } else {
+            $order_status = 7;
+        }
+
+        $order_array = (object) array();
+        $order_array->LicenseKey = $user->get_dev_setting->account_key;
+        $order_array->InvNumber = $request->get('id');
+        $order_array->Status = $order_status;
+
+        $result = $client->ChangeOrderStatus($order_array);
+        return $result;
     }
 
     public function test_order(Request $request) {
