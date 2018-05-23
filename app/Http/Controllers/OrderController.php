@@ -113,6 +113,7 @@ class OrderController extends Controller {
                 $order_array->AccountKey = $user->get_dev_setting->account_key;
 
                 $result = $client->OrderDetail($order_array);
+                Log::info('Orders ' . $slug . $order_status);
                 Log::info('Orders ' . $slug . json_encode($result));
                 exit();
             }
@@ -134,6 +135,7 @@ class OrderController extends Controller {
                 $order_array->Status = $order_status;
 
                 $result = $client->ChangeOrderStatus($order_array);
+                Log::info('Orders ' . $slug . $order_status);
                 Log::info('Orders ' . $slug . json_encode($result));
                 exit();
             }
