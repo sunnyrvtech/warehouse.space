@@ -45,7 +45,8 @@ class OrderController extends Controller {
                     Log::info('Orders ' . $slug . json_encode($result));
                     exit();
                 } else if ($slug == "update") {
-                    Log::info('Orders ' . $slug);
+                    $result = $this->changeOrderStatus($request, $user);
+                    Log::info('Orders ' . $slug . json_encode($result));
                     exit();
                 } else if ($slug == "paid" || $slug == "cancelled") {
                     $result = $this->changeOrderStatus($request, $user);
