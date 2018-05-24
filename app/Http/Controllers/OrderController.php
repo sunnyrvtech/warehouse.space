@@ -95,7 +95,7 @@ class OrderController extends Controller {
             $article_array[$key] = (object) array(
                         'Article' => $item_data['sku'],
                         'ArticleDescr' => $item_data['name'],
-                        'ProductId' => $item_data['variant_id'],
+                        'ProductID' => $item_data['variant_id'],
                         'Quantity' => $item_data['quantity']
             );
         }
