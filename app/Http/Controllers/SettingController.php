@@ -58,6 +58,9 @@ class SettingController extends Controller {
 //            'percentage_product' => 'required|max:50',
             ]);
         }
+        
+        
+        die('dddd');
 
         $data['user_id'] = auth()->id();
 
