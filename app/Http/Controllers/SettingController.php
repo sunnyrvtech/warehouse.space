@@ -44,13 +44,14 @@ class SettingController extends Controller {
 
     public function devPostSetting(Request $request) {
         $data = $request->all();
+        $id = auth()->id();
         $this->validate($request, [
-            'warehouse_number' => 'required|max:50',
-            'account_key' => 'required|max:50',
+            'warehouse_number' => 'required|max:50|unique:developer_settings,warehouse_number,' . $id,
+            'account_key' => 'required|max:50|unique:developer_settings,account_key,' . $id,
 //            'percentage_product' => 'required|max:50',
         ]);
 
-        $data['user_id'] = auth()->id();
+        $data['user_id'] = $id;
 
         // it is used to register webhooks that we needed duton product synchronization
         $user = auth()->user();

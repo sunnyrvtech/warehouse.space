@@ -155,34 +155,10 @@ class OrderController extends Controller {
     }
 
     public function test_order(Request $request) {
-        //Log::info('Orders ' . $slug . ':' . json_encode($request->all()));
-        $slug = 'update';
-        $client = $this->_client;
-//        echo "<pre>";
-//        print_r($client);
-//        
-//        die;
-
-        if ($client != null && ($slug == "create" || $slug == "update")) {
-            $shopUrl = 'wsdev01.myshopify.com';
-            $user = User::Where('shop_url', $shopUrl)->first();
-
-            $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
-
-            $orderinfo = $shopify->call(['URL' => 'orders/384264798261.json', 'METHOD' => 'GET']);
-            $orderinfo = $orderinfo->order;
-
-            //     dd($orderinfo);
-
-            $order_array = (object) array();
-            $order_array->WarehouseID = $user->get_dev_setting->warehouse_number;
-            $order_array->LicenseKey = $user->get_dev_setting->account_key;
-            $order_array->InvNumber = $orderinfo->id;
-            $order_array->Status = 7;
-            echo "<pre>";
-            print_r($order_array);
-            die;
-        }
+        
+            $users = User::pluck('shop_url');
+            dd($users);
+    
     }
 
 }
