@@ -44,17 +44,24 @@ class SettingController extends Controller {
 
     public function devPostSetting(Request $request) {
         $data = $request->all();
-        $id = auth()->id();
-        $this->validate($request, [
-            'warehouse_number' => 'required|max:50|unique:developer_settings,warehouse_number,user_id,' . $id,
-            'account_key' => 'required|max:50|unique:developer_settings,account_key,user_id,' . $id,
+        $user = auth()->user();
+        if (!isset($user->get_dev_setting)) {
+            $this->validate($request, [
+                'warehouse_number' => 'required|max:50|unique:developer_settings',
+                'account_key' => 'required|max:50|unique:developer_settings',
+            ]);
+        } else {
+            $id = $user->get_dev_setting->id;
+            $this->validate($request, [
+                'warehouse_number' => 'required|max:50|unique:developer_settings,warehouse_number,' . $id,
+                'account_key' => 'required|max:50|unique:developer_settings,account_key,' . $id,
 //            'percentage_product' => 'required|max:50',
-        ]);
+            ]);
+        }
 
-        $data['user_id'] = $id;
+        $data['user_id'] = auth()->id();
 
         // it is used to register webhooks that we needed duton product synchronization
-        $user = auth()->user();
         $count_webhook = count(json_decode($user->get_webhook->webhook));
         if ($count_webhook == 1)
             $this->registerWebHooks($user);
