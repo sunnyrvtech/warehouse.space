@@ -40,7 +40,7 @@ class OrderController extends Controller {
         $user = User::Where('shop_url', $shopUrl)->first();
         if ($client != null) {
             if (isset($user->get_dev_setting)) {
-                if ($slug == "create" || $slug == "update") {
+                if ($slug == "create") {
                     $result = $this->createOrder($request, $user);
                     Log::info($shopUrl.' Order ' . $slug . json_encode($result));
                     exit();
@@ -131,7 +131,7 @@ class OrderController extends Controller {
         $order_array->ShortCode = "";
         $order_array->Warehouse = $user->get_dev_setting->warehouse_number;
         $order_array->AccountKey = $user->get_dev_setting->account_key;
-         Log::info(' Order update' . json_encode($order_array));
+        Log::info(' Order update' . json_encode($order_array));
         $result = $client->OrderDetail($order_array);
         return $result;
     }
