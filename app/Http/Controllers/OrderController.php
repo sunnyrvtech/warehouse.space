@@ -40,7 +40,7 @@ class OrderController extends Controller {
         $user = User::Where('shop_url', $shopUrl)->first();
         if ($client != null) {
             if (isset($user->get_dev_setting)) {
-                if ($slug == "create") {
+                if ($slug == "create" || $slug == "update") {
                     $result = $this->createOrder($request, $user);
                     Log::info($shopUrl.' Order ' . $slug . json_encode($result));
                     exit();
