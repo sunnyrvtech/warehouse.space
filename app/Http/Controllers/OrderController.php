@@ -40,26 +40,26 @@ class OrderController extends Controller {
         $user = User::Where('shop_url', $shopUrl)->first();
         if ($client != null) {
             if (isset($user->get_dev_setting)) {
-                if ($slug == "create") {
+                if ($slug == "create" || $slug == "update") {
                     $result = $this->createOrder($request, $user);
-                    Log::info('Orders ' . $slug . json_encode($result));
+                    Log::info($shopUrl.' Order ' . $slug . json_encode($result));
                     exit();
                 } else if ($slug == "update") {
-                    Log::info('Orders ' . $slug);
+                    Log::info($shopUrl.' Order ' . $slug);
                     exit();
                 } else if ($slug == "paid" || $slug == "cancelled") {
                     $result = $this->changeOrderStatus($request, $user);
-                    Log::info('Orders ' . $slug . json_encode($result));
+                    Log::info($shopUrl.' Order ' . $slug . json_encode($result));
                     exit();
                 } else {///    this is use to handle delete request
-                    Log::info('Orders ' . $slug);
+                    Log::info($shopUrl.' Order ' . $slug);
                     exit();
                 }
             }
-            Log::info('Orders ' . $slug . 'not saved account setting yet !');
+            Log::info($shopUrl.' Order ' . $slug . 'not saved account setting yet !');
             exit();
         }
-        Log::info('Orders ' . $slug . 'problem in soap client !');
+        Log::info($shopUrl.' Order ' . $slug . 'problem in soap client !');
         exit();
     }
 
@@ -155,10 +155,31 @@ class OrderController extends Controller {
     }
 
     public function test_order(Request $request) {
-        
-            $users = User::pluck('shop_url');
-            dd($users);
-    
+  $client = $this->_client;
+        $users = User::has('get_dev_setting')->whereNull('role_id')->get(array('id', 'shop_url', 'access_token'));
+
+        foreach ($users as $user) {
+            $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
+            $orders = $shopify->call(['URL' => 'orders.json?financial_status=paid', 'METHOD' => 'GET']);
+            
+            
+            dd($orders);
+            if ($orders->orders) {
+                $warehouse = array();
+                foreach ($orders->orders as $key => $order) {
+                    $warehouse[$key] = $order->id;
+                }
+                $request_array = (object) array();
+                $request_array->AccountKey = $user->get_dev_setting->account_key;
+                $request_array->ListInvNumbers = $warehouse;
+echo "<pre>";
+print_r($request_array);
+                $result = $client->GetOrderShipmentInfo($request_array);
+                echo "<pre>";
+                print_r($result);
+                die;
+            }
+        }
     }
 
 }

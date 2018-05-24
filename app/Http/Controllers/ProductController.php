@@ -49,8 +49,8 @@ class ProductController extends Controller {
 
     public function handleProducts(Request $request, $slug) {
         $client = $this->_client;
+        $shopUrl = $request->headers->get('x-shopify-shop-domain');
         if ($client != null && ($slug == "create" || $slug == "update")) {
-            $shopUrl = $request->headers->get('x-shopify-shop-domain');
             $user = User::Where('shop_url', $shopUrl)->first();
             if (isset($user->get_dev_setting)) {
                 $product_images = array_column($request->get('images'), 'src');
@@ -92,14 +92,14 @@ class ProductController extends Controller {
                 $final_product_array->ArticlesList = $product_array;
 
                 $result = $client->MaterialBulk($final_product_array);
-                Log::info('Products ' . $slug . $result->MaterialBulkResult);
+                Log::info($shopUrl . ' Product ' . $slug . $result->MaterialBulkResult);
                 exit();
             }
-            Log::info('Products ' . $slug . 'not saved account setting yet !');
+            Log::info($shopUrl . ' Product ' . $slug . 'not saved account setting yet !');
             exit();
         } else {
             if ($slug != "delete")
-                Log::info('Products ' . $slug . 'problem in soap client !');
+                Log::info($shopUrl . ' Product ' . $slug . 'problem in soap client !');
             exit();
         }
     }
