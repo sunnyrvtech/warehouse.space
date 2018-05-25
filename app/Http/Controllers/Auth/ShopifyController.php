@@ -23,6 +23,10 @@ class ShopifyController extends Controller {
         if (!$shopUrl) {
             return 404;
         }
+        
+        
+        
+        die('hello');
 
         $user = User::Where('shop_url', $shopUrl);
 
