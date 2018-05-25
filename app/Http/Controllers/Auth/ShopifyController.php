@@ -19,12 +19,16 @@ class ShopifyController extends Controller {
     public function installShop(Request $request) {
         $shopUrl = $request->get('shop');
         
-        
-        dd($request->all());
-
         if (!$shopUrl) {
             return 404;
         }
+        
+        if($request->get('model') == 'order_details'){
+            return view('order_details');
+        }
+        
+        
+        
         $user = User::Where('shop_url', $shopUrl);
         if ($user->count() > 0) {
             //if (!auth()->check()) {
