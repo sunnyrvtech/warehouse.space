@@ -18,7 +18,7 @@ class Hmac {
         
         
         
-        dd($request->all());
+        dd($request->route()->parameters());
         
         
         
