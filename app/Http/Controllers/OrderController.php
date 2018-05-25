@@ -157,10 +157,10 @@ class OrderController extends Controller {
         return $result;
     }
 
-    public function orderDetails(Request $request, $id) {
+    public function orderDetails(Request $request, $id,$shop_url) {
         
         
-        dd($id);
+        dd($shop_url);
         
         return view('order_detail');
     }
