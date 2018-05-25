@@ -19,8 +19,8 @@ class Hmac {
         if($request->route()->parameters('slug')){
             
             echo "<pre>";
-            print_r($request->route()->parameters());
-            
+            $slug = $request->route()->parameters()['slug'];
+            dd($slug);
             die;
             
             //$slug = json_decode(base64_decode($request->route()->parameters('slug')));
