@@ -28,8 +28,6 @@ class ShopifyController extends Controller {
 
         if ($user->count() > 0) {
             $check_request = $this->verfifyHMACrequest();
-                 return redirect()->route('warehouse.order.details', ['id' => $request->get('id'), 'shop_url' => $shopUrl]);
-               
             if ($check_request)
                 if ($request->get('model') == 'order_details')
                     return redirect()->route('warehouse.order.details', ['id' => $request->get('id'), 'shop_url' => $shopUrl]);
