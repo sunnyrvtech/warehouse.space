@@ -35,6 +35,7 @@ class OrderController extends Controller {
     }
 
     public function handleOrders(Request $request, $slug) {
+        exit();
         //Log::info('Orders ' . $slug . ':' . json_encode($request->all()));
         $client = $this->_client;
         $shopUrl = $request->headers->get('x-shopify-shop-domain');
@@ -159,24 +160,16 @@ class OrderController extends Controller {
 
     public function test_order(Request $request) {
         $client = $this->_client;
-        $users = User::has('get_dev_setting')->whereNull('role_id')->get(array('id', 'shop_url', 'access_token'));
+        $orders = Order::groupBy('shop_url')->get();
+//$shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
 
-        foreach ($users as $user) {
-            $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
-            $orders = $shopify->call(['URL' => 'orders.json?financial_status=paid', 'METHOD' => 'GET']);
-
-
-            // dd($orders);
-            if ($orders->orders) {
-                $warehouse = array();
-                foreach ($orders->orders as $key => $order) {
-                    $warehouse[$key] = $order->id;
-                }
+        if ($orders->toArray()) {
+            foreach ($orders as $order) {
+                $order_ids = Order::Where('shop_url','=',$order->shop_url)->pluck('order_id')->toArray();
                 $request_array = (object) array();
-                $request_array->AccountKey = $user->get_dev_setting->account_key;
-                $request_array->ListInvNumbers = $warehouse;
-//echo "<pre>";
-//print_r($request_array);
+                $request_array->AccountKey = $order->account_key;
+                $request_array->ListInvNumbers = $order_ids;
+                //dd($request_array);
                 $result = $client->GetOrderShipmentInfo($request_array);
                 echo "<pre>";
                 print_r($result);
