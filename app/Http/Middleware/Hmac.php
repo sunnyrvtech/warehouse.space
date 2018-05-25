@@ -18,8 +18,8 @@ class Hmac {
         
         if($request->route()->parameters('slug')){
             
-            
-           dd($request->route()->parameters());
+            echo "<pre>";
+            print_r($request->route()->parameters());
             
             die;
             
