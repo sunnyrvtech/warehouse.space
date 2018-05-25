@@ -44,6 +44,7 @@ class OrderController extends Controller {
             if (isset($user->get_dev_setting)) {
                 if ($slug == "create") {
                     $result = $this->createOrder($request, $user);
+                    Order::create(array('shop_url' => $shopUrl, 'account_key' => $user->get_dev_setting->account_key, 'order_id' => $request->get('id')));
                     Log::info($shopUrl . ' Order ' . $slug . json_encode($result));
                     exit();
                 } else if ($slug == "update") {
@@ -51,8 +52,6 @@ class OrderController extends Controller {
                     exit();
                 } else if ($slug == "paid" || $slug == "cancelled") {
                     $result = $this->changeOrderStatus($request, $user);
-                    if ($slug == "paid")
-                        Order::create(array('shop_url' => $shopUrl, 'account_key' => $user->get_dev_setting->account_key, 'order_id' => $request->get('id')));
                     Log::info($shopUrl . ' Order ' . $slug . json_encode($result));
                     exit();
                 } else {///    this is use to handle delete request
