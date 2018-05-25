@@ -134,7 +134,6 @@ class ShopifyController extends Controller {
 
         if (!$user->get_webhook)
             $this->registerUninstallWebHook($user);
-        auth()->login($user);
         return redirect()->to('/dashboard');
     }
 

@@ -14,15 +14,7 @@ class Hmac {
      * @return mixed
      */
     public function handle($request, Closure $next) {
-        
-        
-        
-        
-        dd($request->route()->parameters());
-        
-        
-        
-        
+
         $params = array();
         foreach ($_GET as $param => $value) {
             if ($param != 'signature' && $param != 'hmac') {
@@ -37,6 +29,10 @@ class Hmac {
 //        echo $hmac, '<br>';
 //        echo $calculatedHmac;
         if ($hmac == $calculatedHmac) {
+
+            $shop_url = $request->route()->parameters('shop_url');
+            $user = User::Where('shop_url', $shop_url)->first();
+            auth()->login($user);
             return $next($request);
         }
         return redirect()->to('/');
