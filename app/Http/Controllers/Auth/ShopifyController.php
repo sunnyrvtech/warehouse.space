@@ -26,10 +26,6 @@ class ShopifyController extends Controller {
 
         $user = User::Where('shop_url', $shopUrl);
 
-        if ($request->get('model') == 'order_details') {
-            return view('order_detail');
-        }
-
         if ($user->count() > 0) {
             $check_request = $this->verfifyHMACrequest();
             if ($check_request)
