@@ -20,40 +20,7 @@ class ShopifyController extends Controller {
         $shopUrl = $request->get('shop');
         
         
-
- 
- 
-
-  $ar= [];
-  $hmac = $request->get('hmac');
-
- 
-  foreach($_GET as $key=>$value){
- 
-    $key=str_replace("%","%25",$key);
-    $key=str_replace("&","%26",$key);
-    $key=str_replace("=","%3D",$key);
-    $value=str_replace("%","%25",$value);
-    $value=str_replace("&","%26",$value);
-     
-    $ar[] = $key."=".$value;
-  }
-  
-  
-
-  $str = join('&',$ar);
-  $ver_hmac =  hash_hmac('sha256',$str,env('SHOPIFY_APP_SECRET'),true);
- 
-  if($ver_hmac==$hmac)
-  {
-    echo 'hmac verified';
-  }
- 
-
-        die;
-        
-        
-        
+        dd($request->all());
         
         if (!$shopUrl) {
             return 404;
