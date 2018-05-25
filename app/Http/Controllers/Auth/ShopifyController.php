@@ -28,12 +28,8 @@ class ShopifyController extends Controller {
         $user = User::Where('shop_url', $shopUrl);
 
         if ($user->count() > 0) {
-            $check_request = $this->verfifyHMACrequest();
             $slug = base64_encode(json_encode($request->all()));
-            if ($check_request)
-                return redirect()->route('authenticate', $slug);
-            else
-                return 404;
+            return redirect()->route('authenticate', $slug);
         }
         return $this->doAuth($shopUrl);
     }
@@ -139,26 +135,6 @@ class ShopifyController extends Controller {
             return redirect()->route('warehouse.order.details', $slug);
         }
         return redirect()->to('/dashboard');
-    }
-
-    public function verfifyHMACrequest() {
-        $params = array();
-        foreach ($_GET as $param => $value) {
-            if ($param != 'signature' && $param != 'hmac') {
-                $params[$param] = "{$param}={$value}";
-            }
-        }
-        asort($params);
-        $params = implode('&', $params);
-        $hmac = isset($_GET['hmac']) ? $_GET['hmac'] : '';
-        $calculatedHmac = hash_hmac('sha256', $params, env('SHOPIFY_APP_SECRET'));
-
-//        echo $hmac, '<br>';
-//        echo $calculatedHmac;
-        if ($hmac == $calculatedHmac) {
-            return true;
-        }
-        return false;
     }
 
 }
