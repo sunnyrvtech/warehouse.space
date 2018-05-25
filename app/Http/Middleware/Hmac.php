@@ -16,17 +16,13 @@ class Hmac {
     public function handle($request, Closure $next) {
         
         
-        if($request->route()->parameters('slug')){
+        if(isset($request->route()->parameters()['slug'])){
             
-            echo "<pre>";
-            $slug = $request->route()->parameters()['slug'];
+            
+            $slug = json_decode(base64_decode($request->route()->parameters()['slug']));
+            
+            
             dd($slug);
-            die;
-            
-            //$slug = json_decode(base64_decode($request->route()->parameters('slug')));
-            
-            
-           // dd($slug);
             
         }
         
