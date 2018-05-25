@@ -30,10 +30,6 @@ class ShopifyController extends Controller {
             $check_request = $this->verfifyHMACrequest();
             
             session()->put('request_data',$request->all());
-            
-            
-            dd(session()->get('request_data'));
-            
             if ($check_request)
                 return redirect()->route('authenticate', $shopUrl);
             else
