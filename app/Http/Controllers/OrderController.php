@@ -7,6 +7,7 @@ use Log;
 use SoapClient;
 use SoapFault;
 use App\User;
+use App\Order;
 use App;
 
 class OrderController extends Controller {
@@ -42,24 +43,26 @@ class OrderController extends Controller {
             if (isset($user->get_dev_setting)) {
                 if ($slug == "create") {
                     $result = $this->createOrder($request, $user);
-                    Log::info($shopUrl.' Order ' . $slug . json_encode($result));
+                    Log::info($shopUrl . ' Order ' . $slug . json_encode($result));
                     exit();
                 } else if ($slug == "update") {
-                    Log::info($shopUrl.' Order ' . $slug);
+                    Log::info($shopUrl . ' Order ' . $slug);
                     exit();
                 } else if ($slug == "paid" || $slug == "cancelled") {
                     $result = $this->changeOrderStatus($request, $user);
-                    Log::info($shopUrl.' Order ' . $slug . json_encode($result));
+                    if ($slug == "paid")
+                        Order::create(array('shop_url' => $shopUrl, 'account_key' => $user->get_dev_setting->account_key, 'order_id' => $request->get('id')));
+                    Log::info($shopUrl . ' Order ' . $slug . json_encode($result));
                     exit();
                 } else {///    this is use to handle delete request
-                    Log::info($shopUrl.' Order ' . $slug);
+                    Log::info($shopUrl . ' Order ' . $slug);
                     exit();
                 }
             }
-            Log::info($shopUrl.' Order ' . $slug . 'not saved account setting yet !');
+            Log::info($shopUrl . ' Order ' . $slug . 'not saved account setting yet !');
             exit();
         }
-        Log::info($shopUrl.' Order ' . $slug . 'problem in soap client !');
+        Log::info($shopUrl . ' Order ' . $slug . 'problem in soap client !');
         exit();
     }
 
@@ -155,15 +158,15 @@ class OrderController extends Controller {
     }
 
     public function test_order(Request $request) {
-  $client = $this->_client;
+        $client = $this->_client;
         $users = User::has('get_dev_setting')->whereNull('role_id')->get(array('id', 'shop_url', 'access_token'));
 
         foreach ($users as $user) {
             $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
             $orders = $shopify->call(['URL' => 'orders.json?financial_status=paid', 'METHOD' => 'GET']);
-            
-            
-            dd($orders);
+
+
+            // dd($orders);
             if ($orders->orders) {
                 $warehouse = array();
                 foreach ($orders->orders as $key => $order) {
@@ -172,8 +175,8 @@ class OrderController extends Controller {
                 $request_array = (object) array();
                 $request_array->AccountKey = $user->get_dev_setting->account_key;
                 $request_array->ListInvNumbers = $warehouse;
-echo "<pre>";
-print_r($request_array);
+//echo "<pre>";
+//print_r($request_array);
                 $result = $client->GetOrderShipmentInfo($request_array);
                 echo "<pre>";
                 print_r($result);
