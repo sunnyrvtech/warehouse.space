@@ -19,9 +19,23 @@ class ShopifyController extends Controller {
     public function installShop(Request $request) {
         $shopUrl = $request->get('shop');
         
+        
+        
+        $http = urldecode(http_build_query($request->all()));
+ $test = hash_hmac('sha256', $http, env('SHOPIFY_APP_SECRET'));
+ 
+ 
+ dd($test);
+        
+        
+        
+        
+        
         if (!$shopUrl) {
             return 404;
         }
+
+        $user = User::Where('shop_url', $shopUrl);
         
         if($request->get('model') == 'order_details'){
             return view('order_detail');
@@ -29,7 +43,9 @@ class ShopifyController extends Controller {
         
         
         
-        $user = User::Where('shop_url', $shopUrl);
+        
+        
+        
         if ($user->count() > 0) {
             //if (!auth()->check()) {
                 return redirect()->route('authenticate', $shopUrl);
