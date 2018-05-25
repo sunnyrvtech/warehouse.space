@@ -31,20 +31,14 @@ class Hmac {
             $hmac = $shopify_parameter->hmac;
             $calculatedHmac = hash_hmac('sha256', $params, env('SHOPIFY_APP_SECRET'));
 
-//        echo $hmac, '<br>';
-//        echo $calculatedHmac;
             if ($hmac == $calculatedHmac) {
-die('hello');
-//            $shop_url = $request->route()->parameters('shop_url');
-//            $user = User::Where('shop_url', $shop_url)->first();
-//            auth()->login($user);
-//            return $next($request);
+                $shop_url = $request->route()->parameters('shop_url');
+                $user = User::Where('shop_url', $shop_url)->first();
+                auth()->login($user);
+                return $next($request);
             }
             return redirect()->to('/');
         }
-
-
-
         return $next($request);
     }
 
