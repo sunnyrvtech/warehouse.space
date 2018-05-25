@@ -19,15 +19,28 @@ class ShopifyController extends Controller {
     public function installShop(Request $request) {
         $shopUrl = $request->get('shop');
 
+
         if (!$shopUrl) {
             return 404;
         }
+        
+        
+        
+        die('hello');
+
         $user = User::Where('shop_url', $shopUrl);
+
         if ($user->count() > 0) {
-            //if (!auth()->check()) {
-                return redirect()->route('authenticate', $shopUrl);
-            //}
-            //return redirect()->to('/dashboard');
+            $check_request = $this->verfifyHMACrequest();
+                 return redirect()->route('warehouse.order.details', ['id' => $request->get('id'), 'shop_url' => $shopUrl]);
+               
+            if ($check_request)
+                //if ($request->get('model') == 'order_details')
+                  //  return redirect()->route('warehouse.order.details', ['id' => $request->get('id'), 'shop_url' => $shopUrl]);
+               // else
+                    return redirect()->route('authenticate', $shopUrl);
+            else
+                return 404;
         }
         return $this->doAuth($shopUrl);
     }
@@ -124,11 +137,31 @@ class ShopifyController extends Controller {
 
     public function storeAuthenticate(Request $request, $shop_url) {
         $user = User::Where('shop_url', $shop_url)->first();
-        
+
         if (!$user->get_webhook)
             $this->registerUninstallWebHook($user);
         auth()->login($user);
         return redirect()->to('/dashboard');
+    }
+
+    public function verfifyHMACrequest() {
+        $params = array();
+        foreach ($_GET as $param => $value) {
+            if ($param != 'signature' && $param != 'hmac') {
+                $params[$param] = "{$param}={$value}";
+            }
+        }
+        asort($params);
+        $params = implode('&', $params);
+        $hmac = isset($_GET['hmac']) ? $_GET['hmac'] : '';
+        $calculatedHmac = hash_hmac('sha256', $params, env('SHOPIFY_APP_SECRET'));
+
+//        echo $hmac, '<br>';
+//        echo $calculatedHmac;
+        if ($hmac == $calculatedHmac) {
+            return true;
+        }
+        return false;
     }
 
 }
