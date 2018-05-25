@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use App\User;
 
 class Hmac {
 
@@ -33,6 +34,10 @@ class Hmac {
 
             if ($hmac == $calculatedHmac) {
                 $shop_url = $request->route()->parameters('shop_url');
+                
+                echo $shop_url;
+                die;
+                
                 $user = User::Where('shop_url', $shop_url)->first();
                 auth()->login($user);
                 return $next($request);
