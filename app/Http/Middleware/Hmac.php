@@ -19,7 +19,7 @@ class Hmac {
         if($request->route()->parameters('slug')){
             
             
-            echo $request->route()->parameters('slug');
+           dd($request->route()->parameters());
             
             die;
             
