@@ -22,26 +22,19 @@ class ShopifyController extends Controller {
 
         if (!$shopUrl) {
             return 404;
-        }
-        
-        
-        dd(base64_encode(json_encode($request->all())));
-        
-        
-        
-        
-        
+        }        
         
 
         $user = User::Where('shop_url', $shopUrl);
 
         if ($user->count() > 0) {
             $check_request = $this->verfifyHMACrequest();
+            $slug = base64_encode(json_encode($request->all()));
             if ($check_request)
                 if ($request->get('model') == 'order_details')
-                    return redirect()->route('warehouse.order.details', ['id' => $request->get('id'), 'shop_url' => $shopUrl]);
+                    return redirect()->route('warehouse.order.details', $slug);
                 else
-                    return redirect()->route('authenticate', $shopUrl);
+                    return redirect()->route('authenticate', $slug);
             else
                 return 404;
         }
@@ -138,7 +131,7 @@ class ShopifyController extends Controller {
         dd($webhookinfo);
     }
 
-    public function storeAuthenticate(Request $request, $shop_url) {
+    public function storeAuthenticate(Request $request, $slug) {
         $user = User::Where('shop_url', $shop_url)->first();
 
         if (!$user->get_webhook)

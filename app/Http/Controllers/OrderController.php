@@ -157,7 +157,7 @@ class OrderController extends Controller {
         return $result;
     }
 
-    public function orderDetails(Request $request, $id,$shop_url) {
+    public function orderDetails(Request $request, $slug) {
         
         
         dd($shop_url);

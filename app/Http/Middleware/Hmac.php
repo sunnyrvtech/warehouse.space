@@ -14,6 +14,12 @@ class Hmac {
      * @return mixed
      */
     public function handle($request, Closure $next) {
+        
+        
+        dd($request->route()->parameters());
+        
+        
+        
 
         $params = array();
         foreach ($_GET as $param => $value) {
