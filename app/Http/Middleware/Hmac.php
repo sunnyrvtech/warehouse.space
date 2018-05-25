@@ -16,9 +16,17 @@ class Hmac {
     public function handle($request, Closure $next) {
         
         
-        dd($request->route()->parameters());
+        if($request->route()->parameters('slug')){
+            $slug = json_decode(base64_decode($request->route()->parameters('slug')));
+            
+            
+            dd($slug);
+            
+        }
         
+        die('ddd');
         
+        return $next($request);
         
 
         $params = array();
