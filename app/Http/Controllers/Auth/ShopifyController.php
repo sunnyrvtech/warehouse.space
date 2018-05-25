@@ -132,7 +132,8 @@ class ShopifyController extends Controller {
     }
 
     public function storeAuthenticate(Request $request, $slug) {
-        $user = User::Where('shop_url', $shop_url)->first();
+        $shopify_parameter = json_decode(base64_decode($slug));
+        $user = User::Where('shop_url', $shopify_parameter->shop)->first();
 
         if (!$user->get_webhook)
             $this->registerUninstallWebHook($user);
