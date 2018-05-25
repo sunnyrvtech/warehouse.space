@@ -40,11 +40,9 @@ class ShopifyController extends Controller {
   }
   
   
-  dd($ar);
-  
- 
+
   $str = join('&',$ar);
-  $ver_hmac =  hash_hmac('sha256',$str,env('SHOPIFY_APP_SECRET'),false);
+  $ver_hmac =  hash_hmac('sha256',$str,env('SHOPIFY_APP_SECRET'),true);
  
   if($ver_hmac==$hmac)
   {
