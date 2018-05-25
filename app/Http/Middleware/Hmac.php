@@ -16,11 +16,8 @@ class Hmac {
      */
     public function handle($request, Closure $next) {
 
-
-        if (isset($request->route()->parameters()['slug'])) {
-
-            $shopify_parameter = json_decode(base64_decode($request->route()->parameters()['slug']));
-
+        $shopify_parameter = json_decode(base64_decode($request->route()->parameters()['slug']));
+        if ($shopify_parameter) {
             $params = array();
             foreach ($shopify_parameter as $param => $value) {
                 if ($param != 'signature' && $param != 'hmac') {
@@ -40,7 +37,7 @@ class Hmac {
             }
             return redirect()->to('/');
         }
-        return $next($request);
+        return redirect()->to('/');
     }
 
 }
