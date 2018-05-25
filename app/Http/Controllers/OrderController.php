@@ -156,9 +156,9 @@ class OrderController extends Controller {
         $result = $client->ChangeOrderStatus($order_array);
         return $result;
     }
-    
-    public function orderDetails(Request $request){
-         return view('order_detail');
+
+    public function orderDetails(Request $request, $id) {
+        return view('order_detail');
     }
 
     public function test_order(Request $request) {
@@ -168,7 +168,7 @@ class OrderController extends Controller {
 
         if ($orders->toArray()) {
             foreach ($orders as $order) {
-                $order_ids = Order::Where('shop_url','=',$order->shop_url)->pluck('order_id')->toArray();
+                $order_ids = Order::Where('shop_url', '=', $order->shop_url)->pluck('order_id')->toArray();
                 $request_array = (object) array();
                 $request_array->AccountKey = $order->account_key;
                 $request_array->ListInvNumbers = $order_ids;

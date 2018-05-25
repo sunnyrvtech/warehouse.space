@@ -18,56 +18,24 @@ class ShopifyController extends Controller {
 
     public function installShop(Request $request) {
         $shopUrl = $request->get('shop');
-        
-        
-     //   dd($request->all());
-        
-        
-        
-        $params = array();
 
-	foreach($_GET as $param => $value) {
-	    if ($param != 'signature' && $param != 'hmac') {
-		$params[$param] = "{$param}={$value}";
-	    }
-	}
 
-	asort($params);
-
-	$params = implode('&', $params);
-	$hmac = $_GET['hmac'];
-	$calculatedHmac = hash_hmac('sha256', $params, env('SHOPIFY_APP_SECRET'));
-
-	echo $hmac,'<br>';
-        echo $calculatedHmac;
-        
-        die;
-        
-        
-        
-        
-        
-        
         if (!$shopUrl) {
             return 404;
         }
 
         $user = User::Where('shop_url', $shopUrl);
-        
-        if($request->get('model') == 'order_details'){
+
+        if ($request->get('model') == 'order_details') {
             return view('order_detail');
         }
-        
-        
-        
-        
-        
-        
+
         if ($user->count() > 0) {
-            //if (!auth()->check()) {
+            $check_request = $this->verfifyHMACrequest();
+            if ($check_request)
                 return redirect()->route('authenticate', $shopUrl);
-            //}
-            //return redirect()->to('/dashboard');
+            else
+                return 404;
         }
         return $this->doAuth($shopUrl);
     }
@@ -164,11 +132,35 @@ class ShopifyController extends Controller {
 
     public function storeAuthenticate(Request $request, $shop_url) {
         $user = User::Where('shop_url', $shop_url)->first();
-        
+
         if (!$user->get_webhook)
             $this->registerUninstallWebHook($user);
         auth()->login($user);
-        return redirect()->to('/dashboard');
+
+        if ($request->get('model') == 'order_details')
+            return redirect()->route('warehouse.order.details',$request->get('id'));
+        else
+            return redirect()->to('/dashboard');
+    }
+
+    public function verfifyHMACrequest() {
+        $params = array();
+        foreach ($_GET as $param => $value) {
+            if ($param != 'signature' && $param != 'hmac') {
+                $params[$param] = "{$param}={$value}";
+            }
+        }
+        asort($params);
+        $params = implode('&', $params);
+        $hmac = isset($_GET['hmac']) ? $_GET['hmac'] : '';
+        $calculatedHmac = hash_hmac('sha256', $params, env('SHOPIFY_APP_SECRET'));
+
+//        echo $hmac, '<br>';
+//        echo $calculatedHmac;
+        if ($hmac == $calculatedHmac) {
+            return true;
+        }
+        return false;
     }
 
 }
