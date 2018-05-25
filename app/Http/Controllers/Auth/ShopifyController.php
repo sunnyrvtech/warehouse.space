@@ -28,7 +28,7 @@ class ShopifyController extends Controller {
   $hmac = $request->get('hmac');
 
  
-  foreach($request->all() as $key=>$value){
+  foreach($_GET as $key=>$value){
  
     $key=str_replace("%","%25",$key);
     $key=str_replace("&","%26",$key);
