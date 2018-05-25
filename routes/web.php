@@ -19,7 +19,7 @@ Route::get('login', function () {
 });
 Route::post('login', 'Auth\LoginController@login')->name('login');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
-
+Route::get('/order_details', 'Auth\OrderController@orderDetails')->name('order_details');   
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard', 'Auth\ShopifyController@index')->name('dashboard');
     Route::get('warehouse/setting', 'SettingController@warehouseSetting')->name('warehouse.setting');

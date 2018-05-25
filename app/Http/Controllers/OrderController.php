@@ -157,6 +157,10 @@ class OrderController extends Controller {
         $result = $client->ChangeOrderStatus($order_array);
         return $result;
     }
+    
+    public function orderDetails(Request $request){
+         return view('order_detail');
+    }
 
     public function test_order(Request $request) {
         $client = $this->_client;
