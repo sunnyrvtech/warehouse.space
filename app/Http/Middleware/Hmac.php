@@ -17,10 +17,16 @@ class Hmac {
         
         
         if($request->route()->parameters('slug')){
-            $slug = json_decode(base64_decode($request->route()->parameters('slug')));
             
             
-            dd($slug);
+            echo $request->route()->parameters('slug');
+            
+            die;
+            
+            //$slug = json_decode(base64_decode($request->route()->parameters('slug')));
+            
+            
+           // dd($slug);
             
         }
         
