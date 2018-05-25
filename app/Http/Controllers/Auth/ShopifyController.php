@@ -20,7 +20,7 @@ class ShopifyController extends Controller {
         $shopUrl = $request->get('shop');
         
         
-        dd($request->all());
+     //   dd($request->all());
         
         
         
