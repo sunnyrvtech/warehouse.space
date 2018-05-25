@@ -18,6 +18,9 @@ class ShopifyController extends Controller {
 
     public function installShop(Request $request) {
         $shopUrl = $request->get('shop');
+        
+        
+        dd($request->all());
 
         if (!$shopUrl) {
             return 404;

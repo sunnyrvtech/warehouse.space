@@ -18,8 +18,7 @@ Route::get('login', function () {
     return view('welcome');
 });
 Route::post('login', 'Auth\LoginController@login')->name('login');
-Route::get('logout', 'Auth\LoginController@logout')->name('logout');
-Route::get('/order_details', 'OrderController@orderDetails')->name('order_details');   
+Route::get('logout', 'Auth\LoginController@logout')->name('logout');  
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard', 'Auth\ShopifyController@index')->name('dashboard');
     Route::get('warehouse/setting', 'SettingController@warehouseSetting')->name('warehouse.setting');
