@@ -28,6 +28,8 @@ class ShopifyController extends Controller {
 
         if ($user->count() > 0) {
             $check_request = $this->verfifyHMACrequest();
+            
+            session()->put('request_data',$request->all());
             if ($check_request)
                 return redirect()->route('authenticate', $shopUrl);
             else
@@ -128,6 +130,9 @@ class ShopifyController extends Controller {
 
     public function storeAuthenticate(Request $request, $shop_url) {
         $user = User::Where('shop_url', $shop_url)->first();
+        
+        
+        dd(session()->get('request_data'));
 
         if (!$user->get_webhook)
             $this->registerUninstallWebHook($user);
