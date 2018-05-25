@@ -23,10 +23,6 @@ class ShopifyController extends Controller {
         if (!$shopUrl) {
             return 404;
         }
-        
-        
-        
-        die('hello');
 
         $user = User::Where('shop_url', $shopUrl);
 
@@ -35,9 +31,9 @@ class ShopifyController extends Controller {
                  return redirect()->route('warehouse.order.details', ['id' => $request->get('id'), 'shop_url' => $shopUrl]);
                
             if ($check_request)
-                //if ($request->get('model') == 'order_details')
-                  //  return redirect()->route('warehouse.order.details', ['id' => $request->get('id'), 'shop_url' => $shopUrl]);
-               // else
+                if ($request->get('model') == 'order_details')
+                    return redirect()->route('warehouse.order.details', ['id' => $request->get('id'), 'shop_url' => $shopUrl]);
+                else
                     return redirect()->route('authenticate', $shopUrl);
             else
                 return 404;
