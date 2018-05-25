@@ -20,7 +20,7 @@ class Hmac {
         if (isset($request->route()->parameters()['slug'])) {
 
             $shopify_parameter = json_decode(base64_decode($request->route()->parameters()['slug']));
-
+            dd($shopify_parameter);
             $params = array();
             foreach ($shopify_parameter as $param => $value) {
                 if ($param != 'signature' && $param != 'hmac') {
