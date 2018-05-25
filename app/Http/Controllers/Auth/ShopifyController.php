@@ -28,10 +28,11 @@ class ShopifyController extends Controller {
 
         if ($user->count() > 0) {
             $check_request = $this->verfifyHMACrequest();
-            
-            session()->put('request_data',$request->all());
             if ($check_request)
-                return redirect()->route('authenticate', $shopUrl);
+                if ($request->get('model') == 'order_details')
+                      return view('order_detail');
+                else
+                    return redirect()->route('authenticate', $shopUrl);
             else
                 return 404;
         }
@@ -130,18 +131,11 @@ class ShopifyController extends Controller {
 
     public function storeAuthenticate(Request $request, $shop_url) {
         $user = User::Where('shop_url', $shop_url)->first();
-        
-        
-        dd(session()->get('request_data'));
 
         if (!$user->get_webhook)
             $this->registerUninstallWebHook($user);
         auth()->login($user);
-
-        if ($request->get('model') == 'order_details')
-            return redirect()->route('warehouse.order.details',$request->get('id'));
-        else
-            return redirect()->to('/dashboard');
+        return redirect()->to('/dashboard');
     }
 
     public function verfifyHMACrequest() {
