@@ -20,7 +20,7 @@ class Hmac {
         if (isset($request->route()->parameters()['slug'])) {
 
             $shopify_parameter = json_decode(base64_decode($request->route()->parameters()['slug']));
-            dd($shopify_parameter);
+
             $params = array();
             foreach ($shopify_parameter as $param => $value) {
                 if ($param != 'signature' && $param != 'hmac') {
@@ -33,11 +33,7 @@ class Hmac {
             $calculatedHmac = hash_hmac('sha256', $params, env('SHOPIFY_APP_SECRET'));
 
             if ($hmac == $calculatedHmac) {
-                $shop_url = $request->route()->parameters('shop_url');
-                
-                echo $shop_url;
-                die;
-                
+                $shop_url = $shopify_parameter->shop;
                 $user = User::Where('shop_url', $shop_url)->first();
                 auth()->login($user);
                 return $next($request);
