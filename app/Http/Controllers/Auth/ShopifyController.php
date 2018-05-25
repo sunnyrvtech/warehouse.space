@@ -38,6 +38,10 @@ class ShopifyController extends Controller {
      
     $ar[] = $key."=".$value;
   }
+  
+  
+  dd($ar);
+  
  
   $str = join('&',$ar);
   $ver_hmac =  hash_hmac('sha256',$str,env('SHOPIFY_APP_SECRET'),false);
