@@ -24,7 +24,7 @@ class ShopifyController extends Controller {
         }
         
         if($request->get('model') == 'order_details'){
-            return view('order_details');
+            return view('order_detail');
         }
         
         
