@@ -38,7 +38,7 @@ class ShopifyController extends Controller {
 	$hmac = $_GET['hmac'];
 	$calculatedHmac = hash_hmac('sha256', $params, env('SHOPIFY_APP_SECRET'));
 
-	echo $hmac,',br>';
+	echo $hmac,'<br>';
         echo $calculatedHmac;
         
         die;
