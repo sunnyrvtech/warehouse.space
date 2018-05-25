@@ -25,7 +25,7 @@ class ShopifyController extends Controller {
         }
         
         
-        dd($request->all());
+        dd(base64_encode($request->all()));
         
         
         
