@@ -22,6 +22,32 @@ class ShopifyController extends Controller {
         
         dd($request->all());
         
+        
+        
+        $params = array();
+
+	foreach($_GET as $param => $value) {
+	    if ($param != 'signature' && $param != 'hmac') {
+		$params[$param] = "{$param}={$value}";
+	    }
+	}
+
+	asort($params);
+
+	$params = implode('&', $params);
+	$hmac = $_GET['hmac'];
+	$calculatedHmac = hash_hmac('sha256', $params, $this->myClientSharedSecret);
+
+	echo $hmac,',br>';
+        echo $calculatedHmac;
+        
+        die;
+        
+        
+        
+        
+        
+        
         if (!$shopUrl) {
             return 404;
         }
