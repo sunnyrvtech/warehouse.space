@@ -28,9 +28,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('warehouse/product/sync', 'ProductController@synchronizeProducts')->name('warehouse.product.sync');
     Route::get('warehouse/order/test', 'OrderController@test_order');
 });
-
+Route::get('aunthenticate/{shop_url}', 'Auth\ShopifyController@storeAuthenticate')->name('authenticate');
+    
 Route::group(['middleware' => 'Hmac'], function () {
-    Route::get('aunthenticate/{shop_url}', 'Auth\ShopifyController@storeAuthenticate')->name('authenticate');
     Route::get('warehouse/order/details/{id}/{shop_url}', 'OrderController@orderDetails')->name('warehouse.order.details');
 });
 Route::group(['prefix' => 'admin_warehouse', 'middleware' => 'IsAdmin'], function () {
