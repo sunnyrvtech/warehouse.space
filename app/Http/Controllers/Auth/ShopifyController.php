@@ -130,14 +130,14 @@ class ShopifyController extends Controller {
 
     public function storeAuthenticate(Request $request, $slug) {
         $shopify_parameter = json_decode(base64_decode($slug));
-        
-        dd($shopify_parameter);
-        
-        
         $user = User::Where('shop_url', $shopify_parameter->shop)->first();
 
         if (!$user->get_webhook)
             $this->registerUninstallWebHook($user);
+
+        if (isset($shopify_parameter->model) && $shopify_parameter->model == 'order_details') {
+            return redirect()->route('warehouse.order.details', $slug);
+        }
         return redirect()->to('/dashboard');
     }
 
