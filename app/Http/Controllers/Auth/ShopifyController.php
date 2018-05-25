@@ -30,7 +30,7 @@ class ShopifyController extends Controller {
             $check_request = $this->verfifyHMACrequest();
             if ($check_request)
                 if ($request->get('model') == 'order_details')
-                      return view('order_detail');
+                    return redirect()->route('warehouse.order.details', ['id' => $request->get('id'), 'shop_url' => $shopUrl]);
                 else
                     return redirect()->route('authenticate', $shopUrl);
             else
