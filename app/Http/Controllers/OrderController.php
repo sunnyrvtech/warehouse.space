@@ -212,9 +212,9 @@ class OrderController extends Controller {
                             $shopify_result = $shopify->call(['URL' => 'orders/' . $result->InvNumber . '/cancel.json', 'METHOD' => 'POST']);
                         } catch (\Exception $e) {
                             Log::info(' Order ' . $result->InvNumber . $e->getMessage());
-                            continue;
+                           // continue;
                         }
-                        Order::where('id', '=', $order->id)->delete();
+                        //Order::where('id', '=', $order->id)->delete();
                     }
                 }
             }
