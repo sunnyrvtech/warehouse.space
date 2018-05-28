@@ -35,7 +35,6 @@ class OrderController extends Controller {
     }
 
     public function handleOrders(Request $request, $slug) {
-        exit();
         //Log::info('Orders ' . $slug . ':' . json_encode($request->all()));
         $client = $this->_client;
         $shopUrl = $request->headers->get('x-shopify-shop-domain');
