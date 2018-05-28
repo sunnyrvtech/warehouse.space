@@ -17,7 +17,10 @@ class CreateOrdersTable extends Migration
             $table->increments('id');
             $table->string('shop_url');
             $table->string('account_key');
+            $table->text('access_token');
             $table->bigInteger('order_id');
+            $table->bigInteger('item_id');
+            $table->bigInteger('variant_id');
         });
     }
 

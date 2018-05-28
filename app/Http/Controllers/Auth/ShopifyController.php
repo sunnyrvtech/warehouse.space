@@ -78,11 +78,11 @@ class ShopifyController extends Controller {
             if ($verify) {
                 $accessToken = $sh->getAccessToken($code);
             } else {
-                echo "invalid request";
+                Log::info('Error: invalid request');
                 die;
             }
-        } catch (Exception $e) {
-            echo '<pre>Error: ' . $e->getMessage() . '</pre>';
+        } catch (\Exception $e) {
+            Log::info('Error:' . $e->getMessage());
             die;
         }
         $sh = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $shopUrl, 'ACCESS_TOKEN' => $accessToken]);

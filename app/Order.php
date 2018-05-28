@@ -12,6 +12,6 @@ class Order extends Model
      * @var array
      */
     protected $fillable = [
-        'shop_url', 'account_key', 'order_id'
+        'shop_url', 'account_key', 'access_token', 'order_id', 'item_id','variant_id'
     ];
 }

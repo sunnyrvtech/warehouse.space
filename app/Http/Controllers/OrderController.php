@@ -44,7 +44,6 @@ class OrderController extends Controller {
             if (isset($user->get_dev_setting)) {
                 if ($slug == "create") {
                     $result = $this->createOrder($request, $user);
-                    Order::create(array('shop_url' => $shopUrl, 'account_key' => $user->get_dev_setting->account_key, 'order_id' => $request->get('id')));
                     Log::info($shopUrl . ' Order ' . $slug . json_encode($result));
                     exit();
                 } else if ($slug == "update") {
@@ -94,6 +93,7 @@ class OrderController extends Controller {
         $order_array = (object) array();
 
         $article_array = array();
+        $order_create_array = array();
         foreach ($request->get('line_items') as $key => $item_data) {
             $article_array[$key] = (object) array(
                         'Article' => $item_data['sku'],
@@ -101,8 +101,16 @@ class OrderController extends Controller {
                         'ProductID' => $item_data['variant_id'],
                         'Quantity' => $item_data['quantity']
             );
-        }
 
+            $order_create_array[$key] = array(
+                'shop_url' => $user->shop_url,
+                'account_key' => $user->get_dev_setting->account_key,
+                'access_token' => $user->access_token,
+                'order_id' => $request->get('id'),
+                'item_id' => $item_data['id'],
+                'variant_id' => $item_data['variant_id']
+            );
+        }
 
         $order_array->ArticlesList = $article_array;
         $order_array->InvNumber = $request->get('id');
@@ -136,6 +144,7 @@ class OrderController extends Controller {
         $order_array->AccountKey = $user->get_dev_setting->account_key;
         //Log::info(' Order update' . json_encode($order_array));
         $result = $client->OrderDetail($order_array);
+        Order::insert($order_create_array);
         return $result;
     }
 
@@ -158,29 +167,56 @@ class OrderController extends Controller {
     }
 
     public function orderDetails(Request $request, $slug) {
-        
-        
+
+
 //        dd($shop_url);
-        
+
         return view('order_detail');
     }
 
     public function test_order(Request $request) {
         $client = $this->_client;
-        $orders = Order::groupBy('shop_url')->get();
+        $orders = Order::get();
 //$shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
-
         if ($orders->toArray()) {
             foreach ($orders as $order) {
-                $order_ids = Order::Where('shop_url', '=', $order->shop_url)->pluck('order_id')->toArray();
+//                $order_ids = Order::Where('shop_url', '=', $order->shop_url)->pluck('order_id')->toArray();
+
                 $request_array = (object) array();
                 $request_array->AccountKey = $order->account_key;
-                $request_array->ListInvNumbers = $order_ids;
+                $request_array->ListInvNumbers = array(0 => $order->order_id);
                 //dd($request_array);
                 $result = $client->GetOrderShipmentInfo($request_array);
                 echo "<pre>";
+                echo $order->shop_url;
                 print_r($result);
                 die;
+
+                if (isset($result->GetOrderShipmentInfoResult->OrderDetail)) {
+                    $result = $result->GetOrderShipmentInfoResult->OrderDetail;
+
+                    // dd($result);
+                    if ($result->OrderStatus == 4) {
+                        $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $order->shop_url, 'ACCESS_TOKEN' => $order->access_token]);
+                        $item_array[0] = array('id' => $order->item_id);
+                        try {
+                            $shopify_result = $shopify->call(['URL' => 'orders/' . $result->InvNumber . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => array("location_id" => null, "tracking_number" => null, "line_items" => $item_array)]]);
+                        } catch (\Exception $e) {
+                            Log::info(' Order id '.$result->InvNumber. $e->getMessage());
+                            continue;
+                        }
+                        Order::where('id', '=', $order->id)->delete();
+                    } elseif ($result->OrderStatus == 0) {
+                        $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $order->shop_url, 'ACCESS_TOKEN' => $order->access_token]);
+                        try {
+                            $shopify_result = $shopify->call(['URL' => 'orders/' . $result->InvNumber . '/cancel.json', 'METHOD' => 'POST']);
+                        } catch (\Exception $e) {
+                            Log::info(' Order '.$result->InvNumber. $e->getMessage());
+                            continue;
+                        }
+                        Order::where('id', '=', $order->id)->delete();
+                    }
+                }
             }
         }
     }
