@@ -41,7 +41,7 @@ class OrderController extends Controller {
         $user = User::Where('shop_url', $shopUrl)->first();
         if ($client != null) {
             if (isset($user->get_dev_setting)) {
-                if ($slug == "create" || $slug == "update") {
+                if ($slug == "create") {
                     $result = $this->createOrder($request, $user);
                     Log::info($shopUrl . ' Order ' . $slug . json_encode($result));
                     exit();
@@ -143,7 +143,8 @@ class OrderController extends Controller {
         $order_array->AccountKey = $user->get_dev_setting->account_key;
         //Log::info(' Order update' . json_encode($order_array));
         $result = $client->OrderDetail($order_array);
-        Order::insert($order_create_array);
+        if ($result->OrderDetailResult->ErrorMessage == "")
+            Order::insert($order_create_array);
         return $result;
     }
 
@@ -201,7 +202,7 @@ class OrderController extends Controller {
                         try {
                             $shopify_result = $shopify->call(['URL' => 'orders/' . $result->InvNumber . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => array("location_id" => null, "tracking_number" => null, "line_items" => $item_array)]]);
                         } catch (\Exception $e) {
-                            Log::info(' Order id '.$result->InvNumber. $e->getMessage());
+                            Log::info(' Order id ' . $result->InvNumber . $e->getMessage());
                             continue;
                         }
                         Order::where('id', '=', $order->id)->delete();
@@ -210,7 +211,7 @@ class OrderController extends Controller {
                         try {
                             $shopify_result = $shopify->call(['URL' => 'orders/' . $result->InvNumber . '/cancel.json', 'METHOD' => 'POST']);
                         } catch (\Exception $e) {
-                            Log::info(' Order '.$result->InvNumber. $e->getMessage());
+                            Log::info(' Order ' . $result->InvNumber . $e->getMessage());
                             continue;
                         }
                         Order::where('id', '=', $order->id)->delete();
