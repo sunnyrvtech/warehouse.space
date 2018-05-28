@@ -208,12 +208,12 @@ class OrderController extends Controller {
                         Order::where('id', '=', $order->id)->delete();
                     } elseif ($result->OrderStatus == 0) {
                         $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $order->shop_url, 'ACCESS_TOKEN' => $order->access_token]);
-                        try {
+                        //try {
                             $shopify_result = $shopify->call(['URL' => 'orders/' . $result->InvNumber . '/cancel.json', 'METHOD' => 'POST']);
-                        } catch (\Exception $e) {
-                            Log::info(' Order ' . $result->InvNumber . $e->getMessage());
+                        //} catch (\Exception $e) {
+                          //  Log::info(' Order ' . $result->InvNumber . $e->getMessage());
                            // continue;
-                        }
+                        //}
                         
                         dd($shopify_result);
                         //Order::where('id', '=', $order->id)->delete();
