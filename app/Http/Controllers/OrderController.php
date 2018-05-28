@@ -214,6 +214,8 @@ class OrderController extends Controller {
                             Log::info(' Order ' . $result->InvNumber . $e->getMessage());
                            // continue;
                         }
+                        
+                        dd($shopify_result);
                         //Order::where('id', '=', $order->id)->delete();
                     }
                 }
