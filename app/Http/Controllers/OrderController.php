@@ -187,10 +187,10 @@ class OrderController extends Controller {
                 $request_array->ListInvNumbers = array(0 => $order->order_id);
                 //dd($request_array);
                 $result = $client->GetOrderShipmentInfo($request_array);
-                echo "<pre>";
-                echo $order->shop_url;
-                print_r($result);
-                die;
+//                echo "<pre>";
+//                echo $order->shop_url;
+//                print_r($result);
+//                die;
 
                 if (isset($result->GetOrderShipmentInfoResult->OrderDetail)) {
                     $result = $result->GetOrderShipmentInfoResult->OrderDetail;
