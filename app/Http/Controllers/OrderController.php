@@ -168,25 +168,18 @@ class OrderController extends Controller {
 
     public function orderDetails(Request $request, $slug) {
         $client = $this->_client;
-
+        
         $shopify_parameter = json_decode(base64_decode($slug));
         $order_id = $shopify_parameter->id;
         $user = auth()->user();
         $request_array = (object) array();
         $request_array->AccountKey = $user->get_dev_setting->account_key;
         $request_array->ListInvNumbers = array(0 => $order_id);
-
+        
         $result = $client->GetOrderShipmentInfo($request_array);
-
-        //dd($result);
-
-$shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
-                       
-        $item_array[0] = array('id' => 893159702580);
-        $shopify_result = $shopify->call(['URL' => 'orders/403734200372/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => array("location_id" => null, "tracking_number" => null, "line_items" => $item_array)]]);
-
-  dd($shopify_result);
-
+        
+        dd($result);
+        
         return view('order_detail');
     }
 
