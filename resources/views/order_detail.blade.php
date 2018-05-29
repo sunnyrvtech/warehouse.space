@@ -3,11 +3,12 @@
 <section>
     <style>
         .main-container { position: relative;padding: 20px;min-height: 700px; }
+        .row.gutter img { max-width: 75px; }
         .invoice p { margin: 0 0 4px; }
         .panel { margin-bottom: 16px;background-color: #fff;-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;-webkit-box-shadow: none;box-shadow: none;border: 1px solid #c9d9ea; }
         .panel-body { padding: 15px;background: #fff;-webkit-border-radius: 0 0 2px 2px;-moz-border-radius: 0 0 2px 2px; }
-    .invoice address.from { border-left: 3px solid #3eb15b;padding: 0 10px 0 20px; }
-    .invoice address.to { border-left: 3px solid #3a86c8;padding: 0 10px 0 20px; }
+        .invoice address.from { border-left: 3px solid #3eb15b;padding: 0 10px 0 20px; }
+        .invoice address.to { border-left: 3px solid #3a86c8;padding: 0 10px 0 20px; }
     </style>
     <div class="main-container">
         <div class="row gutter">
