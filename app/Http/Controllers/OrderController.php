@@ -69,7 +69,7 @@ class OrderController extends Controller {
         if ($request->get('financial_status') == 'pending') {
             $order_status = 6;
         } else {
-            $order_status = 4;
+            $order_status = 7;
         }
 
 
@@ -209,7 +209,7 @@ class OrderController extends Controller {
                     } elseif ($result->OrderStatus == 0) {
                         $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $order->shop_url, 'ACCESS_TOKEN' => $order->access_token]);
                         try {
-                            $shopify_result = $shopify->call(['URL' => 'orders/' . $result->InvNumber . '/cancel.json', 'METHOD' => 'POST']);
+                            $shopify_result = $shopify->call(['URL' => 'orders/' . $result->InvNumber . '/cancel.json', 'METHOD' => 'POST',"DATA"=>['email'=>true]]);
                         } catch (\Exception $e) {
                             Log::info(' Order ' . $result->InvNumber . $e->getMessage());
                             continue;
