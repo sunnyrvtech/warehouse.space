@@ -170,9 +170,18 @@ class OrderController extends Controller {
         $client = $this->_client;
         
         $shopify_parameter = json_decode(base64_decode($slug));
-        echo "<pre>";
-        print_r($shopify_parameter);
+        $order_id = $shopify_parameter->id;
+        $user = auth()->user();
+        echo $user->get_dev_setting->account_key;
         die;
+        
+        
+        
+        
+        
+        
+        
+        
         
 //        $request_array = (object) array();
 //        $request_array->AccountKey = $order->account_key;
