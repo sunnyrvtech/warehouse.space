@@ -172,20 +172,13 @@ class OrderController extends Controller {
         $shopify_parameter = json_decode(base64_decode($slug));
         $order_id = $shopify_parameter->id;
         $user = auth()->user();
-        echo $user->get_dev_setting->account_key;
-        die;
+        $request_array = (object) array();
+        $request_array->AccountKey = $user->get_dev_setting->account_key;
+        $request_array->ListInvNumbers = array(0 => $order_id);
         
+        $result = $client->GetOrderShipmentInfo($request_array);
         
-        
-        
-        
-        
-        
-        
-        
-//        $request_array = (object) array();
-//        $request_array->AccountKey = $order->account_key;
-//        $request_array->ListInvNumbers = array(0 => $order->order_id);
+        dd($result);
         
         return view('order_detail');
     }
