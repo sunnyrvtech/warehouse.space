@@ -168,9 +168,6 @@ class OrderController extends Controller {
 
     public function orderDetails(Request $request, $slug) {
 
-
-//        dd($shop_url);
-
         return view('order_detail');
     }
 

@@ -15,29 +15,31 @@ class Hmac {
      * @return mixed
      */
     public function handle($request, Closure $next) {
-
-        $shopify_parameter = json_decode(base64_decode($request->route()->parameters()['slug']));
-        if ($shopify_parameter) {
-            $params = array();
-            foreach ($shopify_parameter as $param => $value) {
-                if ($param != 'signature' && $param != 'hmac') {
-                    $params[$param] = "{$param}={$value}";
+        if (!auth()->check()) {
+            $shopify_parameter = json_decode(base64_decode($request->route()->parameters()['slug']));
+            if ($shopify_parameter) {
+                $params = array();
+                foreach ($shopify_parameter as $param => $value) {
+                    if ($param != 'signature' && $param != 'hmac') {
+                        $params[$param] = "{$param}={$value}";
+                    }
                 }
-            }
-            asort($params);
-            $params = implode('&', $params);
-            $hmac = $shopify_parameter->hmac;
-            $calculatedHmac = hash_hmac('sha256', $params, env('SHOPIFY_APP_SECRET'));
+                asort($params);
+                $params = implode('&', $params);
+                $hmac = $shopify_parameter->hmac;
+                $calculatedHmac = hash_hmac('sha256', $params, env('SHOPIFY_APP_SECRET'));
 
-            if ($hmac == $calculatedHmac) {
-                $shop_url = $shopify_parameter->shop;
-                $user = User::Where('shop_url', $shop_url)->first();
-                auth()->login($user);
-                return $next($request);
+                if ($hmac == $calculatedHmac) {
+                    $shop_url = $shopify_parameter->shop;
+                    $user = User::Where('shop_url', $shop_url)->first();
+                    auth()->login($user);
+                    return $next($request);
+                }
+                return redirect()->to('/');
             }
             return redirect()->to('/');
         }
-        return redirect()->to('/');
+        return $next($request);
     }
 
 }

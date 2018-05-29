@@ -22,9 +22,10 @@
                 <div class="side"></div>
             </div>
         </div>
+        @if(Request::segment(3) != "details")
         <nav class="navbar navbar-expand-lg navbar-dark default-color">
             <div class="container">
-                <a class="ws-logo" href="#">
+                <a class="ws-logo" href="{{ route('dashboard') }}">
                     <img src="{{ asset('/images/WSLogo.png') }}" alt="logo">
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,6 +43,7 @@
                 </div>
             </div>
         </nav>
+        @endif
         @if(Session::has('success-message') || Session::has('error-message'))
         <div id="redirect_alert" class="alert @if(Session::has('success-message')) alert-success @elseif(Session::has('error-message')) alert-danger @endif alert-dismissable">
             <a href="javascript:void(0);" onclick="$(this).parent().remove();" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
@@ -49,7 +51,9 @@
         </div>
         @endif
         <div class="main-wrapper-content">
-            <h1 class="text-center">Warehouse.Space</h1>
+            @if(Request::segment(3) != "details")
+                <h1 class="text-center">Warehouse.Space</h1>
+            @endif
             <div class="container">
                 @yield('content')
             </div>

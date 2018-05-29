@@ -1,27 +1,14 @@
 @extends('layouts.app')
 @section('content')
 <section>
-    <div class="card">
-        <div class="card-header bg-info text-white">Order Details</div>
-
-    </div>
-
-    <div class="top-bar clearfix">
-        <div class="container-fluid">
-            <div class="row gutter">
-                <div class="col-md-8 col-sm-6 col-xs-12">
-                    <h3 class="page-title">Invoice</h3></div>
-                <div class="col-md-4 col-sm-6 col-xs-12">
-                    <ul class="tasks pull-right clearfix">
-                        <li><a href="tasks.html"><div class="task-num">21</div><p class="task-type">Tasks</p></a></li>
-                        <li><a href="tasks.html"><div class="task-num">15</div><p class="task-type">Completed</p></a></li>
-                        <li><a href="tasks.html"><div class="task-num">6</div><p class="task-type">Pending</p></a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    <style>
+        .main-container { position: relative;padding: 20px;min-height: 700px; }
+        .invoice p { margin: 0 0 4px; }
+        .panel { margin-bottom: 16px;background-color: #fff;-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;-webkit-box-shadow: none;box-shadow: none;border: 1px solid #c9d9ea; }
+        .panel-body { padding: 15px;background: #fff;-webkit-border-radius: 0 0 2px 2px;-moz-border-radius: 0 0 2px 2px; }
+    .invoice address.from { border-left: 3px solid #3eb15b;padding: 0 10px 0 20px; }
+    .invoice address.to { border-left: 3px solid #3a86c8;padding: 0 10px 0 20px; }
+    </style>
     <div class="main-container">
         <div class="row gutter">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -30,10 +17,10 @@
                         <div class="panel-body">
                             <div class="row gutter">
                                 <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-                                    <a href="#"><img src="img/logo.png" alt="Bluemoon Logo" class="logo"></a>
+                                    <a href="{{ route('dashboard') }}"><img src="{{ asset('/images/WSLogo.png') }}" alt="logo"></a>
                                 </div>
                                 <div class="col-md-9 col-sm-8 col-xs-12">
-                                    <div class="right-text">
+                                    <div class="text-right">
                                         <p><b>Invoice ID</b> - 1298</p>
                                         <p><b>Order date</b> - Jan 21st, 2017</p>
                                         <p><b>Payment status</b><span class="label label-danger">Due</span></p>
@@ -138,16 +125,6 @@
                             <div class="row gutter">
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
                                     <p><b>Note:</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In varius convallis odio, pharetra maximus nisi imperdiet ut. Aliquam in accumsan velit, sit amet varius maurist libero nunc, mattis a vulputate eu, maximus sed massa.</p>
-                                </div>
-                            </div>
-                            <div class="row gutter">
-                                <div class="col-lg-10 col-md-9 col-sm-9 col-xs-12">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn-lg btn btn-success"><i class="icon-print"></i></button>
-                                    </div>
-                                </div>
-                                <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
-                                    <div class="btn btn-info btn-lg btn-block">Pay Now</div>
                                 </div>
                             </div>
                         </div>
