@@ -167,7 +167,17 @@ class OrderController extends Controller {
     }
 
     public function orderDetails(Request $request, $slug) {
-
+        $client = $this->_client;
+        
+        $shopify_parameter = json_decode(base64_decode($slug));
+        echo "<pre>";
+        print_r($shopify_parameter);
+        die;
+        
+//        $request_array = (object) array();
+//        $request_array->AccountKey = $order->account_key;
+//        $request_array->ListInvNumbers = array(0 => $order->order_id);
+        
         return view('order_detail');
     }
 
@@ -206,7 +216,7 @@ class OrderController extends Controller {
                     } elseif ($result->OrderStatus == 0) {
                         $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $order->shop_url, 'ACCESS_TOKEN' => $order->access_token]);
                         try {
-                            $shopify_result = $shopify->call(['URL' => 'orders/' . $result->InvNumber . '/cancel.json', 'METHOD' => 'POST',"DATA"=>['email'=>true]]);
+                            $shopify_result = $shopify->call(['URL' => 'orders/' . $result->InvNumber . '/cancel.json', 'METHOD' => 'POST', "DATA" => ['email' => true]]);
                         } catch (\Exception $e) {
                             Log::info(' Order ' . $result->InvNumber . $e->getMessage());
                             continue;

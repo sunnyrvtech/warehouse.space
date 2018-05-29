@@ -102,22 +102,7 @@
                                                     <td>14.50%</td>
                                                     <td><b>3450.00$</b></td>
                                                 </tr>
-                                                <tr>
-                                                    <td class="total" colspan="5">Subtotal</td>
-                                                    <td><b>38000.00$</b></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="total" colspan="5">Tax (10%)</td>
-                                                    <td><b>4100.00$</b></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="total" colspan="5">Discount</td>
-                                                    <td><b>15%</b></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="total" colspan="5">Total</td>
-                                                    <td><h3><b>$42,000</b></h3></td>
-                                                </tr>
+                                               
                                             </tbody>
                                         </table>
                                     </div>
