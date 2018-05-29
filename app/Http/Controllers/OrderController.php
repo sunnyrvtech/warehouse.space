@@ -69,7 +69,7 @@ class OrderController extends Controller {
         if ($request->get('financial_status') == 'pending') {
             $order_status = 6;
         } else {
-            $order_status = 0;
+            $order_status = 4;
         }
 
 
