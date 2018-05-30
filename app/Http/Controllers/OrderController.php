@@ -178,7 +178,7 @@ class OrderController extends Controller {
 
         $warehouse_order = $client->GetOrderShipmentInfo($request_array);
         echo "<pre>";
-        print_r($result);
+        print_r($warehouse_order);
         if (isset($result->GetOrderShipmentInfoResult->OrderDetail)) {
             $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
 
