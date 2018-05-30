@@ -188,7 +188,7 @@ class OrderController extends Controller {
 
             foreach ($result as $value) {
                 
-                    $orders = $shopify->call(['URL' => 'orders/403676758068.json', 'METHOD' => 'GET']);
+                    $orders = $shopify->call(['URL' => 'orders/'. $value->InvNumber . '.json', 'METHOD' => 'GET']);
                       dd($orders);  
 //                $shopify$value
             }
