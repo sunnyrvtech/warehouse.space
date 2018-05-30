@@ -23,5 +23,6 @@ Route::post('webhooks/uninstalled', 'Auth\ShopifyController@handleAppUninstallat
 //Route::post('webhooks/inventory_items/{slug}', 'InventoryController@handleInventoryItems')->name('webhook.inventory_items');
 Route::post('webhooks/products/{slug}', 'ProductController@handleProducts')->name('webhook.products');
 Route::post('webhooks/orders/{slug}', 'OrderController@handleOrders')->name('webhook.orders');
+Route::post('webhooks/warehouse', 'OrderController@updateOrderStatus');
 
 Route::get('auth/check_webhook/{id}', 'Auth\ShopifyController@getWebhooks');

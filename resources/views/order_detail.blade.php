@@ -49,34 +49,42 @@
                             </div><br>
                             <div class="row gutter">
                                 <div class="col-md-12">
-                                    <div class="table-responsive">
-                                        <table class="table table-striped table-bordered table-middle">
-                                            <thead>
-                                                <tr>
-                                                    <th style="width:10%">Sl.No.</th>
-                                                    <th style="width:40%">Product Name</th>
-                                                    <th style="width:10%">Warehouse.</th>
-                                                    <th style="width:10%">Picked At</th>
-                                                    <th style="width:10%">Packed At</th>
-                                                    <th style="width:10%">Dispatched At</th>
-                                                    <th style="width:10%">Status</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach($order_details as $key=>$value)
-                                                <tr>
-                                                    <td><b>#{{ $key }}</b></td>
-                                                    <td>{{ $value->product_name }}</td>
-                                                    <td><b>{{ $value->warehouse }}</b></td>
-                                                    <td>{{ $value->picked }}</td>
-                                                    <td>{{ $value->packed }}</td>
-                                                    <td><b>{{ $value->dispatched }}</b></td>
-                                                    <td><b>{{ $value->item_status }}</b></td>
-                                                </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
+                                    <!--                                    <div class="table-responsive">
+                                                                            <table class="table table-striped table-bordered table-middle">
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        <th style="width:50%">Product Name</th>
+                                                                                        <th style="width:10%">Warehouse</th>
+                                                                                        <th style="width:10%">Picked At</th>
+                                                                                        <th style="width:10%">Packed At</th>
+                                                                                        <th style="width:10%">Dispatched At</th>
+                                                                                        <th style="width:10%">Status</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    @foreach($order_details as $key=>$value)
+                                                                                    <tr>
+                                                                                        <td>{{ $value->product_name }}</td>
+                                                                                        <td><b>{{ $value->warehouse }}</b></td>
+                                                                                        <td>{{ $value->picked }}</td>
+                                                                                        <td>{{ $value->packed }}</td>
+                                                                                        <td><b>{{ $value->dispatched }}</b></td>
+                                                                                        <td><b>{{ $value->item_status }}</b></td>
+                                                                                    </tr>
+                                                                                    @endforeach
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>-->
+
+                                    <div class="card">
+                                        <div class="card-header bg-default">Order Items</div>
+                                        <div class="card-body">
+                                            
+                                        </div>
                                     </div>
+
+
+
                                 </div>
                             </div>
                             <div class="row gutter">
