@@ -253,7 +253,6 @@ dd($user);
                         $shopify_result = $shopify->call(['URL' => 'orders/' . $result->InvNumber . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => array("location_id" => null, "tracking_number" => null, "line_items" => $item_array)]]);
                     } catch (\Exception $e) {
                         Log::info(' Order id ' . $result->InvNumber . $e->getMessage());
-                        continue;
                     }
                     Order::where('id', '=', $order->id)->delete();
                 } elseif ($result->OrderStatus == 0) {
@@ -262,7 +261,6 @@ dd($user);
                         $shopify_result = $shopify->call(['URL' => 'orders/' . $result->InvNumber . '/cancel.json', 'METHOD' => 'POST', "DATA" => ['email' => true]]);
                     } catch (\Exception $e) {
                         Log::info(' Order ' . $result->InvNumber . $e->getMessage());
-                        continue;
                     }
                     Order::where('id', '=', $order->id)->delete();
                 }
