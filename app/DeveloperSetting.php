@@ -13,6 +13,10 @@ class DeveloperSetting extends Model {
      */
     protected $fillable = [
         'user_id', 'warehouse_number', 'account_key', 'percentage_product', 'page_size', 'offset'
-    ];
+    ];      
+    
+    public function get_user(){
+         return $this->belongsTo('App\User', 'use_id','id');
+    }
 
 }
