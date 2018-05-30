@@ -229,7 +229,7 @@ class OrderController extends Controller {
             $request_array = (object) array();
             $request_array->AccountKey = $key;
             $request_array->ListInvNumbers = array(0 => $id);
-            dd($request_array);
+            //dd($request_array);
             $result = $client->GetOrderShipmentInfo($request_array);
                 echo "<pre>";
                 print_r($result);
