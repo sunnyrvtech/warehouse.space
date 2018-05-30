@@ -67,10 +67,11 @@
                                                 <tr>
                                                     <td><b>#{{ $key }}</b></td>
                                                     <td>{{ $value->product_name }}</td>
-                                                    <td><b>{{ $value->product_name }}</b></td>
-                                                    <td><span class="btn btn-info btn-xs">{{ $value->product_name }}</span></td>
-                                                    <td>{{ $value->product_name }}</td>
-                                                    <td><b>{{ $value->product_name }}</b></td>
+                                                    <td><b>{{ $value->warehouse }}</b></td>
+                                                    <td>{{ $value->picked }}</td>
+                                                    <td>{{ $value->packed }}</td>
+                                                    <td><b>{{ $value->dispatched }}</b></td>
+                                                    <td><b>{{ $value->item_status }}</b></td>
                                                 </tr>
                                                 @endforeach
                                             </tbody>
