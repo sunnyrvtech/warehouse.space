@@ -180,15 +180,13 @@ class OrderController extends Controller {
 
         if (isset($result->GetOrderShipmentInfoResult->OrderDetail)) {
             $result = $result->GetOrderShipmentInfoResult->OrderDetail;
-            if(count($result) == 1){
-                $result[0] = $result;
+            if (count($result) == 1) {
+                $result[] = $result;
             }
-            
-            foreach ($result as $value){
+
+            foreach ($result as $value) {
                 dd($value);
             }
-            
-            
         }
 
         return view('order_detail');
