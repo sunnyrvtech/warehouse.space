@@ -54,55 +54,25 @@
                                             <thead>
                                                 <tr>
                                                     <th style="width:10%">Sl.No.</th>
-                                                    <th style="width:20%">Product Name</th>
-                                                    <th style="width:40%">Description</th>
-                                                    <th style="width:10%">Quantity</th>
-                                                    <th style="width:10%">VAT</th>
-                                                    <th style="width:10%">Total</th>
+                                                    <th style="width:40%">Product Name</th>
+                                                    <th style="width:10%">Warehouse.</th>
+                                                    <th style="width:10%">Picked At</th>
+                                                    <th style="width:10%">Packed At</th>
+                                                    <th style="width:10%">Dispatched At</th>
+                                                    <th style="width:10%">Status</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                @foreach($order_details as $key=>$value)
                                                 <tr>
-                                                    <td><b>#001</b></td>
-                                                    <td>Macbook Pro</td>
-                                                    <td><b>Best Selling Admin Dashboard</b></td>
-                                                    <td><span class="btn btn-info btn-xs">18</span></td>
-                                                    <td>14.50%</td>
-                                                    <td><b>50.00$</b></td>
+                                                    <td><b>#{{ $key }}</b></td>
+                                                    <td>{{ $value->product_name }}</td>
+                                                    <td><b>{{ $value->product_name }}</b></td>
+                                                    <td><span class="btn btn-info btn-xs">{{ $value->product_name }}</span></td>
+                                                    <td>{{ $value->product_name }}</td>
+                                                    <td><b>{{ $value->product_name }}</b></td>
                                                 </tr>
-                                                <tr>
-                                                    <td><b>#002</b></td>
-                                                    <td>Playstation</td>
-                                                    <td><b>Top selling admin template</b></td>
-                                                    <td><span class="btn btn-danger btn-xs">21</span></td>
-                                                    <td>14.50%</td>
-                                                    <td><b>7130.00$</b></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><b>#003</b></td>
-                                                    <td>Canon D700</td>
-                                                    <td><b>Best Dashboard Design</b></td>
-                                                    <td><span class="btn btn-success btn-xs">14</span></td>
-                                                    <td>14.50%</td>
-                                                    <td><b>9220.00$</b></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><b>#004</b></td>
-                                                    <td>iPhone 7</td>
-                                                    <td><b>Horizontal Menu Admin Dashboard</b></td>
-                                                    <td><span class="btn btn-info btn-xs">34</span></td>
-                                                    <td>14.50%</td>
-                                                    <td><b>11220.00$</b></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><b>#005</b></td>
-                                                    <td>Harley Davidson</td>
-                                                    <td><b>Colorful Dashboard Design</b></td>
-                                                    <td><span class="btn btn-warning btn-xs">77</span></td>
-                                                    <td>14.50%</td>
-                                                    <td><b>3450.00$</b></td>
-                                                </tr>
-                                               
+                                                @enforeach
                                             </tbody>
                                         </table>
                                     </div>
