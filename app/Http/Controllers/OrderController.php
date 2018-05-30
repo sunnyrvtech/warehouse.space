@@ -187,6 +187,13 @@ class OrderController extends Controller {
                 $single_array[0] = $warehouse_order;
                 $warehouse_order = $single_array;
             }
+            
+            echo $warehouse_order[0]->InvNumber;
+            
+            die;
+            
+            
+            
             $orders = $shopify->call(['URL' => 'orders/' . $warehouse_order[0]->InvNumber . '.json?fields=id,line_items', 'METHOD' => 'GET']);
             $order_details = array();
             foreach ($orders->order->line_items as $key => $order) {
@@ -195,7 +202,7 @@ class OrderController extends Controller {
                 $item->product_name = $order->name;
                 $item->description = $warehouse_order[$key]->Description;
                 $item->sku = $order->sku;
-                $item->quantity = $order->name;
+                $item->quantity = $order->quantity;
                 $item->price = $order->price;
                 $item->dispatched = $warehouse_order[$key]->Dispatched;
                 $item->packed = $warehouse_order[$key]->Packed;
