@@ -76,12 +76,16 @@
                                                                             </table>
                                                                         </div>-->
 
-                                    <div class="card">
-                                        <div class="card-header bg-default">Order Items</div>
-                                        <div class="card-body">
-                                            
-                                        </div>
-                                    </div>
+                                   <div class="item list-group-item">
+               <div class="col-md-6">
+                   <h3>{{ $value->product_name }}</h3>
+                
+                </div>
+               <div class="col-md-6">
+                <span>{{ $value->warehouse }}</span>
+                
+                </div>
+            </div>
 
 
 
