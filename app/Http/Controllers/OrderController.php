@@ -177,7 +177,8 @@ class OrderController extends Controller {
         $request_array->ListInvNumbers = array(0 => $order_id);
 
         $result = $client->GetOrderShipmentInfo($request_array);
-        
+        echo "<pre>";
+        print_r($result);
         if (isset($result->GetOrderShipmentInfoResult->OrderDetail)) {
             $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
                         
