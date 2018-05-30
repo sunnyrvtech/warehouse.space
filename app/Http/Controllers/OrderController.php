@@ -188,12 +188,6 @@ class OrderController extends Controller {
                 $warehouse_order = $single_array;
             }
             
-            print_r($warehouse_order);
-            
-            die;
-            
-            
-            
             $orders = $shopify->call(['URL' => 'orders/' . $warehouse_order[0]->InvNumber . '.json?fields=id,line_items', 'METHOD' => 'GET']);
             $order_details = array();
             foreach ($orders->order->line_items as $key => $order) {
