@@ -177,8 +177,8 @@ class OrderController extends Controller {
         $request_array->ListInvNumbers = array(0 => $order_id);
 
         $warehouse_order = $client->GetOrderShipmentInfo($request_array);
-        echo "<pre>";
-        print_r($warehouse_order);
+//        echo "<pre>";
+//        print_r($warehouse_order);
         if (isset($warehouse_order->GetOrderShipmentInfoResult->OrderDetail)) {
             $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
 
@@ -206,13 +206,9 @@ class OrderController extends Controller {
                 $item->order_status = $warehouse_order[$key]->OrderStatus;
                 $order_details[$key] = $item;
             }
-
-
-            dd($order_details);
-
-
-
-            return view('order_detail');
+//            dd($order_details);
+            $data['order_details'] = $order_details;
+            return view('order_detail',$data);
         }
 
         return redirect()->route('dashboard')->with('error-message', 'sorry! this order is not found in warehouse.');
