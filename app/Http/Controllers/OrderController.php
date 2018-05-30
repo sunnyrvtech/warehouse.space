@@ -191,7 +191,7 @@ class OrderController extends Controller {
             $order_details = (object) array();
             foreach ($orders->order->line_items as $key=>$order) {
                 
-                      $order_details[$key]->order_id = $orders->id;
+                      $order_details[$key]->order_id = $orders->order->id;
                       $order_details[$key]->product_name = $order->name;
                       $order_details[$key]->description = $warehouse_order[$key]->Description;
                       $order_details[$key]->sku = $order->sku;
