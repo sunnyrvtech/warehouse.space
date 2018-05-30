@@ -16,7 +16,7 @@ class DeveloperSetting extends Model {
     ];      
     
     public function get_user(){
-         return $this->belongsTo('App\User', 'use_id','id');
+         return $this->hasOne('App\User', 'id','user_id');
     }
 
 }

@@ -215,32 +215,25 @@ class OrderController extends Controller {
         return redirect()->route('dashboard')->with('error-message', 'sorry! this order is not found in warehouse.');
     }
 
-    public function updateOrderStatus(Request $request, $id, $no, $key) {
+    public function updateOrderStatus($id, $no, $key) {
 
         $client = $this->_client;
 
 
-        $user = DeveloperSetting::Where([['warehouse_number' => $no], ['account_key' => $key]])->first();
-
-dd($user);
-
-
-
-
+        $user = DeveloperSetting::Where([['warehouse_number', $no], ['account_key',$key]])->first();
 
 
 //$shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
-        if ($key) {
+        if (isset($user->get_user)) {
 
             $request_array = (object) array();
-            $request_array->AccountKey = $order->account_key;
+            $request_array->AccountKey = $key;
             $request_array->ListInvNumbers = array(0 => $id);
-            //dd($request_array);
+            dd($request_array);
             $result = $client->GetOrderShipmentInfo($request_array);
-//                echo "<pre>";
-//                echo $order->shop_url;
-//                print_r($result);
-//                die;
+                echo "<pre>";
+                print_r($result);
+                die;
 
             if (isset($result->GetOrderShipmentInfoResult->OrderDetail)) {
                 $result = $result->GetOrderShipmentInfoResult->OrderDetail;
@@ -266,6 +259,7 @@ dd($user);
                 }
             }
         }
+        return json_decode(array('success'=>false,'message'=>'Invalid request !'));
     }
 
 }
