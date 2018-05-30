@@ -72,7 +72,7 @@
                                                     <td>{{ $value->product_name }}</td>
                                                     <td><b>{{ $value->product_name }}</b></td>
                                                 </tr>
-                                                @enforeach
+                                                @endforeach
                                             </tbody>
                                         </table>
                                     </div>
