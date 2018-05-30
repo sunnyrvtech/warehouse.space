@@ -174,9 +174,13 @@ class OrderController extends Controller {
         $user = auth()->user();
         $request_array = (object) array();
         $request_array->AccountKey = $user->get_dev_setting->account_key;
-        $request_array->ListInvNumbers = array(0 => $order_id);
+        $request_array->ListInvNumbers = array(0 => 523232);
 
         $result = $client->GetOrderShipmentInfo($request_array);
+        
+        
+        dd($result);
+        
         if (isset($result->GetOrderShipmentInfoResult->OrderDetail)) {
             $result = $result->GetOrderShipmentInfoResult->OrderDetail;
             if (count($result) == 1) {
@@ -185,7 +189,7 @@ class OrderController extends Controller {
             }
 
             foreach ($result as $value) {
-                dd($value);
+                
             }
         }
 
