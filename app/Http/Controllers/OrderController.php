@@ -220,7 +220,7 @@ class OrderController extends Controller {
         
         Log::info('order update: ' . json_encode($request->all()));
         
-        $return_array = '{"success":false, "orderId": 21212}';
+        return  '{"success":false, "orderId": 21212}';
         exit;
         $client = $this->_client;
         $orders = Order::get();
