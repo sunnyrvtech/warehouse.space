@@ -174,13 +174,9 @@ class OrderController extends Controller {
         $user = auth()->user();
         $request_array = (object) array();
         $request_array->AccountKey = $user->get_dev_setting->account_key;
-        $request_array->ListInvNumbers = array(0 => 523232);
+        $request_array->ListInvNumbers = array(0 => 34234234);
 
         $result = $client->GetOrderShipmentInfo($request_array);
-        
-        
-        dd($result);
-        
         if (isset($result->GetOrderShipmentInfoResult->OrderDetail)) {
             $result = $result->GetOrderShipmentInfoResult->OrderDetail;
             if (count($result) == 1) {
@@ -191,9 +187,11 @@ class OrderController extends Controller {
             foreach ($result as $value) {
                 
             }
+            return view('order_detail');
         }
-
-        return view('order_detail');
+        
+        return redirect()->route('dashboard')->with('error-message', 'sorry! this order is not found in warehouse.');
+        
     }
 
     public function test_order(Request $request) {
