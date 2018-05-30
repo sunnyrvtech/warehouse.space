@@ -188,7 +188,7 @@ class OrderController extends Controller {
                 $warehouse_order = $single_array;
             }
             
-            print_r($warehouse_order[0]->InvNumber);
+            print_r($warehouse_order);
             
             die;
             
