@@ -177,13 +177,11 @@ class OrderController extends Controller {
         $request_array->ListInvNumbers = array(0 => $order_id);
 
         $result = $client->GetOrderShipmentInfo($request_array);
-//dd($result);
         if (isset($result->GetOrderShipmentInfoResult->OrderDetail)) {
             $result = $result->GetOrderShipmentInfoResult->OrderDetail;
             if (count($result) == 1) {
-                $gghhg = array();
-                $gghhg[0] = $result;
-                $result = $gghhg;
+                $single_array[0] = $result;
+                $result = $single_array;
             }
 
             foreach ($result as $value) {
