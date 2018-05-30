@@ -220,8 +220,12 @@ class OrderController extends Controller {
         
         Log::info('order update: ' . json_encode($request->all()));
         
-        return  '{"success":false, "orderId": 21212}';
-        exit;
+        
+        $array = array(
+            'success'=>true,
+            'orderId'=>21212
+        );
+        return json_encode($array);
         $client = $this->_client;
         $orders = Order::get();
 //$shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
