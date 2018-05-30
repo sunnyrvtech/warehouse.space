@@ -168,18 +168,22 @@ class OrderController extends Controller {
 
     public function orderDetails(Request $request, $slug) {
         $client = $this->_client;
-        
+
         $shopify_parameter = json_decode(base64_decode($slug));
         $order_id = $shopify_parameter->id;
         $user = auth()->user();
         $request_array = (object) array();
         $request_array->AccountKey = $user->get_dev_setting->account_key;
         $request_array->ListInvNumbers = array(0 => $order_id);
-        
+
         $result = $client->GetOrderShipmentInfo($request_array);
-        
-        dd($result);
-        
+
+        if (isset($result->GetOrderShipmentInfoResult->OrderDetail)) {
+            $result = $result->GetOrderShipmentInfoResult->OrderDetail;
+            echo count($result);
+            die;
+        }
+
         return view('order_detail');
     }
 
