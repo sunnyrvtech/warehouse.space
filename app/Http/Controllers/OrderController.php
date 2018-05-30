@@ -184,7 +184,7 @@ class OrderController extends Controller {
 
             $warehouse_order = $result->GetOrderShipmentInfoResult->OrderDetail;
             if (count($result) == 1) {
-                $single_array[][0] = $warehouse_order;
+                $single_array[0][] = $warehouse_order;
                 $warehouse_order = $single_array;
             }
             
