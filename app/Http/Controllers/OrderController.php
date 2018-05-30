@@ -178,6 +178,8 @@ class OrderController extends Controller {
 
         $result = $client->GetOrderShipmentInfo($request_array);
         if (isset($result->GetOrderShipmentInfoResult->OrderDetail)) {
+            $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
+                        
             $result = $result->GetOrderShipmentInfoResult->OrderDetail;
             if (count($result) == 1) {
                 $single_array[0] = $result;
@@ -185,7 +187,9 @@ class OrderController extends Controller {
             }
 
             foreach ($result as $value) {
-                dd($value);
+                    $orders = $shopify->call(['URL' => 'orders/' . $result->InvNumber . 'json', 'METHOD' => 'GET']);
+                      dd($orders);  
+//                $shopify$value
             }
             return view('order_detail');
         }
