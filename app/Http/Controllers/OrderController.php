@@ -181,41 +181,40 @@ class OrderController extends Controller {
         print_r($result);
         if (isset($result->GetOrderShipmentInfoResult->OrderDetail)) {
             $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
-                        
+
             $warehouse_order = $result->GetOrderShipmentInfoResult->OrderDetail;
             if (count($result) == 1) {
                 $single_array[0] = $warehouse_order;
                 $warehouse_order = $single_array;
             }
-            $orders = $shopify->call(['URL' => 'orders/'. $warehouse_order[0]->InvNumber . '.json?fields=id,line_items', 'METHOD' => 'GET']);
-            $order_details = (object) array();
-            foreach ($orders->order->line_items as $key=>$order) {
-                
-                      $order_details[$key]->order_id = $orders->order->id;
-                      $order_details[$key]->product_name = $order->name;
-                      $order_details[$key]->description = $warehouse_order[$key]->Description;
-                      $order_details[$key]->sku = $order->sku;
-                      $order_details[$key]->quantity = $order->name;
-                      $order_details[$key]->price = $order->price;
-                      $order_details[$key]->dispatched = $warehouse_order[$key]->Dispatched;
-                      $order_details[$key]->packed = $warehouse_order[$key]->Packed;
-                      $order_details[$key]->picked = $warehouse_order[$key]->Picked;
-                      $order_details[$key]->warehouse = $warehouse_order[$key]->Warehouse;
-                      $order_details[$key]->you_tube_url = $warehouse_order[$key]->YouttubeUrl;
-                      $order_details[$key]->order_status = $warehouse_order[$key]->OrderStatus;
-//                $shopify$value
+            $orders = $shopify->call(['URL' => 'orders/' . $warehouse_order[0]->InvNumber . '.json?fields=id,line_items', 'METHOD' => 'GET']);
+            $order_details = array();
+            foreach ($orders->order->line_items as $key => $order) {
+                $item = (object) array();
+                $item->order_id = $orders->order->id;
+                $item->product_name = $order->name;
+                $item->description = $warehouse_order[$key]->Description;
+                $item->sku = $order->sku;
+                $item->quantity = $order->name;
+                $item->price = $order->price;
+                $item->dispatched = $warehouse_order[$key]->Dispatched;
+                $item->packed = $warehouse_order[$key]->Packed;
+                $item->picked = $warehouse_order[$key]->Picked;
+                $item->warehouse = $warehouse_order[$key]->Warehouse;
+                $item->you_tube_url = $warehouse_order[$key]->YouttubeUrl;
+                $item->order_status = $warehouse_order[$key]->OrderStatus;
+                $order_details[$key] = $item;
             }
-            
-            
+
+
             dd($order_details);
-            
-            
-            
+
+
+
             return view('order_detail');
         }
-        
+
         return redirect()->route('dashboard')->with('error-message', 'sorry! this order is not found in warehouse.');
-        
     }
 
     public function test_order(Request $request) {
