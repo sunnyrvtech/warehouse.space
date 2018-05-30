@@ -77,16 +77,21 @@
                                                                             </table>
                                                                         </div>-->
 
-                                   <div class="row order-item">
-               <div class="col-md-6">
-                   <h3>{{ $value->product_name }}</h3>
-                
-                </div>
-               <div class="col-md-6">
-                <span>{{ $value->warehouse }}</span>
-                
-                </div>
-            </div>
+                                    <div class="order-item">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <h4>{{ $value->product_name }}</h4>
+
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span></span>
+                                                <div class="form-group">
+                                                    <label for="vehicle_make">Warehouse:</label><span>{{ $value->warehouse }}</span>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
 
 
 
