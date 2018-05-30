@@ -9,6 +9,7 @@
         .panel-body { padding: 15px;background: #fff;-webkit-border-radius: 0 0 2px 2px;-moz-border-radius: 0 0 2px 2px; }
         .invoice address.from { border-left: 3px solid #3eb15b;padding: 0 10px 0 20px; }
         .invoice address.to { border-left: 3px solid #3a86c8;padding: 0 10px 0 20px; }
+        .order-item { border-top-left-radius: .25rem;border-top-right-radius: .25rem;padding: .75rem 1.25rem;margin-bottom: -1px;background-color: #fff;border: 1px solid rgba(0,0,0,.125); }
     </style>
     <div class="main-container">
         <div class="row gutter">
@@ -76,7 +77,7 @@
                                                                             </table>
                                                                         </div>-->
 
-                                   <div class="item list-group-item">
+                                   <div class="row order-item">
                <div class="col-md-6">
                    <h3>{{ $value->product_name }}</h3>
                 
