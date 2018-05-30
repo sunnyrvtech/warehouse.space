@@ -183,7 +183,7 @@ class OrderController extends Controller {
             $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
 
             $warehouse_order = $result->GetOrderShipmentInfoResult->OrderDetail;
-            if (count($result) == 1) {
+            if (count($warehouse_order) == 1) {
                 $single_array[0] = $warehouse_order;
                 $warehouse_order = $single_array;
             }
