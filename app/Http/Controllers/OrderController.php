@@ -248,7 +248,7 @@ class OrderController extends Controller {
         if (isset($user->get_user) && $token == env('WAREHOUSE_TOKEN')) {
 
             $request_array = (object) array();
-            $request_array->AccountKey = $key;
+            $request_array->AccountKey = $user->account_key;
             $request_array->ListInvNumbers = array($id);
             $warehouse_order = $client->GetOrderShipmentInfo($request_array);
 //            echo "<pre>";
