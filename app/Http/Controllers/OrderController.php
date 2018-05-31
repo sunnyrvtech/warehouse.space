@@ -249,24 +249,23 @@ class OrderController extends Controller {
 
             $request_array = (object) array();
             $request_array->AccountKey = $user->account_key;
-            $request_array->ListInvNumbers = array($id);
+            $request_array->ListInvNumbers = array(234224);
             $warehouse_order = $client->GetOrderShipmentInfo($request_array);
-//            echo "<pre>";
-//            print_r($request_array);
-//            print_r($warehouse_order);
-//            die;
+            echo "<pre>";
+            print_r($request_array);
+            print_r($warehouse_order);
+            die;
 
             if (isset($warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo)) {
                 $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->get_user->shop_url, 'ACCESS_TOKEN' => $user->get_user->access_token]);
 
                 $warehouse_order = $warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo;
                 try {
-                $orders = $shopify->call(['URL' => 'orders/' . 234424 . '.json?fields=id,financial_status,created_at,line_items', 'METHOD' => 'GET']);
-               } catch (\Exception $e) {
-                   echo $e->getMessage();
-                   die;
-               }
-                 dd($orders);
+                    $orders = $shopify->call(['URL' => 'orders/' . $id . '.json?fields=id,financial_status,created_at,line_items', 'METHOD' => 'GET']);
+                } catch (\Exception $e) {
+                    return json_encode(array('success' => false, 'message' => 'Order not found in the shopify store !'));
+                }
+                dd($orders);
 //                if ($warehouse_order->OrderStatus == 4) {
 //                    $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $order->shop_url, 'ACCESS_TOKEN' => $order->access_token]);
 //                    $item_array[0] = array('id' => $order->item_id);
