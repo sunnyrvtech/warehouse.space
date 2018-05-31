@@ -203,7 +203,7 @@ class OrderController extends Controller {
                 $item->variant_id = $order->variant_id;
                 $item->product_name = $order->title;
                 $item->variant_title = $order->variant_title;
-                $item->product_link = 'https://'.$user->shop_url.'/admin/products/'.$order->product_id.'variants/'.$order->variant_id;
+                $item->product_link = 'https://'.$user->shop_url.'/admin/products/'.$order->product_id.'/variants/'.$order->variant_id;
 //                $item->description = $warehouse_order[$key]->Description;
                 $item->sku = $order->sku;
 //                $item->quantity = $order->quantity;
