@@ -203,8 +203,8 @@ class OrderController extends Controller {
                 $item->variant_title = $order->variant_title;
 //                $item->description = $warehouse_order[$key]->Description;
                 $item->sku = $order->sku;
-                $item->payment_status = $orders->financial_status;
-                $item->order_date = $orders->created_at;
+                $item->payment_status = $orders->order->financial_status;
+                $item->order_date = $orders->order->created_at;
 //                $item->quantity = $order->quantity;
 //                $item->price = $order->price;
                 $item->dispatched = $warehouse_order[$key]->Dispatched;
