@@ -24,7 +24,7 @@
                                     <div class="text-right">
                                         <p><b>Invoice ID</b> - {{ $order_details->order_id }}</p>
                                         <p><b>Order date</b> - {{ $order_details->order_date }}</p>
-                                        <p><b>Payment status</b><span class="label label-danger">{{ $order_details->payment_status }}</span></p>
+                                        <p><b>Payment status</b><span class="label label-danger"> - {{ $order_details->payment_status }}</span></p>
                                     </div>
                                 </div>
                             </div>
@@ -37,7 +37,7 @@
                                             <div class="col-md-8">
                                                 <!--<img src="{{ asset('/images/WSLogo.png') }}" alt="product-image">-->
                                                 <div class="item-info">
-                                                    <p><a href="/">{{ $value->product_name }}</a></p>
+                                                    <p><a href="{{ $value->product_link }}">{{ $value->product_name }}</a></p>
                                                     <span><p>{{ $value->variant_title }}</p></span>
                                                     <span><p>{{ $value->sku }}</p></span>
                                                 </div>
