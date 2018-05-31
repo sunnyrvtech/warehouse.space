@@ -194,17 +194,17 @@ class OrderController extends Controller {
             $orders = $shopify->call(['URL' => 'orders/' . $warehouse_order[0]->InvNumber . '.json?fields=id,financial_status,created_at,line_items', 'METHOD' => 'GET']);
            // dd($orders);
             
-            $order_details = array();
+            $order_details = (object) array();
+            $order_details->order_id = $orders->order->id;
+            $order_details->payment_status = $orders->order->financial_status;
+            $order_details->order_date = $orders->order->created_at;
             foreach ($orders->order->line_items as $key => $order) {
                 $item = (object) array();
-                $item->order_id = $orders->order->id;
                 $item->variant_id = $order->variant_id;
                 $item->product_name = $order->title;
                 $item->variant_title = $order->variant_title;
 //                $item->description = $warehouse_order[$key]->Description;
                 $item->sku = $order->sku;
-                $item->payment_status = $orders->order->financial_status;
-                $item->order_date = $orders->order->created_at;
 //                $item->quantity = $order->quantity;
 //                $item->price = $order->price;
                 $item->dispatched = $warehouse_order[$key]->Dispatched;
@@ -228,7 +228,7 @@ class OrderController extends Controller {
                     $item_status = "";
 
                 $item->item_status = $item_status;
-                $order_details['order'][$key] = $item;
+                $order_details->order[$key] = $item;
             }
             dd($order_details);
             $data['order_details'] = $order_details;
