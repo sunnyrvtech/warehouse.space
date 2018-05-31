@@ -239,13 +239,13 @@ class OrderController extends Controller {
         return redirect()->route('dashboard')->with('error-message', 'sorry! this order is not found in warehouse.');
     }
 
-    public function updateOrderStatus($id, $no, $key) {
+    public function updateOrderStatus($id, $no, $token) {
         $client = $this->_client;
-        $user = DeveloperSetting::Where([['warehouse_number', $no], ['account_key', $key]])->first();
+        $user = DeveloperSetting::Where([['warehouse_number', $no]])->first();
 
 
 //$shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
-        if (isset($user->get_user)) {
+        if (isset($user->get_user) && $token == env('WAREHOUSE_TOKEN')) {
 
             $request_array = (object) array();
             $request_array->AccountKey = $key;
@@ -260,7 +260,7 @@ class OrderController extends Controller {
                 $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->get_user->shop_url, 'ACCESS_TOKEN' => $user->get_user->access_token]);
 
                 $warehouse_order = $warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo;
-                $orders = $shopify->call(['URL' => 'orders/' . $id . '.json?fields=id,financial_status,created_at,line_items', 'METHOD' => 'GET']);
+                $orders = $shopify->call(['URL' => 'orders/' . 234424 . '.json?fields=id,financial_status,created_at,line_items', 'METHOD' => 'GET']);
             
                  dd($orders);
 //                if ($warehouse_order->OrderStatus == 4) {
