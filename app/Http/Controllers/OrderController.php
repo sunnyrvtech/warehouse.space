@@ -180,7 +180,7 @@ class OrderController extends Controller {
             }
 
             $orders = $shopify->call(['URL' => 'orders/' . $warehouse_order[0]->InvNumber . '.json?fields=id,financial_status,created_at,line_items', 'METHOD' => 'GET']);
-            dd($orders);
+           // dd($orders);
 
             $order_details = (object) array();
             $order_details->order_id = $orders->order->id;
