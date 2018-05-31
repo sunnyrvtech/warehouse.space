@@ -23,7 +23,7 @@
                                 <div class="col-md-9 col-sm-8 col-xs-12">
                                     <div class="text-right">
                                         <p><b>Invoice ID</b> - {{ $order_details->order_id }}</p>
-                                        <p><b>Order date</b> - {{ date('F d,Y',strtotime($order_details->order_date)) }}</p>
+                                        <p><b>Order date</b> - {{ date('M d,Y',strtotime($order_details->order_date)) }}</p>
                                         <p><b>Payment status</b><span class="label label-danger">{{ $order_details->payment_status }}</span></p>
                                     </div>
                                 </div>
@@ -34,20 +34,20 @@
                                     @foreach($order_details->items as $key=>$value)
                                     <div class="order-item">
                                         <div class="row">
-                                            <div class="col-md-9">
-                                                <img src="{{ asset('/images/WSLogo.png') }}" alt="product-image">
+                                            <div class="col-md-8">
+                                                <!--<img src="{{ asset('/images/WSLogo.png') }}" alt="product-image">-->
                                                 <div class="item-info">
                                                     <p><a href="/">{{ $value->product_name }}</a></p>
                                                     <span><p>{{ $value->variant_title }}</p></span>
                                                     <span><p>{{ $value->sku }}</p></span>
                                                 </div>
                                             </div>
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 <div class="text-right">
                                                     <p><b>Warehouse</b> - {{ $value->warehouse }}</p>
-                                                    <p><b>Picked At</b> - {{ date('F d,Y',strtotime($value->picked)) }}</p>
-                                                    <p><b>Packed At</b> - {{ date('F d,Y',strtotime($value->packed)) }}</p>
-                                                    <p><b>Dispached At</b> - {{ date('F d,Y',strtotime($value->dispatched)) }}</p>
+                                                    <p><b>Picked At</b> - {{ date('M d,Y',strtotime($value->picked)) }}</p>
+                                                    <p><b>Packed At</b> - {{ date('M d,Y',strtotime($value->packed)) }}</p>
+                                                    <p><b>Dispached At</b> - {{ date('M d,Y',strtotime($value->dispatched)) }}</p>
                                                     <p><b>Status</b> - {{ $value->item_status }}</p>
                                                 </div>
                                             </div>
