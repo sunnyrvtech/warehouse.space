@@ -37,21 +37,21 @@
                                             <div class="col-md-6">
                                                 <img src="{{ asset('/images/WSLogo.png') }}" alt="product-image">
                                                     <div class="item-info">
-                                                        <p><a>12 Colors Makeup Bright Moisturizing Lip Gloss Lipstick Long Lasting Lip Gloss Cosmetics Longwear Not Fad Magic Lip Gloss #703</a></p>
-                                                        <span><p>fafffsasf</p></span>
-                                                        <span><p>fafffsasf</p></span>
+                                                        <p><a href="/">{{ $value->product_name }}</a></p>
+                                                        <span><p>{{ $value->variant_title }}</p></span>
+                                                        <span><p>{{ $value->sku }}</p></span>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-2">
+                                                <div class="col-md-3">
                                                     <div class="text-right">
-                                                        <p><b>Warehouse</b> - 1298</p>
-                                                        <p><b>Picked At</b> - Jan 21st, 2017</p>
-                                                        <p><b>Packed At</b> - Jan 21st, 2017</p>
-                                                        <p><b>Dispached At</b> - Jan 21st, 2017</p>
-                                                        <p><b>Status</b> - Jan 21st, 2017</p>
+                                                        <p><b>Warehouse</b> - {{ $value->warehouse }}</p>
+                                                        <p><b>Picked At</b> - {{ date('F d,Y',strtotime($value->picked)) }}</p>
+                                                        <p><b>Packed At</b> - {{ date('F d,Y',strtotime($value->packed)) }}</p>
+                                                        <p><b>Dispached At</b> - {{ date('F d,Y',strtotime($value->dispatched)) }}</p>
+                                                        <p><b>Status</b> - {{ $value->item_status }}</p>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4"></div>
+                                                <div class="col-md-3"><iframe width="230" height="140" src="https://www.youtube.com/embed/ddzU-rkzKF0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
                                             </div>
                                         </div><br>
                                         {{--@endforeach--}}

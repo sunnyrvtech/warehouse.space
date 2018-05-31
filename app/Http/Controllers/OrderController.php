@@ -178,35 +178,56 @@ class OrderController extends Controller {
         $request_array->ListInvNumbers = array($order_id);
 
         $warehouse_order = $client->GetOrderShipmentInfo($request_array);
-        echo htmlentities($client->__getLastRequest());
-        echo "<pre>";
-        print_r($request_array);
-        dd($warehouse_order);
-        if (isset($warehouse_order->GetOrderShipmentInfoResult->OrderDetail)) {
+//        echo htmlentities($client->__getLastRequest());
+//        echo "<pre>";
+//        print_r($request_array);
+//        dd($warehouse_order);
+        if (isset($warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo)) {
             $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
 
-            $warehouse_order = $warehouse_order->GetOrderShipmentInfoResult->OrderDetail;
+            $warehouse_order = $warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo;
             if (count($warehouse_order) == 1) {
                 $single_array[0] = $warehouse_order;
                 $warehouse_order = $single_array;
             }
 
-            $orders = $shopify->call(['URL' => 'orders/' . $warehouse_order[0]->InvNumber . '.json?fields=id,line_items', 'METHOD' => 'GET']);
+            $orders = $shopify->call(['URL' => 'orders/' . $warehouse_order[0]->InvNumber . '.json?fields=id,financial_status,created_at,line_items', 'METHOD' => 'GET']);
+            dd($orders);
+            
             $order_details = array();
             foreach ($orders->order->line_items as $key => $order) {
                 $item = (object) array();
                 $item->order_id = $orders->order->id;
-                $item->product_name = $order->name;
-                $item->description = $warehouse_order[$key]->Description;
+                $item->variant_id = $order->variant_id;
+                $item->product_name = $order->title;
+                $item->variant_title = $order->variant_title;
+//                $item->description = $warehouse_order[$key]->Description;
                 $item->sku = $order->sku;
-                $item->quantity = $order->quantity;
-                $item->price = $order->price;
+                $item->payment_status = $orders->financial_status;
+                $item->order_date = $orders->created_at;
+//                $item->quantity = $order->quantity;
+//                $item->price = $order->price;
                 $item->dispatched = $warehouse_order[$key]->Dispatched;
                 $item->packed = $warehouse_order[$key]->Packed;
                 $item->picked = $warehouse_order[$key]->Picked;
                 $item->warehouse = $warehouse_order[$key]->Warehouse;
                 $item->you_tube_url = $warehouse_order[$key]->YouttubeUrl;
-                $item->item_status = $warehouse_order[$key]->OrderStatus;
+                if ($warehouse_order[$key]->OrderStatus == 0)
+                    $item_status = "Pending";
+                elseif ($warehouse_order[$key]->OrderStatus == 2)
+                    $item_status = "Selected/picked";
+                elseif ($warehouse_order[$key]->OrderStatus == 3)
+                    $item_status = "In Progress";
+                elseif ($warehouse_order[$key]->OrderStatus == 4)
+                    $item_status = "completed";
+                elseif ($warehouse_order[$key]->OrderStatus == 6)
+                    $item_status = "On Hold";
+                elseif ($warehouse_order[$key]->OrderStatus == 7)
+                    $item_status = "Cancelled";
+                else
+                    $item_status = "";
+
+                $item->item_status = $item_status;
                 $order_details[$key] = $item;
             }
 //            dd($order_details);
@@ -218,13 +239,13 @@ class OrderController extends Controller {
     }
 
     public function updateOrderStatus(Request $request) {
-        
-                  return view('order_detail');
+
+        return view('order_detail');
 
         $client = $this->_client;
 
 
-        $user = DeveloperSetting::Where([['warehouse_number', $no], ['account_key',$key]])->first();
+        $user = DeveloperSetting::Where([['warehouse_number', $no], ['account_key', $key]])->first();
 
 
 //$shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
@@ -235,9 +256,9 @@ class OrderController extends Controller {
             $request_array->ListInvNumbers = array($id);
             //dd($request_array);
             $result = $client->GetOrderShipmentInfo($request_array);
-                echo "<pre>";
-                print_r($result);
-                die;
+            echo "<pre>";
+            print_r($result);
+            die;
 
             if (isset($result->GetOrderShipmentInfoResult->OrderDetail)) {
                 $result = $result->GetOrderShipmentInfoResult->OrderDetail;
@@ -263,7 +284,7 @@ class OrderController extends Controller {
                 }
             }
         }
-        return json_decode(array('success'=>false,'message'=>'Invalid request !'));
+        return json_decode(array('success' => false, 'message' => 'Invalid request !'));
     }
 
 }
