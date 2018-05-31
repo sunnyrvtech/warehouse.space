@@ -37,7 +37,7 @@
                                             <div class="col-md-8">
                                                 <!--<img src="{{ asset('/images/WSLogo.png') }}" alt="product-image">-->
                                                 <div class="item-info">
-                                                    <p><a href="{{ $value->product_link }}">{{ $value->product_name }}</a></p>
+                                                    <p><a target="_blank" href="{{ $value->product_link }}">{{ $value->product_name }}</a></p>
                                                     <span><p>{{ $value->variant_title }}</p></span>
                                                     <span><p>{{ $value->sku }}</p></span>
                                                 </div>
