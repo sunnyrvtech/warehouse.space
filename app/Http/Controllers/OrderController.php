@@ -8,7 +8,6 @@ use SoapClient;
 use SoapFault;
 use App\User;
 use App\DeveloperSetting;
-use App\Order;
 use App;
 
 class OrderController extends Controller {
@@ -101,15 +100,6 @@ class OrderController extends Controller {
                         'ProductID' => $item_data['variant_id'],
                         'Quantity' => $item_data['quantity']
             );
-
-            $order_create_array[$key] = array(
-                'shop_url' => $user->shop_url,
-                'account_key' => $user->get_dev_setting->account_key,
-                'access_token' => $user->access_token,
-                'order_id' => $request->get('id'),
-                'item_id' => $item_data['id'],
-                'variant_id' => $item_data['variant_id']
-            );
         }
 
         $order_array->ArticlesList = $article_array;
@@ -144,8 +134,6 @@ class OrderController extends Controller {
         $order_array->AccountKey = $user->get_dev_setting->account_key;
         //Log::info(' Order update' . json_encode($order_array));
         $result = $client->OrderDetail($order_array);
-        if ($result->OrderDetailResult->ErrorMessage == "")
-            Order::insert($order_create_array);
         return $result;
     }
 
@@ -192,7 +180,7 @@ class OrderController extends Controller {
             }
 
             $orders = $shopify->call(['URL' => 'orders/' . $warehouse_order[0]->InvNumber . '.json?fields=id,financial_status,created_at,line_items', 'METHOD' => 'GET']);
-             dd($orders);
+            dd($orders);
 
             $order_details = (object) array();
             $order_details->order_id = $orders->order->id;
@@ -266,48 +254,32 @@ class OrderController extends Controller {
                     return json_encode(array('success' => false));
                 }
                 //dd($orders);
-                foreach ($orders->order->line_items as $key => $order) {
-                    if ($order->fulfillment_status == 'null' && $order->variant_id == $warehouse_order[$key]->ProductID && $warehouse_order[$key]->OrderStatus == 4) {
-                        $item_array[0] = array('id' => $order->id);
-                        try {
-                            $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => array("location_id" => null, "tracking_number" => null, "line_items" => $item_array)]]);
-                        } catch (\Exception $e) {
-                            Log::info('Order status update error ' . $result->InvNumber . $e->getMessage());
-                            return json_encode(array('success' => false));
-                        }
-                    } elseif ($order->fulfillment_status == 'null' && $order->variant_id == $warehouse_order[$key]->ProductID && $warehouse_order[$key]->OrderStatus == 0) {
-                        try {
-                            $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/cancel.json', 'METHOD' => 'POST', "DATA" => ['email' => true]]);
-                        } catch (\Exception $e) {
-                            Log::info('Order status update error' . $result->InvNumber . $e->getMessage());
-                            return json_encode(array('success' => false));
-                        }
+
+                if ($warehouse_order[0]->OrderStatus == 4 && $orders->order->fulfillment_status == null) {
+                    $item_ids_array = array();
+                    $track_info_array = array();
+                    foreach ($orders->order->line_items as $key => $order) {
+                        $item_ids_array[$key] = $order->id;
+                        $track_info_array[$key] = $warehouse_order[$key]->Shipments->ShipmentDetail->TrackingNuber;
+                    }
+                    try {
+                        $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => array("location_id" => null, "tracking_number" => $track_info_array, "line_items" => $item_ids_array)]]);
+                    } catch (\Exception $e) {
+                        Log::info('Order status update error ' . $id . $e->getMessage());
+                        return json_encode(array('success' => false));
+                    }
+                } elseif ($warehouse_order[0]->OrderStatus == 7) {
+                    try {
+                        $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/cancel.json', 'METHOD' => 'POST', "DATA" => ['email' => true]]);
+                    } catch (\Exception $e) {
+                        Log::info('Order status update error' . $id . $e->getMessage());
+                        return json_encode(array('success' => false));
                     }
                 }
-                return json_encode(array('success' => true, 'orderId' => $id));
-
-
-//                if ($warehouse_order->OrderStatus == 4) {
-//                    $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $order->shop_url, 'ACCESS_TOKEN' => $order->access_token]);
-//                    $item_array[0] = array('id' => $order->item_id);
-//                    try {
-//                        $shopify_result = $shopify->call(['URL' => 'orders/' . $result->InvNumber . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => array("location_id" => null, "tracking_number" => null, "line_items" => $item_array)]]);
-//                    } catch (\Exception $e) {
-//                        Log::info(' Order id ' . $result->InvNumber . $e->getMessage());
-//                    }
-//                    Order::where('id', '=', $order->id)->delete();
-//                } elseif ($result->OrderStatus == 0) {
-//                    $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $order->shop_url, 'ACCESS_TOKEN' => $order->access_token]);
-//                    try {
-//                        $shopify_result = $shopify->call(['URL' => 'orders/' . $result->InvNumber . '/cancel.json', 'METHOD' => 'POST', "DATA" => ['email' => true]]);
-//                    } catch (\Exception $e) {
-//                        Log::info(' Order ' . $result->InvNumber . $e->getMessage());
-//                    }
-//                    Order::where('id', '=', $order->id)->delete();
-//                }
+                return json_encode(array('success' => true));               
             }
         }
-        return json_encode(array('success' => false, 'orderId' => $id));
+        return json_encode(array('success' => false));
     }
 
 }
