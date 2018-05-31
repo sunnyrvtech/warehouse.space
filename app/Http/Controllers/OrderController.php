@@ -179,9 +179,9 @@ class OrderController extends Controller {
 
         $warehouse_order = $client->GetOrderShipmentInfo($request_array);
 //        echo htmlentities($client->__getLastRequest());
-//        echo "<pre>";
-//        print_r($request_array);
-//        dd($warehouse_order);
+        echo "<pre>";
+        print_r($request_array);
+        dd($warehouse_order);
         if (isset($warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo)) {
             $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
 
@@ -203,7 +203,7 @@ class OrderController extends Controller {
                 $item->variant_id = $order->variant_id;
                 $item->product_name = $order->title;
                 $item->variant_title = $order->variant_title;
-                $item->product_link = 'https://'.$user->shop_url.'/admin/products/'.$order->product_id.'/variants/'.$order->variant_id;
+                $item->product_link = 'https://' . $user->shop_url . '/admin/products/' . $order->product_id . '/variants/' . $order->variant_id;
 //                $item->description = $warehouse_order[$key]->Description;
                 $item->sku = $order->sku;
 //                $item->quantity = $order->quantity;
@@ -240,7 +240,7 @@ class OrderController extends Controller {
     }
 
     public function updateOrderStatus($id, $no, $key) {
-$client = $this->_client;
+        $client = $this->_client;
         $user = DeveloperSetting::Where([['warehouse_number', $no], ['account_key', $key]])->first();
 
 
@@ -250,9 +250,9 @@ $client = $this->_client;
             $request_array = (object) array();
             $request_array->AccountKey = $key;
             $request_array->ListInvNumbers = array($id);
-            dd($request_array);
             $warehouse_order = $client->GetOrderShipmentInfo($request_array);
             echo "<pre>";
+            print_r($request_array);
             print_r($warehouse_order);
             die;
 
