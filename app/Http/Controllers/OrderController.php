@@ -178,6 +178,7 @@ class OrderController extends Controller {
         $request_array->ListInvNumbers = array($order_id);
 
         $warehouse_order = $client->GetOrderShipmentInfo($request_array);
+        echo $client->__getLastRequest();
         echo "<pre>";
         print_r($request_array);
         dd($warehouse_order);
@@ -216,7 +217,9 @@ class OrderController extends Controller {
         return redirect()->route('dashboard')->with('error-message', 'sorry! this order is not found in warehouse.');
     }
 
-    public function updateOrderStatus($id, $no, $key) {
+    public function updateOrderStatus(Request $request) {
+        
+                  return view('order_detail');
 
         $client = $this->_client;
 
