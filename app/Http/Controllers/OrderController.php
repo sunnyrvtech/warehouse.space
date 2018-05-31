@@ -251,36 +251,39 @@ class OrderController extends Controller {
             $request_array->AccountKey = $key;
             $request_array->ListInvNumbers = array($id);
             $warehouse_order = $client->GetOrderShipmentInfo($request_array);
-            echo "<pre>";
-            print_r($request_array);
-            print_r($warehouse_order);
-            die;
+//            echo "<pre>";
+//            print_r($request_array);
+//            print_r($warehouse_order);
+//            die;
 
-            if (isset($warehouse_order->GetOrderShipmentInfoResult->OrderDetail)) {
-                $warehouse_order = $warehouse_order->GetOrderShipmentInfoResult->OrderDetail;
+            if (isset($warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo)) {
+                $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->get_user->shop_url, 'ACCESS_TOKEN' => $user->get_user->access_token]);
 
-                // dd($result);
-                if ($warehouse_order->OrderStatus == 4) {
-                    $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $order->shop_url, 'ACCESS_TOKEN' => $order->access_token]);
-                    $item_array[0] = array('id' => $order->item_id);
-                    try {
-                        $shopify_result = $shopify->call(['URL' => 'orders/' . $result->InvNumber . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => array("location_id" => null, "tracking_number" => null, "line_items" => $item_array)]]);
-                    } catch (\Exception $e) {
-                        Log::info(' Order id ' . $result->InvNumber . $e->getMessage());
-                    }
-                    Order::where('id', '=', $order->id)->delete();
-                } elseif ($result->OrderStatus == 0) {
-                    $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $order->shop_url, 'ACCESS_TOKEN' => $order->access_token]);
-                    try {
-                        $shopify_result = $shopify->call(['URL' => 'orders/' . $result->InvNumber . '/cancel.json', 'METHOD' => 'POST', "DATA" => ['email' => true]]);
-                    } catch (\Exception $e) {
-                        Log::info(' Order ' . $result->InvNumber . $e->getMessage());
-                    }
-                    Order::where('id', '=', $order->id)->delete();
-                }
+                $warehouse_order = $warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo;
+                $orders = $shopify->call(['URL' => 'orders/' . $id . '.json?fields=id,financial_status,created_at,line_items', 'METHOD' => 'GET']);
+            
+                 dd($orders);
+//                if ($warehouse_order->OrderStatus == 4) {
+//                    $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $order->shop_url, 'ACCESS_TOKEN' => $order->access_token]);
+//                    $item_array[0] = array('id' => $order->item_id);
+//                    try {
+//                        $shopify_result = $shopify->call(['URL' => 'orders/' . $result->InvNumber . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => array("location_id" => null, "tracking_number" => null, "line_items" => $item_array)]]);
+//                    } catch (\Exception $e) {
+//                        Log::info(' Order id ' . $result->InvNumber . $e->getMessage());
+//                    }
+//                    Order::where('id', '=', $order->id)->delete();
+//                } elseif ($result->OrderStatus == 0) {
+//                    $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $order->shop_url, 'ACCESS_TOKEN' => $order->access_token]);
+//                    try {
+//                        $shopify_result = $shopify->call(['URL' => 'orders/' . $result->InvNumber . '/cancel.json', 'METHOD' => 'POST', "DATA" => ['email' => true]]);
+//                    } catch (\Exception $e) {
+//                        Log::info(' Order ' . $result->InvNumber . $e->getMessage());
+//                    }
+//                    Order::where('id', '=', $order->id)->delete();
+//                }
             }
         }
-        return json_decode(array('success' => false, 'message' => 'Invalid request !'));
+        return json_encode(array('success' => false, 'message' => 'Invalid request !'));
     }
 
 }
