@@ -192,12 +192,12 @@ class OrderController extends Controller {
             }
 
             $orders = $shopify->call(['URL' => 'orders/' . $warehouse_order[0]->InvNumber . '.json?fields=id,financial_status,created_at,line_items', 'METHOD' => 'GET']);
-           // dd($orders);
-            
+            // dd($orders);
+
             $order_details = (object) array();
             $order_details->order_id = $orders->order->id;
             $order_details->payment_status = $orders->order->financial_status;
-            $order_details->order_date = $orders->order->created_at;
+            $order_details->order_date = date('M d,Y', strtotime($orders->order->created_at));
             foreach ($orders->order->line_items as $key => $order) {
                 $item = (object) array();
                 $item->variant_id = $order->variant_id;
@@ -207,9 +207,9 @@ class OrderController extends Controller {
                 $item->sku = $order->sku;
 //                $item->quantity = $order->quantity;
 //                $item->price = $order->price;
-                $item->dispatched = $warehouse_order[$key]->Dispatched;
-                $item->packed = $warehouse_order[$key]->Packed;
-                $item->picked = $warehouse_order[$key]->Picked;
+                $item->dispatched = $warehouse_order[$key]->Dispatched != null ? date('M d,Y', strtotime($warehouse_order[$key]->Dispatched)) : '';
+                $item->packed = $warehouse_order[$key]->Packed != null ? date('M d,Y', strtotime($warehouse_order[$key]->Packed)) : '';
+                $item->picked = $warehouse_order[$key]->Picked != null ? date('M d,Y', strtotime($warehouse_order[$key]->Picked)) : '';
                 $item->warehouse = $warehouse_order[$key]->Warehouse;
 //                $item->you_tube_url = $warehouse_order[$key]->YouttubeUrl;
                 if ($warehouse_order[$key]->OrderStatus == 0)
@@ -230,7 +230,7 @@ class OrderController extends Controller {
                 $item->item_status = $item_status;
                 $order_details->items[$key] = $item;
             }
-            dd($order_details);
+            // dd($order_details);
             $data['order_details'] = $order_details;
             return view('order_detail', $data);
         }

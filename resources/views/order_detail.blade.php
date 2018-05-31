@@ -23,7 +23,7 @@
                                 <div class="col-md-9 col-sm-8 col-xs-12">
                                     <div class="text-right">
                                         <p><b>Invoice ID</b> - {{ $order_details->order_id }}</p>
-                                        <p><b>Order date</b> - {{ date('M d,Y',strtotime($order_details->order_date)) }}</p>
+                                        <p><b>Order date</b> - {{ $order_details->order_date }}</p>
                                         <p><b>Payment status</b><span class="label label-danger">{{ $order_details->payment_status }}</span></p>
                                     </div>
                                 </div>
@@ -45,9 +45,9 @@
                                             <div class="col-md-4">
                                                 <div class="text-right">
                                                     <p><b>Warehouse</b> - {{ $value->warehouse }}</p>
-                                                    <p><b>Picked At</b> - {{ date('M d,Y',strtotime($value->picked)) }}</p>
-                                                    <p><b>Packed At</b> - {{ date('M d,Y',strtotime($value->packed)) }}</p>
-                                                    <p><b>Dispached At</b> - {{ date('M d,Y',strtotime($value->dispatched)) }}</p>
+                                                    <p><b>Picked At</b> - {{ $value->picked }}</p>
+                                                    <p><b>Packed At</b> - {{ $value->packed }}</p>
+                                                    <p><b>Dispached At</b> - {{ $value->dispatched }}</p>
                                                     <p><b>Status</b> - {{ $value->item_status }}</p>
                                                 </div>
                                             </div>
