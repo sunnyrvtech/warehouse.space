@@ -179,6 +179,7 @@ class OrderController extends Controller {
 
         $warehouse_order = $client->GetOrderShipmentInfo($request_array);
         echo $client->__getLastRequest();
+        echo $client->__getLastRequestHeaders();
         echo "<pre>";
         print_r($request_array);
         dd($warehouse_order);
