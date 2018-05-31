@@ -211,7 +211,7 @@ class OrderController extends Controller {
                 $item->packed = $warehouse_order[$key]->Packed;
                 $item->picked = $warehouse_order[$key]->Picked;
                 $item->warehouse = $warehouse_order[$key]->Warehouse;
-                $item->you_tube_url = $warehouse_order[$key]->YouttubeUrl;
+//                $item->you_tube_url = $warehouse_order[$key]->YouttubeUrl;
                 if ($warehouse_order[$key]->OrderStatus == 0)
                     $item_status = "Pending";
                 elseif ($warehouse_order[$key]->OrderStatus == 2)
