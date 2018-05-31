@@ -175,10 +175,11 @@ class OrderController extends Controller {
         $user = auth()->user();
         $request_array = (object) array();
         $request_array->AccountKey = $user->get_dev_setting->account_key;
-        $request_array->ListInvNumbers = array(0 => $order_id);
+        $request_array->ListInvNumbers = array($order_id);
 
         $warehouse_order = $client->GetOrderShipmentInfo($request_array);
         echo "<pre>";
+        print_r($request_array);
         dd($warehouse_order);
         if (isset($warehouse_order->GetOrderShipmentInfoResult->OrderDetail)) {
             $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
@@ -228,7 +229,7 @@ class OrderController extends Controller {
 
             $request_array = (object) array();
             $request_array->AccountKey = $key;
-            $request_array->ListInvNumbers = array(0 => $id);
+            $request_array->ListInvNumbers = array($id);
             //dd($request_array);
             $result = $client->GetOrderShipmentInfo($request_array);
                 echo "<pre>";
