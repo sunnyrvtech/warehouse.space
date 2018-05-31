@@ -250,7 +250,7 @@ $client = $this->_client;
             $request_array = (object) array();
             $request_array->AccountKey = $key;
             $request_array->ListInvNumbers = array($id);
-            //dd($request_array);
+            dd($request_array);
             $warehouse_order = $client->GetOrderShipmentInfo($request_array);
             echo "<pre>";
             print_r($warehouse_order);
