@@ -22,51 +22,51 @@
                                 </div>
                                 <div class="col-md-9 col-sm-8 col-xs-12">
                                     <div class="text-right">
-                                        <p><b>Invoice ID</b> - 1298</p>
-                                        <p><b>Order date</b> - Jan 21st, 2017</p>
-                                        <p><b>Payment status</b><span class="label label-danger">Due</span></p>
+                                        <p><b>Invoice ID</b> - {{ $order_details->order_id }}</p>
+                                        <p><b>Order date</b> - {{ date('F d,Y',strtotime($order_details->order_date)) }}</p>
+                                        <p><b>Payment status</b><span class="label label-danger">{{ $order_details->payment_status }}</span></p>
                                     </div>
                                 </div>
                             </div>
                             <hr><br>
                             <div class="row">
                                 <div class="col-md-12">
-                                    {{--@foreach($order_details as $key=>$value)--}}
-                                                    <div class="order-item">
+                                    @foreach($order_details as $key=>$value)
+                                    <div class="order-item">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <img src="{{ asset('/images/WSLogo.png') }}" alt="product-image">
-                                                    <div class="item-info">
-                                                        <p><a href="/">{{ $value->product_name }}</a></p>
-                                                        <span><p>{{ $value->variant_title }}</p></span>
-                                                        <span><p>{{ $value->sku }}</p></span>
-                                                    </div>
+                                                <div class="item-info">
+                                                    <p><a href="/">{{ $value->product_name }}</a></p>
+                                                    <span><p>{{ $value->variant_title }}</p></span>
+                                                    <span><p>{{ $value->sku }}</p></span>
                                                 </div>
-                                                <div class="col-md-3">
-                                                    <div class="text-right">
-                                                        <p><b>Warehouse</b> - {{ $value->warehouse }}</p>
-                                                        <p><b>Picked At</b> - {{ date('F d,Y',strtotime($value->picked)) }}</p>
-                                                        <p><b>Packed At</b> - {{ date('F d,Y',strtotime($value->packed)) }}</p>
-                                                        <p><b>Dispached At</b> - {{ date('F d,Y',strtotime($value->dispatched)) }}</p>
-                                                        <p><b>Status</b> - {{ $value->item_status }}</p>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3"><iframe width="230" height="140" src="https://www.youtube.com/embed/ddzU-rkzKF0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
                                             </div>
-                                        </div><br>
-                                        {{--@endforeach--}}
-                                    </div>
+                                            <div class="col-md-3">
+                                                <div class="text-right">
+                                                    <p><b>Warehouse</b> - {{ $value->warehouse }}</p>
+                                                    <p><b>Picked At</b> - {{ date('F d,Y',strtotime($value->picked)) }}</p>
+                                                    <p><b>Packed At</b> - {{ date('F d,Y',strtotime($value->packed)) }}</p>
+                                                    <p><b>Dispached At</b> - {{ date('F d,Y',strtotime($value->dispatched)) }}</p>
+                                                    <p><b>Status</b> - {{ $value->item_status }}</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3"><iframe width="230" height="140" src="https://www.youtube.com/embed/ddzU-rkzKF0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
+                                        </div>
+                                    </div><br>
+                                    @endforeach
                                 </div>
-                                <div class="row">
-                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                                        <p><b>Note:</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In varius convallis odio, pharetra maximus nisi imperdiet ut. Aliquam in accumsan velit, sit amet varius maurist libero nunc, mattis a vulputate eu, maximus sed massa.</p>
-                                    </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+                                    <p><b>Note:</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In varius convallis odio, pharetra maximus nisi imperdiet ut. Aliquam in accumsan velit, sit amet varius maurist libero nunc, mattis a vulputate eu, maximus sed massa.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>  
-        </div>
+            </div>
+        </div>  
+    </div>
 </section>
 @endsection

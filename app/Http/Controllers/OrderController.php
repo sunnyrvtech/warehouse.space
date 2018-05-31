@@ -228,9 +228,9 @@ class OrderController extends Controller {
                     $item_status = "";
 
                 $item->item_status = $item_status;
-                $order_details->order[$key] = $item;
+                $order_details->items[$key] = $item;
             }
-            dd($order_details);
+           // dd($order_details);
             $data['order_details'] = $order_details;
             return view('order_detail', $data);
         }
