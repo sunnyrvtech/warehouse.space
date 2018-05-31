@@ -260,8 +260,12 @@ class OrderController extends Controller {
                 $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->get_user->shop_url, 'ACCESS_TOKEN' => $user->get_user->access_token]);
 
                 $warehouse_order = $warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo;
+                try {
                 $orders = $shopify->call(['URL' => 'orders/' . 234424 . '.json?fields=id,financial_status,created_at,line_items', 'METHOD' => 'GET']);
-            
+               } catch (\Exception $e) {
+                   echo $e->getMessage();
+                   die;
+               }
                  dd($orders);
 //                if ($warehouse_order->OrderStatus == 4) {
 //                    $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $order->shop_url, 'ACCESS_TOKEN' => $order->access_token]);
