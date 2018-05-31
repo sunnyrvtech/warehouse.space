@@ -178,8 +178,7 @@ class OrderController extends Controller {
         $request_array->ListInvNumbers = array($order_id);
 
         $warehouse_order = $client->GetOrderShipmentInfo($request_array);
-        echo $client->__getLastRequest();
-        echo $client->__getLastRequestHeaders();
+        echo htmlentities($client->__getLastRequest());
         echo "<pre>";
         print_r($request_array);
         dd($warehouse_order);
