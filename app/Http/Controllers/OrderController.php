@@ -240,7 +240,7 @@ class OrderController extends Controller {
     }
 
     public function updateOrderStatus($id, $no, $key) {
-
+$client = $this->_client;
         $user = DeveloperSetting::Where([['warehouse_number', $no], ['account_key', $key]])->first();
 
 
