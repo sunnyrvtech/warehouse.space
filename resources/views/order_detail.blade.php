@@ -34,7 +34,7 @@
                                     @foreach($order_details->items as $key=>$value)
                                     <div class="order-item">
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-9">
                                                 <img src="{{ asset('/images/WSLogo.png') }}" alt="product-image">
                                                 <div class="item-info">
                                                     <p><a href="/">{{ $value->product_name }}</a></p>
@@ -51,7 +51,7 @@
                                                     <p><b>Status</b> - {{ $value->item_status }}</p>
                                                 </div>
                                             </div>
-                                            <div class="col-md-3"><iframe width="230" height="140" src="https://www.youtube.com/embed/ddzU-rkzKF0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
+                                            <!--<div class="col-md-3"><iframe width="230" height="140" src="https://www.youtube.com/embed/ddzU-rkzKF0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>-->
                                         </div>
                                     </div><br>
                                     @endforeach
