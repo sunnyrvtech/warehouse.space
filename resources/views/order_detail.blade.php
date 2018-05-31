@@ -31,7 +31,7 @@
                             <hr><br>
                             <div class="row">
                                 <div class="col-md-12">
-                                    @foreach($order_details as $key=>$value)
+                                    @foreach($order_details->items as $key=>$value)
                                     <div class="order-item">
                                         <div class="row">
                                             <div class="col-md-6">
