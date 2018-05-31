@@ -179,9 +179,9 @@ class OrderController extends Controller {
 
         $warehouse_order = $client->GetOrderShipmentInfo($request_array);
 //        echo htmlentities($client->__getLastRequest());
-        echo "<pre>";
-        print_r($request_array);
-        dd($warehouse_order);
+//        echo "<pre>";
+//        print_r($request_array);
+//        dd($warehouse_order);
         if (isset($warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo)) {
             $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
 
@@ -192,7 +192,7 @@ class OrderController extends Controller {
             }
 
             $orders = $shopify->call(['URL' => 'orders/' . $warehouse_order[0]->InvNumber . '.json?fields=id,financial_status,created_at,line_items', 'METHOD' => 'GET']);
-            // dd($orders);
+             dd($orders);
 
             $order_details = (object) array();
             $order_details->order_id = $orders->order->id;
@@ -263,9 +263,30 @@ class OrderController extends Controller {
                 try {
                     $orders = $shopify->call(['URL' => 'orders/' . $id . '.json?fields=id,financial_status,created_at,line_items', 'METHOD' => 'GET']);
                 } catch (\Exception $e) {
-                    return json_encode(array('success' => false, 'message' => 'Order not found in the shopify store !'));
+                    return json_encode(array('success' => false));
                 }
-                dd($orders);
+                //dd($orders);
+                foreach ($orders->order->line_items as $key => $order) {
+                    if ($order->fulfillment_status == 'null' && $order->variant_id == $warehouse_order[$key]->ProductID && $warehouse_order[$key]->OrderStatus == 4) {
+                        $item_array[0] = array('id' => $order->id);
+                        try {
+                            $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => array("location_id" => null, "tracking_number" => null, "line_items" => $item_array)]]);
+                        } catch (\Exception $e) {
+                            Log::info('Order status update error ' . $result->InvNumber . $e->getMessage());
+                            return json_encode(array('success' => false));
+                        }
+                    } elseif ($order->fulfillment_status == 'null' && $order->variant_id == $warehouse_order[$key]->ProductID && $warehouse_order[$key]->OrderStatus == 0) {
+                        try {
+                            $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/cancel.json', 'METHOD' => 'POST', "DATA" => ['email' => true]]);
+                        } catch (\Exception $e) {
+                            Log::info('Order status update error' . $result->InvNumber . $e->getMessage());
+                            return json_encode(array('success' => false));
+                        }
+                    }
+                }
+                return json_encode(array('success' => true, 'orderId' => $id));
+
+
 //                if ($warehouse_order->OrderStatus == 4) {
 //                    $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $order->shop_url, 'ACCESS_TOKEN' => $order->access_token]);
 //                    $item_array[0] = array('id' => $order->item_id);
@@ -286,7 +307,7 @@ class OrderController extends Controller {
 //                }
             }
         }
-        return json_encode(array('success' => false, 'message' => 'Invalid request !'));
+        return json_encode(array('success' => false, 'orderId' => $id));
     }
 
 }
