@@ -22,16 +22,22 @@
                                 </div>
                                 <div class="col-md-9 col-sm-8 col-xs-12">
                                     <div class="text-right">
+                                        {{--
                                         <p><b>Invoice ID</b> - {{ $order_details->order_id }}</p>
                                         <p><b>Order date</b> - {{ $order_details->order_date }}</p>
                                         <p><b>Payment status</b><span class="label label-danger"> - {{ $order_details->payment_status }}</span></p>
+                                        --}}
+                                        <p><b>Invoice ID</b> - 465475477</p>
+                                        <p><b>Order date</b> - Jan 21st, 2017</p>
+                                        <p><b>Payment status</b><span class="label label-danger"> - paid</span></p>
+                                        
                                     </div>
                                 </div>
                             </div>
                             <hr><br>
                             <div class="row">
                                 <div class="col-md-12">
-                                    @foreach($order_details->items as $key=>$value)
+                                    {{--@foreach($order_details->items as $key=>$value)
                                     <div class="order-item">
                                         <div class="row">
                                             <div class="col-md-8">
@@ -54,7 +60,29 @@
                                             <!--<div class="col-md-3"><iframe width="230" height="140" src="https://www.youtube.com/embed/ddzU-rkzKF0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>-->
                                         </div>
                                     </div><br>
-                                    @endforeach
+                                    @endforeach--}}
+                                    <div class="order-item">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <!--<img src="{{ asset('/images/WSLogo.png') }}" alt="product-image">-->
+                                                <div class="item-info">
+                                                    <p><a target="_blank" href="gdgd">hdh</a></p>
+                                                    <span><p>fddhdhfd</p></span>
+                                                    <span><p>fdhfdfdhd</p></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="text-right">
+                                                    <p><b>Warehouse</b> - gsgfgfg</p>
+                                                    <p><b>Picked At</b> - Jan 21st, 2017</p>
+                                                    <p><b>Packed At</b> - Jan 21st, 2017</p>
+                                                    <p><b>Dispached At</b> - Jan 21st, 2017</p>
+                                                    <p><b>Status</b> - gfdrereret</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3"><iframe width="230" height="140" src="https://www.youtube.com/embed/ddzU-rkzKF0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
+                                        </div>
+                                    </div><br>
                                 </div>
                             </div>
                             <div class="row">

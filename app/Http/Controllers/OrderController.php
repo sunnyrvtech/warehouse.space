@@ -156,6 +156,7 @@ class OrderController extends Controller {
     }
 
     public function orderDetails(Request $request, $slug) {
+          return view('order_detail');
         $client = $this->_client;
 
         $shopify_parameter = json_decode(base64_decode($slug));
@@ -227,7 +228,8 @@ class OrderController extends Controller {
         return redirect()->route('dashboard')->with('error-message', 'sorry! this order is not found in warehouse.');
     }
 
-    public function updateOrderStatus($id, $no, $token) {
+    public function updateOrderStatus() {
+         return view('order_detail');
         $client = $this->_client;
         $user = DeveloperSetting::Where([['warehouse_number', $no]])->first();
 
