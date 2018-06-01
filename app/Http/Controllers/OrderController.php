@@ -239,10 +239,10 @@ class OrderController extends Controller {
             $request_array->AccountKey = $user->account_key;
             $request_array->ListInvNumbers = array($id);
             $warehouse_order = $client->GetOrderShipmentInfo($request_array);
-//            echo "<pre>";
-//            print_r($request_array);
-//            print_r($warehouse_order);
-//            die;
+            echo "<pre>";
+            print_r($request_array);
+            print_r($warehouse_order);
+            die;
 
             if (isset($warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo)) {
                 $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->get_user->shop_url, 'ACCESS_TOKEN' => $user->get_user->access_token]);
@@ -270,22 +270,25 @@ class OrderController extends Controller {
                             $article_array[0] = $shipment->Articles->Article;
                             $articles = $article_array;
                         }
-
-
                         $product_id_array = array_column($articles, 'ProductID');
-
-                        print_r($product_id_array);
-
-
+                        //print_r($product_id_array);
                         $item_ids_array = array();
                         foreach ($orders->order->line_items as $key => $order) {
-                            echo $order->variant_id.'<br>';
+                            //echo $order->variant_id.'<br>';
                             if (in_array($order->variant_id, $product_id_array)) {
                                 $item_ids_array[$key] = $order->id;
                             }
                         }
                        // echo count($warehouse_shipment);
-                        dd($item_ids_array);
+                        //dd($item_ids_array);
+                        
+                        
+                        try {
+                        $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => array("location_id" => null, "tracking_number" => $track_info_array, "line_items" => $item_ids_array)]]);
+                        } catch (\Exception $e) {
+                            Log::info('Order status update error ' . $id . $e->getMessage());
+                            return json_encode(array('success' => false));
+                        }
                     }
 
 
