@@ -287,7 +287,7 @@ class OrderController extends Controller {
                             Log::info('Order status update error ' . $id . $e->getMessage());
                             return json_encode(array('success' => false));
                         }
-//                            dd($shopify_result);
+                            dd($shopify_result);
                     }
                 } elseif ($warehouse_order->OrderStatus == 7) {
                     try {
