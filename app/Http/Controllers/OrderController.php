@@ -260,11 +260,19 @@ class OrderController extends Controller {
 
                     $warehouse_shipment = $warehouse_order->Shipments->ShipmentDetail;
                     if (count($warehouse_order->Shipments->ShipmentDetail) == 1) {
-                        $single_array[0] = $warehouse_order->Shipments->ShipmentDetail;
-                        $warehouse_shipment = $single_array;
+                        $shipment_array[0] = $warehouse_order->Shipments->ShipmentDetail;
+                        $warehouse_shipment = $shipment_array;
                     }
 
-                    dd($warehouse_shipment);
+                    foreach ($warehouse_shipment as $shipment) {
+                        $articles = $shipment->Articles->Article;
+                        if (count($shipment->Articles->Article) == 1) {
+                            $article_array[0] = $shipment->Articles->Article;
+                            $articles = $article_array;
+                        }
+                        
+                        dd($articles);
+                    }
 
 
 
