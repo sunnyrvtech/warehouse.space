@@ -264,7 +264,7 @@ class OrderController extends Controller {
                     //echo "<pre>";
                     //print_r($warehouse_shipment);
 
-                    foreach ($warehouse_shipment as $k=>$shipment) {
+                    foreach ($warehouse_shipment as $shipment) {
                         $articles = $shipment->Articles->Article;
                         if (count($shipment->Articles->Article) == 1) {
                             $article_array[0] = $shipment->Articles->Article;
@@ -279,15 +279,15 @@ class OrderController extends Controller {
                                 $item_ids_array[$key]['id'] = $order->id;
                             }
                         }
+                        $item_ids_array = array_values($item_ids_array);
                         // echo count($warehouse_shipment);
-                        if($k == 1)
-                        dd(array_values($item_ids_array));
-//                        try {
-//                            $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => array("location_id" => null, "tracking_number" => $shipment->TrackingNumber, "line_items" => $item_ids_array)]]);
-//                        } catch (\Exception $e) {
-//                            Log::info('Order status update error ' . $id . $e->getMessage());
-//                            return json_encode(array('success' => false));
-//                        }
+                        //dd($item_ids_array);
+                        try {
+                            $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => array("location_id" => null, "tracking_number" => $shipment->TrackingNumber, "line_items" => $item_ids_array)]]);
+                        } catch (\Exception $e) {
+                            Log::info('Order status update error ' . $id . $e->getMessage());
+                            return json_encode(array('success' => false));
+                        }
 //                            dd($shopify_result);
                     }
                 } elseif ($warehouse_order->OrderStatus == 7) {
