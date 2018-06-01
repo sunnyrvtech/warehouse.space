@@ -288,8 +288,8 @@ class OrderController extends Controller {
                             return json_encode(array('success' => false));
                         }
 //                            dd($shopify_result);
-                        return json_encode(array('success' => true));
                     }
+                    return json_encode(array('success' => true));
                 }
             }
             if ($warehouse_order->OrderStatus == 7) {
