@@ -40,7 +40,7 @@
                                     {{--@foreach($order_details->items as $key=>$value)
                                     <div class="order-item">
                                         <div class="row">
-                                            <div class="col-md-8">
+                                            <div class="col-md-4">
                                                 <!--<img src="{{ asset('/images/WSLogo.png') }}" alt="product-image">-->
                                                 <div class="item-info">
                                                     <p><a target="_blank" href="{{ $value->product_link }}">{{ $value->product_name }}</a></p>
@@ -49,7 +49,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
-                                                <div class="text-right">
+                                                <div class="">
                                                     <p><b>Warehouse</b> - {{ $value->warehouse }}</p>
                                                     <p><b>Picked At</b> - {{ $value->picked }}</p>
                                                     <p><b>Packed At</b> - {{ $value->packed }}</p>
@@ -57,7 +57,7 @@
                                                     <p><b>Status</b> - {{ $value->item_status }}</p>
                                                 </div>
                                             </div>
-                                            <!--<div class="col-md-3"><iframe width="230" height="140" src="https://www.youtube.com/embed/ddzU-rkzKF0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>-->
+                                            <div class="col-md-4"><iframe width="230" height="140" src="https://www.youtube.com/embed/ddzU-rkzKF0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
                                         </div>
                                     </div><br>
                                     @endforeach--}}
@@ -66,9 +66,9 @@
                                             <div class="col-md-4">
                                                 <!--<img src="{{ asset('/images/WSLogo.png') }}" alt="product-image">-->
                                                 <div class="item-info">
-                                                    <p><a target="_blank" href="gdgd">hdh</a></p>
-                                                    <span><p>fddhdhfd</p></span>
-                                                    <span><p>fdhfdfdhd</p></span>
+                                                    <p><a target="_blank" href="https://webstore5.myshopify.com/admin/products/985556189236/variants/8495841017908">12 Colors Makeup Bright Moisturizing Lip Gloss Lipstick Long Lasting Lip Gloss Cosmetics Longwear Not Fad Magic Lip Gloss #703</a></p>
+                                                    <span><p>A / China</p></span>
+                                                    <span><p>SKU: 64029-a-china</p></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
@@ -77,7 +77,29 @@
                                                     <p><b>Picked At</b> - Jan 21st, 2017</p>
                                                     <p><b>Packed At</b> - Jan 21st, 2017</p>
                                                     <p><b>Dispached At</b> - Jan 21st, 2017</p>
-                                                    <p><b>Status</b> - gfdrereret</p>
+                                                    <p><b>Status</b> - Pending</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4"><iframe width="230" height="140" src="https://www.youtube.com/embed/ddzU-rkzKF0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
+                                        </div>
+                                    </div><br>
+                                    <div class="order-item">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <!--<img src="{{ asset('/images/WSLogo.png') }}" alt="product-image">-->
+                                                <div class="item-info">
+                                                    <p><a target="_blank" href="https://webstore5.myshopify.com/admin/products/985556189236/variants/8495841017908">12 Colors Makeup Bright Moisturizing Lip Gloss Lipstick Long Lasting Lip Gloss Cosmetics Longwear Not Fad Magic Lip Gloss #703</a></p>
+                                                    <span><p>A / China</p></span>
+                                                    <span><p>SKU: 64029-a-china</p></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="">
+                                                    <p><b>Warehouse</b> - gsgfgfg</p>
+                                                    <p><b>Picked At</b> - Jan 21st, 2017</p>
+                                                    <p><b>Packed At</b> - Jan 21st, 2017</p>
+                                                    <p><b>Dispached At</b> - Jan 21st, 2017</p>
+                                                    <p><b>Status</b> - Pending</p>
                                                 </div>
                                             </div>
                                             <div class="col-md-4"><iframe width="230" height="140" src="https://www.youtube.com/embed/ddzU-rkzKF0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
