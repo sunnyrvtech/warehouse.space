@@ -253,7 +253,7 @@ class OrderController extends Controller {
                 } catch (\Exception $e) {
                     return json_encode(array('success' => false));
                 }
-                dd($orders);
+                //dd($orders);
 
                 if ($warehouse_order->OrderStatus == 4 && $orders->order->fulfillment_status == null) {
 
