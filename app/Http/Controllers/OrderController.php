@@ -276,7 +276,7 @@ class OrderController extends Controller {
                         foreach ($orders->order->line_items as $key => $order) {
                             //echo $order->variant_id.'<br>';
                             if (in_array($order->variant_id, $product_id_array)) {
-                                $item_ids_array[$key] = $order->id;
+                                $item_ids_array[$key]['id'] = $order->id;
                             }
                         }
                         // echo count($warehouse_shipment);
