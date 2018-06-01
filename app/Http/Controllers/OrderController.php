@@ -298,7 +298,6 @@ class OrderController extends Controller {
                         return json_encode(array('success' => false));
                     }
                 }
-                return json_encode(array('success' => true));
             }
         }
         return json_encode(array('success' => false));
