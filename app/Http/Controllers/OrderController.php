@@ -270,19 +270,25 @@ class OrderController extends Controller {
                             $article_array[0] = $shipment->Articles->Article;
                             $articles = $article_array;
                         }
-                        echo count($articles) . "<br>";
-                        $item_ids_array = array();
-                        foreach ($articles as $key => $article) {
-                            if ($article->ProductID == $orders->order->line_items[$key]->variant_id) {
-                                $item_ids_array[$key] = $orders->order->line_items[$key]->id;
-                            } elseif ($article->ProductID == $orders->order->line_items[$key + 1]->variant_id) {
-                                $item_ids_array[$key] = $orders->order->line_items[$key + 1]->id;
-                            }elseif ($article->ProductID == $orders->order->line_items[$key - 1]->variant_id) {
-                                $item_ids_array[$key] = $orders->order->line_items[$key - 1]->id;
-                            }
-                        }
-                        echo count($warehouse_shipment);
-                        dd($item_ids_array);
+                        
+                        
+                        $array = array_column($articles, 'product_id');
+                        
+                        dd($array);
+                        
+//                        echo count($articles) . "<br>";
+//                        $item_ids_array = array();
+//                        foreach ($articles as $key => $article) {
+//                            if ($article->ProductID == $orders->order->line_items[$key]->variant_id) {
+//                                $item_ids_array[$key] = $orders->order->line_items[$key]->id;
+//                            } elseif ($article->ProductID == $orders->order->line_items[$key + 1]->variant_id) {
+//                                $item_ids_array[$key] = $orders->order->line_items[$key + 1]->id;
+//                            }elseif ($article->ProductID == $orders->order->line_items[$key - 1]->variant_id) {
+//                                $item_ids_array[$key] = $orders->order->line_items[$key - 1]->id;
+//                            }
+//                        }
+//                        echo count($warehouse_shipment);
+//                        dd($item_ids_array);
                     }
 
 
