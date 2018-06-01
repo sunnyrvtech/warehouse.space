@@ -255,7 +255,7 @@ class OrderController extends Controller {
                 }
                 //dd($orders);
 
-                if ($warehouse_order->OrderStatus == 4 && $orders->order->fulfillment_status == null && isset($warehouse_order->Shipments->ShipmentDetail)) {
+                if ($warehouse_order->OrderStatus == 4 && $orders->order->fulfillment_status == 'partial' && isset($warehouse_order->Shipments->ShipmentDetail)) {
                     $warehouse_shipment = $warehouse_order->Shipments->ShipmentDetail;
                     if (count($warehouse_order->Shipments->ShipmentDetail) == 1) {
                         $shipment_array[0] = $warehouse_order->Shipments->ShipmentDetail;
@@ -280,7 +280,7 @@ class OrderController extends Controller {
                             }
                         }
                         // echo count($warehouse_shipment);
-                        //dd($item_ids_array);
+                        dd($item_ids_array);
                         try {
                             $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => array("location_id" => null, "tracking_number" => $shipment->TrackingNumber, "line_items" => $item_ids_array)]]);
                         } catch (\Exception $e) {
