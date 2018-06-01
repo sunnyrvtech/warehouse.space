@@ -255,9 +255,7 @@ class OrderController extends Controller {
                 }
                 //dd($orders);
 
-                if ($warehouse_order->OrderStatus == 4 && $orders->order->fulfillment_status == null) {
-
-
+                if ($warehouse_order->OrderStatus == 4 && $orders->order->fulfillment_status == null && isset($warehouse_order->Shipments->ShipmentDetail)) {
                     $warehouse_shipment = $warehouse_order->Shipments->ShipmentDetail;
                     if (count($warehouse_order->Shipments->ShipmentDetail) == 1) {
                         $shipment_array[0] = $warehouse_order->Shipments->ShipmentDetail;
@@ -270,8 +268,15 @@ class OrderController extends Controller {
                             $article_array[0] = $shipment->Articles->Article;
                             $articles = $article_array;
                         }
+                        $item_ids_array = array();
+                        foreach($articles as $key=>$article){
+                            if($article->ProductID == $orders->order->line_items[$key]->variant_id){
+                                 $item_ids_array[$key] = $orders->order->line_items[$key]->id;
+                            }
+                        }
                         
-                        dd($articles);
+                        dd($item_ids_array);
+                        
                     }
 
 
