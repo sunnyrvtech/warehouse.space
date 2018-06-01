@@ -272,7 +272,7 @@ class OrderController extends Controller {
                         }
                         
                         
-                        $array = array_column($articles, 'product_id');
+                        $array = array_column($articles, 'ProductID');
                         
                         dd($array);
                         
