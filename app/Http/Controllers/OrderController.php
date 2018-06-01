@@ -249,7 +249,7 @@ class OrderController extends Controller {
 
                 $warehouse_order = $warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo;
                 try {
-                    $orders = $shopify->call(['URL' => 'orders/' . $id . '.json?fields=id,financial_status,created_at,line_items', 'METHOD' => 'GET']);
+                    $orders = $shopify->call(['URL' => 'orders/' . $id . '.json?fields=id,financial_status,fulfillment_status,created_at,line_items', 'METHOD' => 'GET']);
                 } catch (\Exception $e) {
                     return json_encode(array('success' => false));
                 }
