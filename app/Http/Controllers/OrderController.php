@@ -276,7 +276,7 @@ class OrderController extends Controller {
                             if ($article->ProductID == $orders->order->line_items[$key]->variant_id) {
                                 $item_ids_array[$key] = $orders->order->line_items[$key]->id;
                             } elseif ($article->ProductID == $orders->order->line_items[$key + 1]->variant_id) {
-                                $item_ids_array[$key] = $orders->order->line_items[$key]->id;
+                                $item_ids_array[$key] = $orders->order->line_items[$key+1]->id;
                             }
                         }
                         echo count($warehouse_shipment);
