@@ -2,7 +2,7 @@
 @section('content')
 <section>
     <style>
-        .main-container { position: relative;padding: 20px;min-height: 700px; }
+        .main-container { position: relative;min-height: 700px; }
         .row img.logo { max-width: 75px; }
         .invoice p { margin: 0 0 4px; }
         .panel { margin-bottom: 16px;background-color: #fff;-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;-webkit-box-shadow: none;box-shadow: none;border: 1px solid #c9d9ea; }
