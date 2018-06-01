@@ -180,7 +180,7 @@ class OrderController extends Controller {
             }
 
             $orders = $shopify->call(['URL' => 'orders/' . $warehouse_order[0]->InvNumber . '.json?fields=id,financial_status,created_at,line_items', 'METHOD' => 'GET']);
-           // dd($orders);
+            // dd($orders);
 
             $order_details = (object) array();
             $order_details->order_id = $orders->order->id;
@@ -227,8 +227,7 @@ class OrderController extends Controller {
         return redirect()->route('dashboard')->with('error-message', 'sorry! this order is not found in warehouse.');
     }
 
-    public function updateOrderStatus() {
-         return view('order_detail');
+    public function updateOrderStatus($id, $no, $token) {
         $client = $this->_client;
         $user = DeveloperSetting::Where([['warehouse_number', $no]])->first();
 
@@ -256,19 +255,33 @@ class OrderController extends Controller {
                 }
                 //dd($orders);
 
-                if ($warehouse_order[0]->OrderStatus == 4 && $orders->order->fulfillment_status == null) {
-                    $item_ids_array = array();
-                    $track_info_array = array();
-                    foreach ($orders->order->line_items as $key => $order) {
-                        $item_ids_array[$key] = $order->id;
-                        $track_info_array[$key] = $warehouse_order[$key]->Shipments->ShipmentDetail->TrackingNuber;
+                if ($warehouse_order->OrderStatus == 4 && $orders->order->fulfillment_status == null) {
+
+
+                    $warehouse_shipment = $warehouse_order->Shipments->ShipmentDetail;
+                    if (count($warehouse_order->Shipments->ShipmentDetail) == 1) {
+                        $single_array[0] = $warehouse_order->Shipments->ShipmentDetail;
+                        $warehouse_shipment = $single_array;
                     }
-                    try {
-                        $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => array("location_id" => null, "tracking_number" => $track_info_array, "line_items" => $item_ids_array)]]);
-                    } catch (\Exception $e) {
-                        Log::info('Order status update error ' . $id . $e->getMessage());
-                        return json_encode(array('success' => false));
-                    }
+
+                    dd($warehouse_shipment);
+
+
+
+
+
+//                    $item_ids_array = array();
+//                    $track_info_array = array();
+//                    foreach ($orders->order->line_items as $key => $order) {
+//                        $item_ids_array[$key] = $order->id;
+//                        $track_info_array[$key] = $warehouse_order[$key]->Shipments->ShipmentDetail->TrackingNuber;
+//                    }
+//                    try {
+//                        $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => array("location_id" => null, "tracking_number" => $track_info_array, "line_items" => $item_ids_array)]]);
+//                    } catch (\Exception $e) {
+//                        Log::info('Order status update error ' . $id . $e->getMessage());
+//                        return json_encode(array('success' => false));
+//                    }
                 } elseif ($warehouse_order[0]->OrderStatus == 7) {
                     try {
                         $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/cancel.json', 'METHOD' => 'POST', "DATA" => ['email' => true]]);
@@ -277,7 +290,7 @@ class OrderController extends Controller {
                         return json_encode(array('success' => false));
                     }
                 }
-                return json_encode(array('success' => true));               
+                return json_encode(array('success' => true));
             }
         }
         return json_encode(array('success' => false));
