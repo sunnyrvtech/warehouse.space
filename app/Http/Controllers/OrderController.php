@@ -274,16 +274,17 @@ class OrderController extends Controller {
 
                         $product_id_array = array_column($articles, 'ProductID');
 
-
+                        print_r($product_id_array);
 
 
                         $item_ids_array = array();
                         foreach ($orders->order->line_items as $key => $order) {
+                            echo $order->variant_id.'<br>';
                             if (in_array($order->variant_id, $product_id_array)) {
                                 $item_ids_array[$key] = $order->id;
                             }
                         }
-                        echo count($warehouse_shipment);
+                       // echo count($warehouse_shipment);
                         dd($item_ids_array);
                     }
 
