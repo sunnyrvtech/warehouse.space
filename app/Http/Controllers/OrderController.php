@@ -270,25 +270,21 @@ class OrderController extends Controller {
                             $article_array[0] = $shipment->Articles->Article;
                             $articles = $article_array;
                         }
-                        
-                        
-                        $array = array_column($articles, 'ProductID');
-                        
-                        dd($array);
-                        
-//                        echo count($articles) . "<br>";
-//                        $item_ids_array = array();
-//                        foreach ($articles as $key => $article) {
-//                            if ($article->ProductID == $orders->order->line_items[$key]->variant_id) {
-//                                $item_ids_array[$key] = $orders->order->line_items[$key]->id;
-//                            } elseif ($article->ProductID == $orders->order->line_items[$key + 1]->variant_id) {
-//                                $item_ids_array[$key] = $orders->order->line_items[$key + 1]->id;
-//                            }elseif ($article->ProductID == $orders->order->line_items[$key - 1]->variant_id) {
-//                                $item_ids_array[$key] = $orders->order->line_items[$key - 1]->id;
-//                            }
-//                        }
-//                        echo count($warehouse_shipment);
-//                        dd($item_ids_array);
+
+
+                        $product_id_array = array_column($articles, 'ProductID');
+
+
+
+
+                        $item_ids_array = array();
+                        foreach ($orders->order->line_items as $key => $order) {
+                            if (in_array($order->variant_id, $product_id_array)) {
+                                $item_ids_array[$key] = $order->id;
+                            }
+                        }
+                        echo count($warehouse_shipment);
+                        dd($item_ids_array);
                     }
 
 
