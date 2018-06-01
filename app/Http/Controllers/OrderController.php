@@ -156,7 +156,6 @@ class OrderController extends Controller {
     }
 
     public function orderDetails(Request $request, $slug) {
-          return view('order_detail');
         $client = $this->_client;
 
         $shopify_parameter = json_decode(base64_decode($slug));
