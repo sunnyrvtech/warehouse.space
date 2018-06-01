@@ -261,8 +261,8 @@ class OrderController extends Controller {
                         $shipment_array[0] = $warehouse_order->Shipments->ShipmentDetail;
                         $warehouse_shipment = $shipment_array;
                     }
-                    echo "<pre>";
-                    print_r($warehouse_shipment);
+                    //echo "<pre>";
+                    //print_r($warehouse_shipment);
 
                     foreach ($warehouse_shipment as $shipment) {
                         $articles = $shipment->Articles->Article;
@@ -279,35 +279,17 @@ class OrderController extends Controller {
                                 $item_ids_array[$key] = $order->id;
                             }
                         }
-                       // echo count($warehouse_shipment);
-                        dd($item_ids_array);
-                        
-                        
+                        // echo count($warehouse_shipment);
+                        //dd($item_ids_array);
                         try {
-                        $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => array("location_id" => null, "tracking_number" => $track_info_array, "line_items" => $item_ids_array)]]);
+                            $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => array("location_id" => null, "tracking_number" => $shipment->TrackingNumber, "line_items" => $item_ids_array)]]);
                         } catch (\Exception $e) {
                             Log::info('Order status update error ' . $id . $e->getMessage());
                             return json_encode(array('success' => false));
                         }
                     }
 
-
-
-
-
-//                    $item_ids_array = array();
-//                    $track_info_array = array();
-//                    foreach ($orders->order->line_items as $key => $order) {
-//                        $item_ids_array[$key] = $order->id;
-//                        $track_info_array[$key] = $warehouse_order[$key]->Shipments->ShipmentDetail->TrackingNuber;
-//                    }
-//                    try {
-//                        $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => array("location_id" => null, "tracking_number" => $track_info_array, "line_items" => $item_ids_array)]]);
-//                    } catch (\Exception $e) {
-//                        Log::info('Order status update error ' . $id . $e->getMessage());
-//                        return json_encode(array('success' => false));
-//                    }
-                } elseif ($warehouse_order[0]->OrderStatus == 7) {
+                } elseif ($warehouse_order->OrderStatus == 7) {
                     try {
                         $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/cancel.json', 'METHOD' => 'POST', "DATA" => ['email' => true]]);
                     } catch (\Exception $e) {
