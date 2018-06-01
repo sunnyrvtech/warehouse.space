@@ -268,13 +268,14 @@ class OrderController extends Controller {
                             $article_array[0] = $shipment->Articles->Article;
                             $articles = $article_array;
                         }
+                        echo count($articles)."<br>";
                         $item_ids_array = array();
                         foreach($articles as $key=>$article){
                             if($article->ProductID == $orders->order->line_items[$key]->variant_id){
                                  $item_ids_array[$key] = $orders->order->line_items[$key]->id;
                             }
                         }
-                        
+                        echo count($warehouse_shipment);
                         dd($item_ids_array);
                         
                     }
