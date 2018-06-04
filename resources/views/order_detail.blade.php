@@ -63,8 +63,8 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                                    <p><b>Note:</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In varius convallis odio, pharetra maximus nisi imperdiet ut. Aliquam in accumsan velit, sit amet varius maurist libero nunc, mattis a vulputate eu, maximus sed massa.</p>
+                                <div class="alert alert-info">
+                                    <strong>Note:</strong>  Lorem ipsum dolor sit amet, consectetur adipiscing elit. In varius convallis odio, pharetra maximus nisi imperdiet ut. Aliquam in accumsan velit, sit amet varius maurist libero nunc, mattis a vulputate eu, maximus sed massa.
                                 </div>
                             </div>
                         </div>
