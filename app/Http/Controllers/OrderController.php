@@ -167,11 +167,11 @@ class OrderController extends Controller {
         $request_array->ListInvNumbers = array($order_id);
 
         $warehouse_order = $client->GetOrderShipmentInfo($request_array);
-        $warehouse_shipment = $warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo->Shipments;
-        echo htmlentities($client->__getLastRequest());
-        echo "<pre>";
-//        print_r($request_array);
-        print_r($warehouse_order);
+        $warehouse_shipment = $warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo->Shipments->ShipmentDetail;
+//        echo htmlentities($client->__getLastRequest());
+//        echo "<pre>";
+////        print_r($request_array);
+//        print_r($warehouse_order);
         if (isset($warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo)) {
             $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
 
@@ -212,7 +212,6 @@ class OrderController extends Controller {
                     $warehouse_shipment = $shipment_array;
                 }
                 foreach ($warehouse_shipment as $shipment) {
-                       dd($shipment);
                     $articles = $shipment->Articles->Article;
                     if (count($shipment->Articles->Article) == 1) {
                         $article_array[0] = $shipment->Articles->Article;
