@@ -207,12 +207,12 @@ class OrderController extends Controller {
             $order_details->order_status = $order_status;
 
             if ($warehouse_shipment != null) {
-                if (count($warehouse_shipment->ShipmentDetail) == 1) {
-                    $shipment_array[0] = $warehouse_shipment->ShipmentDetail;
+                if (count($warehouse_shipment) == 1) {
+                    $shipment_array[0] = $warehouse_shipment;
                     $warehouse_shipment = $shipment_array;
                 }
                 foreach ($warehouse_shipment as $shipment) {
-                    dd($shipment);
+                    
                     $articles = $shipment->Articles->Article;
                     if (count($shipment->Articles->Article) == 1) {
                         $article_array[0] = $shipment->Articles->Article;
