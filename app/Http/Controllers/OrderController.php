@@ -211,7 +211,7 @@ class OrderController extends Controller {
                     $shipment_array[0] = $warehouse_shipment;
                     $warehouse_shipment = $shipment_array;
                 }
-                foreach ($warehouse_shipment as $shipment) {
+                foreach ($warehouse_shipment as $key=>$shipment) {
 
                     $articles = $shipment->Articles->Article;
                     if (count($shipment->Articles->Article) == 1) {
@@ -223,7 +223,7 @@ class OrderController extends Controller {
 
                     print_r($product_id_array);
                     $item = (object) array();
-                    foreach ($orders->order->line_items as $key => $order) {
+                    foreach ($orders->order->line_items as $order) {
                         if (in_array($order->variant_id, $product_id_array)) {
 
                             $item->variant_id = $order->variant_id;
