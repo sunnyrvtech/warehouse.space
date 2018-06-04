@@ -241,7 +241,10 @@ class OrderController extends Controller {
                             $item->PackingEndTime = date('M d,Y H:i A', strtotime($shipment->PackingEndTime));
                             $item->Shipper = $shipment->Shipper;
                             $item->TrackingNumber = $shipment->TrackingNumber;
-                            $item->YoutubeUrl = $shipment->YoutubeUrl;
+                            
+                            $video_id = explode("?v=", $shipment->YoutubeUrl);
+                            $video_id = $video_id[1];
+                            $item->YoutubeUrl = 'https://www.youtube.com/embed/'.$video_id;
                         }
                     }
                     $order_details->items[$key] = $item;
