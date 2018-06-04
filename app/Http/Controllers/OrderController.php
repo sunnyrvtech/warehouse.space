@@ -133,7 +133,8 @@ class OrderController extends Controller {
         $order_array->Warehouse = $user->get_dev_setting->warehouse_number;
         $order_array->AccountKey = $user->get_dev_setting->account_key;
         $result = $client->OrderDetail($order_array);
-        Log::info(' Order update' . $client->__getLastRequest());
+        //Log::info(' Order update' . $client->__getLastRequest());
+        Log::info(' Order update' . $client->__getLastResponse());
         return $result;
     }
 
