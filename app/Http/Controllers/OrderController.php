@@ -169,7 +169,7 @@ class OrderController extends Controller {
         $warehouse_order = $client->GetOrderShipmentInfo($request_array);
         $warehouse_shipment = $warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo->Shipments->ShipmentDetail;
 //        echo htmlentities($client->__getLastRequest());
-        //echo "<pre>";
+        echo "<pre>";
 //        print_r($request_array);
 //        dd($warehouse_order);
         if (isset($warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo)) {
@@ -220,6 +220,8 @@ class OrderController extends Controller {
                     }
                     
                     $product_id_array = array_column($articles, 'ProductID');
+                    
+                    print_r($product_id_array);
 
                     foreach ($orders->order->line_items as $key => $order) {
                         $item = (object) array();
