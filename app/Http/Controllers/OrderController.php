@@ -269,7 +269,7 @@ class OrderController extends Controller {
                     $order_details->items[$key] = $item;
                 }
             }
-            dd($order_details);
+           // dd($order_details);
             $data['order_details'] = $order_details;
             return view('order_detail', $data);
         }
