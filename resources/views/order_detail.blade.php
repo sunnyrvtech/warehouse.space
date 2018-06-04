@@ -3,7 +3,7 @@
 <section>
     <style>
         .main-container { position: relative;min-height: 700px; }
-        .row img.logo { max-width: 75px; }
+        .row img.logo { max-width: 100px; }
         .invoice p { margin: 0 0 4px; }
         .panel { margin-bottom: 16px;background-color: #fff;-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;-webkit-box-shadow: none;box-shadow: none;border: 1px solid #c9d9ea; }
         .panel-body { padding: 15px;background: #fff;-webkit-border-radius: 0 0 2px 2px;-moz-border-radius: 0 0 2px 2px; }
@@ -21,10 +21,10 @@
                                     <a href="{{ route('dashboard') }}"><img class="logo" src="{{ asset('/images/WSLogo.png') }}" alt="logo"></a>
                                 </div>
                                 <div class="col-md-9 col-sm-8 col-xs-12">
-                                    <div class="text-right">
+                                    <div class="float-right">
                                         <p><b>Invoice ID</b> - {{ $order_details->order_id }}</p>
                                         <p><b>Order date</b> - {{ $order_details->order_date }}</p>
-                                        <p><b>Payment status</b><span class="label label-danger"> - {{ $order_details->payment_status }}</span></p>
+                                        <p><b>Payment status</b><span class="label label-danger"> - {{ ucfirst($order_details->payment_status) }}</span></p>
                                         <p><b>Order status</b><span class="label label-danger"> - {{ $order_details->order_status }}</span></p>
                                     </div>
                                 </div>
