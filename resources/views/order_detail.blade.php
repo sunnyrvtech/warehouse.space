@@ -63,8 +63,10 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="alert alert-info">
-                                    <strong>Note:</strong>  Lorem ipsum dolor sit amet, consectetur adipiscing elit. In varius convallis odio, pharetra maximus nisi imperdiet ut. Aliquam in accumsan velit, sit amet varius maurist libero nunc, mattis a vulputate eu, maximus sed massa.
+                                <div class="col-md-12">
+                                    <div class="alert alert-info">
+                                        <strong>Note:</strong>  Lorem ipsum dolor sit amet, consectetur adipiscing elit. In varius convallis odio, pharetra maximus nisi imperdiet ut. Aliquam in accumsan velit, sit amet varius maurist libero nunc, mattis a vulputate eu, maximus sed massa.
+                                    </div>
                                 </div>
                             </div>
                         </div>
