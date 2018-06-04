@@ -22,10 +22,15 @@
                                 </div>
                                 <div class="col-md-9 col-sm-8 col-xs-12">
                                     <div class="text-right">
+                                        {{--
                                         <p><b>Invoice ID</b> - {{ $order_details->order_id }}</p>
                                         <p><b>Order date</b> - {{ $order_details->order_date }}</p>
                                         <p><b>Payment status</b><span class="label label-danger"> - {{ $order_details->payment_status }}</span></p>
-                                        <p><b>Order status</b><span class="label label-danger"> - {{ $order_details->order_status }}</span></p>
+                                        --}}
+                                        <p><b>Invoice ID</b> - 465475477</p>
+                                        <p><b>Order date</b> - Jan 21st, 2017</p>
+                                        <p><b>Payment status</b><span class="label label-danger"> - paid</span></p>
+                                        
                                     </div>
                                 </div>
                             </div>
