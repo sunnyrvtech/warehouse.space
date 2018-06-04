@@ -169,7 +169,7 @@ class OrderController extends Controller {
         $warehouse_order = $client->GetOrderShipmentInfo($request_array);
         $warehouse_shipment = $warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo->Shipments;
 //        echo htmlentities($client->__getLastRequest());
-       // echo "<pre>";
+        // echo "<pre>";
 //        print_r($request_array);
 //        dd($warehouse_order);
         if (isset($warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo)) {
@@ -212,7 +212,7 @@ class OrderController extends Controller {
                     $shipment_array[0] = $warehouse_shipment;
                     $warehouse_shipment = $shipment_array;
                 }
-                foreach ($warehouse_shipment as $key=>$shipment) {
+                foreach ($warehouse_shipment as $key => $shipment) {
 
                     $articles = $shipment->Articles->Article;
                     if (count($shipment->Articles->Article) == 1) {
@@ -242,10 +242,10 @@ class OrderController extends Controller {
                             $item->PackingEndTime = date('M d,Y H:i A', strtotime($shipment->PackingEndTime));
                             $item->Shipper = $shipment->Shipper;
                             $item->TrackingNumber = $shipment->TrackingNumber;
-                            
+
                             $video_id = explode("?v=", $shipment->YoutubeUrl);
                             $video_id = $video_id[1];
-                            $item->YoutubeUrl = 'https://www.youtube.com/embed/'.$video_id;
+                            $item->YoutubeUrl = 'https://www.youtube.com/embed/' . $video_id;
                         }
                     }
                     $order_details->items[$key] = $item;
@@ -273,7 +273,7 @@ class OrderController extends Controller {
                     $order_details->items[$key] = $item;
                 }
             }
-           // dd($order_details);
+            // dd($order_details);
             $data['order_details'] = $order_details;
             return view('order_detail', $data);
         }
@@ -342,8 +342,8 @@ class OrderController extends Controller {
                             return json_encode(array('success' => false));
                         }
 //                            dd($shopify_result);
-                        return json_encode(array('success' => true));
                     }
+                    return json_encode(array('success' => true));
                 }
             }
             if (isset($warehouse_order->OrderStatus)) {
