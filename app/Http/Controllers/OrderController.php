@@ -167,7 +167,7 @@ class OrderController extends Controller {
         $request_array->ListInvNumbers = array($order_id);
 
         $warehouse_order = $client->GetOrderShipmentInfo($request_array);
-        $warehouse_shipment = $warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo->Shipments->ShipmentDetail;
+        $warehouse_shipment = $warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo->Shipments;
 //        echo htmlentities($client->__getLastRequest());
        // echo "<pre>";
 //        print_r($request_array);
@@ -207,6 +207,7 @@ class OrderController extends Controller {
             $order_details->order_status = $order_status;
 
             if ($warehouse_shipment != null) {
+                $warehouse_shipment = $warehouse_shipment->ShipmentDetail;
                 if (count($warehouse_shipment) == 1) {
                     $shipment_array[0] = $warehouse_shipment;
                     $warehouse_shipment = $shipment_array;
