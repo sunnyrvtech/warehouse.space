@@ -170,8 +170,8 @@ class OrderController extends Controller {
         $warehouse_shipment = $warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo->Shipments;
         echo htmlentities($client->__getLastRequest());
         echo "<pre>";
-        print_r($request_array);
-        dd($warehouse_order);
+//        print_r($request_array);
+        print_r($warehouse_order);
         if (isset($warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo)) {
             $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
 
@@ -217,6 +217,10 @@ class OrderController extends Controller {
                         $article_array[0] = $shipment->Articles->Article;
                         $articles = $article_array;
                     }
+                    dd($articles);
+                    
+                    
+                    
                     $product_id_array = array_column($articles, 'ProductID');
 
                     foreach ($orders->order->line_items as $key => $order) {
