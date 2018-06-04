@@ -225,7 +225,7 @@ class OrderController extends Controller {
                     $item = (object) array();
                     foreach ($orders->order->line_items as $key => $order) {
                         if (in_array($order->variant_id, $product_id_array)) {
-                            
+
                             $item->variant_id = $order->variant_id;
                             $item->product_name = $order->title;
                             $item->variant_title = $order->variant_title;
@@ -243,8 +243,8 @@ class OrderController extends Controller {
                             $item->TrackingNumber = $shipment->TrackingNumber;
                             $item->YoutubeUrl = $shipment->YoutubeUrl;
                         }
-                        $order_details->items[$key] = $item;
                     }
+                    $order_details->items[$key] = $item;
                 }
             } else {
                 foreach ($orders->order->line_items as $key => $order) {
