@@ -53,9 +53,9 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
-                                                @if($value->YoutubeUrl != '')
-                                                <iframe width="200" height="140" src="{{ $value->YoutubeUrl }}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                                                @endif
+                                                
+                                                <iframe width="200" height="140" src="https://www.youtube.com/watch?v=IFrMO2OJSyQ" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                                                
                                             </div>
                                         </div>
                                     </div><br>
