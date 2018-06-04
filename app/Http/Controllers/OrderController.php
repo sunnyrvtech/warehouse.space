@@ -196,7 +196,7 @@ class OrderController extends Controller {
             elseif ($warehouse_order->OrderStatus == 3)
                 $order_status = "In Progress";
             elseif ($warehouse_order->OrderStatus == 4)
-                $order_status = "completed";
+                $order_status = "Completed";
             elseif ($warehouse_order->OrderStatus == 6)
                 $order_status = "On Hold";
             elseif ($warehouse_order->OrderStatus == 7)
