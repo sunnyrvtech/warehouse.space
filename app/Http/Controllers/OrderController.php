@@ -175,13 +175,13 @@ class OrderController extends Controller {
 
             $warehouse_order = $warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo;
            
-            dd($warehouse_order);
+//            dd($warehouse_order);
             try {
                 $orders = $shopify->call(['URL' => 'orders/' . $warehouse_order->InvNumber . '.json?fields=id,financial_status,fulfillment_status,created_at,line_items', 'METHOD' => 'GET']);
             } catch (\Exception $e) {
                 return redirect()->route('dashboard')->with('error-message', $e->getMessage());
             }
-            // dd($orders);
+             dd($orders);
 
             $order_details = (object) array();
             $order_details->order_id = $orders->order->id;
