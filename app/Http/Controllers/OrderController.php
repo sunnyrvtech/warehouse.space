@@ -181,7 +181,7 @@ class OrderController extends Controller {
             } catch (\Exception $e) {
                 return redirect()->route('dashboard')->with('error-message', $e->getMessage());
             }
-             dd($orders);
+            // dd($orders);
 
             $order_details = (object) array();
             $order_details->order_id = $orders->order->id;
@@ -206,6 +206,8 @@ class OrderController extends Controller {
 
 
             $warehouse_shipment = $warehouse_order->Shipments->ShipmentDetail;
+            
+            dd($warehouse_shipment);
 
             if ($warehouse_shipment != null) {
                 if (count($warehouse_order->Shipments->ShipmentDetail) == 1) {
