@@ -166,15 +166,16 @@ class OrderController extends Controller {
         $request_array->ListInvNumbers = array($order_id);
 
         $warehouse_order = $client->GetOrderShipmentInfo($request_array);
+         $warehouse_shipment = $warehouse_order->Shipments->ShipmentDetail;
 //        echo htmlentities($client->__getLastRequest());
-//        echo "<pre>";
-//        print_r($request_array);
-//        dd($warehouse_order);
+        echo "<pre>";
+        print_r($request_array);
+        dd($warehouse_shipment);
         if (isset($warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo)) {
             $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
 
             $warehouse_order = $warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo;
-           
+
 //            dd($warehouse_order);
             try {
                 $orders = $shopify->call(['URL' => 'orders/' . $warehouse_order->InvNumber . '.json?fields=id,financial_status,fulfillment_status,created_at,line_items', 'METHOD' => 'GET']);
@@ -203,11 +204,6 @@ class OrderController extends Controller {
                 $order_status = "";
 
             $order_details->order_status = $order_status;
-
-
-            $warehouse_shipment = $warehouse_order->Shipments->ShipmentDetail;
-            
-            dd($warehouse_shipment);
 
             if ($warehouse_shipment != null) {
                 if (count($warehouse_order->Shipments->ShipmentDetail) == 1) {
