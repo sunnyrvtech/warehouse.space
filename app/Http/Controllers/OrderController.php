@@ -212,28 +212,28 @@ class OrderController extends Controller {
                     $warehouse_shipment = $shipment_array;
                 }
                 foreach ($warehouse_shipment as $shipment) {
-                    
+
                     $articles = $shipment->Articles->Article;
                     if (count($shipment->Articles->Article) == 1) {
                         $article_array[0] = $shipment->Articles->Article;
                         $articles = $article_array;
                     }
-                    
-                    $product_id_array = array_column($articles, 'ProductID');
-                    
-                    print_r($product_id_array);
 
+                    $product_id_array = array_column($articles, 'ProductID');
+
+                    print_r($product_id_array);
+                    $item = (object) array();
                     foreach ($orders->order->line_items as $key => $order) {
-                        $item = (object) array();
-                        $item->variant_id = $order->variant_id;
-                        $item->product_name = $order->title;
-                        $item->variant_title = $order->variant_title;
-                        $item->product_link = 'https://' . $user->shop_url . '/admin/products/' . $order->product_id . '/variants/' . $order->variant_id;
+                        if (in_array($order->variant_id, $product_id_array)) {
+                            
+                            $item->variant_id = $order->variant_id;
+                            $item->product_name = $order->title;
+                            $item->variant_title = $order->variant_title;
+                            $item->product_link = 'https://' . $user->shop_url . '/admin/products/' . $order->product_id . '/variants/' . $order->variant_id;
 //                $item->description = $warehouse_order[$key]->Description;
-                        $item->sku = $order->sku;
+                            $item->sku = $order->sku;
 //                $item->quantity = $order->quantity;
 //                $item->price = $order->price;
-                        if (in_array($order->variant_id, $product_id_array)) {
                             $item->PackerName = $shipment->PackerName;
                             $item->FrieghtCost = $shipment->FrieghtCost;
                             $item->DispatchTime = date('M d,Y H:I A', strtotime($shipment->DispatchTime));
