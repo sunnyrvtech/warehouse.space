@@ -32,10 +32,10 @@
                             <hr><br>
                             <div class="row">
                                 <div class="col-md-12">
-                                    {{--@foreach($order_details->items as $key=>$value)
+                                    @foreach($order_details->items as $key=>$value)
                                     <div class="order-item">
                                         <div class="row">
-                                            <div class="col-md-4">
+                                            <div class="col-md-5">
                                                 <!--<img src="{{ asset('/images/WSLogo.png') }}" alt="product-image">-->
                                                 <div class="item-info">
                                                     <p><a target="_blank" href="{{ $value->product_link }}">{{ $value->product_name }}</a></p>
@@ -45,61 +45,31 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="">
-                                                    <p><b>Warehouse</b> - {{ $value->warehouse }}</p>
-                                                    <p><b>Picked At</b> - {{ $value->picked }}</p>
-                                                    <p><b>Packed At</b> - {{ $value->packed }}</p>
-                                                    <p><b>Dispached At</b> - {{ $value->dispatched }}</p>
-                                                    <p><b>Status</b> - {{ $value->item_status }}</p>
+                                                    @if($value->Shipper !='')
+                                                    <p><b>Shipper</b> - {{ $value->Shipper }}</p>
+                                                    @endif
+                                                    @if($value->PackerName !='')
+                                                    <p><b>Packer Name</b> - {{ $value->PackerName }}</p>
+                                                    @endif
+                                                    @if($value->PackingEndTime !='')
+                                                    <p><b>Packed At</b> - {{ $value->PackingEndTime }}</p>
+                                                    @endif
+                                                    @if($value->DispatchTime !='')
+                                                    <p><b>Dispached At</b> - {{ $value->DispatchTime }}</p>
+                                                    @endif
+                                                    @if($value->TrackingNumber !='')
+                                                    <p><b>Tracking Number</b> - {{ $value->TrackingNumber }}</p>
+                                                    @endif
                                                 </div>
                                             </div>
-                                            <div class="col-md-4"><iframe width="230" height="140" src="https://www.youtube.com/embed/ddzU-rkzKF0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
+                                            <div class="col-md-3">
+                                                @if($value->YoutubeUrl !='')
+                                                <iframe width="200" height="140" src="{{ $value->YoutubeUrl }}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                                                @endif
+                                            </div>
                                         </div>
                                     </div><br>
-                                    @endforeach--}}
-                                    <div class="order-item">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <!--<img src="{{ asset('/images/WSLogo.png') }}" alt="product-image">-->
-                                                <div class="item-info">
-                                                    <p><a target="_blank" href="https://webstore5.myshopify.com/admin/products/985556189236/variants/8495841017908">12 Colors Makeup Bright Moisturizing Lip Gloss Lipstick Long Lasting Lip Gloss Cosmetics Longwear Not Fad Magic Lip Gloss #703</a></p>
-                                                    <span><p>A / China</p></span>
-                                                    <span><p>SKU: 64029-a-china</p></span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="">
-                                                    <p><b>Warehouse</b> - gsgfgfg</p>
-                                                    <p><b>Picked At</b> - Jan 21st, 2017</p>
-                                                    <p><b>Packed At</b> - Jan 21st, 2017</p>
-                                                    <p><b>Dispached At</b> - Jan 21st, 2017</p>
-                                                    <p><b>Status</b> - Pending</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4"><iframe width="230" height="140" src="https://www.youtube.com/embed/ddzU-rkzKF0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
-                                        </div>
-                                    </div><br>
-                                    <div class="order-item">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <!--<img src="{{ asset('/images/WSLogo.png') }}" alt="product-image">-->
-                                                <div class="item-info">
-                                                    <p><a target="_blank" href="https://webstore5.myshopify.com/admin/products/985556189236/variants/8495841017908">12 Colors Makeup Bright Moisturizing Lip Gloss Lipstick Long Lasting Lip Gloss Cosmetics Longwear Not Fad Magic Lip Gloss #703</a></p>
-                                                    <span><p>A / China</p></span>
-                                                    <span><p>SKU: 64029-a-china</p></span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="">
-                                                    <p><b>Warehouse</b> - gsgfgfg</p>
-                                                    <p><b>Picked At</b> - Jan 21st, 2017</p>
-                                                    <p><b>Packed At</b> - Jan 21st, 2017</p>
-                                                    <p><b>Dispached At</b> - Jan 21st, 2017</p>
-                                                    <p><b>Status</b> - Pending</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4"><iframe width="230" height="140" src="https://www.youtube.com/embed/ddzU-rkzKF0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
-                                        </div>
-                                    </div><br>
+                                    @endforeach
                                 </div>
                             </div>
                             <div class="row">

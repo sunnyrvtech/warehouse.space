@@ -231,12 +231,12 @@ class OrderController extends Controller {
                         if (in_array($order->variant_id, $product_id_array)) {
                             $item->PackerName = $shipment->PackerName;
                             $item->FrieghtCost = $shipment->FrieghtCost;
-                            $item->DispatchTime = $shipment->DispatchTime;
-                            $item->PackingStartTime = $shipment->PackingStartTime;
-                            $item->PackingEndTime = $shipment->PackingEndTime;
+                            $item->DispatchTime = date('M d,Y H:I A', strtotime($shipment->DispatchTime));
+                            $item->PackingStartTime = date('M d,Y H:i A', strtotime($shipment->PackingStartTime));
+                            $item->PackingEndTime = date('M d,Y H:i A', strtotime($shipment->PackingEndTime));
                             $item->Shipper = $shipment->Shipper;
                             $item->TrackingNumber = $shipment->TrackingNumber;
-                            $item->YoutubeUrl = $shipment->TrackingNumber;
+                            $item->YoutubeUrl = $shipment->YoutubeUrl;
                         }
                         $order_details->items[$key] = $item;
                     }
