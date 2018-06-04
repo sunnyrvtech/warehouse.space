@@ -45,21 +45,11 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="">
-                                                    @if($value->Shipper !='')
                                                     <p><b>Shipper</b> - {{ $value->Shipper }}</p>
-                                                    @endif
-                                                    @if($value->PackerName !='')
                                                     <p><b>Packer Name</b> - {{ $value->PackerName }}</p>
-                                                    @endif
-                                                    @if($value->PackingEndTime !='')
                                                     <p><b>Packed At</b> - {{ $value->PackingEndTime }}</p>
-                                                    @endif
-                                                    @if($value->DispatchTime !='')
                                                     <p><b>Dispached At</b> - {{ $value->DispatchTime }}</p>
-                                                    @endif
-                                                    @if($value->TrackingNumber !='')
                                                     <p><b>Tracking Number</b> - {{ $value->TrackingNumber }}</p>
-                                                    @endif
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
