@@ -285,10 +285,10 @@ class OrderController extends Controller {
             $request_array->ListInvNumbers = array($id);
             $warehouse_order = $client->GetOrderShipmentInfo($request_array);
             $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->get_user->shop_url, 'ACCESS_TOKEN' => $user->get_user->access_token]);
-            echo "<pre>";
-            print_r($request_array);
-            print_r($warehouse_order);
-            die;
+//            echo "<pre>";
+//            print_r($request_array);
+//            print_r($warehouse_order);
+//            die;
 
             if (isset($warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo)) {
                 $warehouse_order = $warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo;
@@ -337,15 +337,17 @@ class OrderController extends Controller {
                     }
                 }
             }
-            if ($warehouse_order->OrderStatus == 7) {
-                try {
-                    $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/cancel.json', 'METHOD' => 'POST', "DATA" => ['email' => true]]);
-                } catch (\Exception $e) {
-                    Log::info('Order status update error' . $id . $e->getMessage());
-                    return json_encode(array('success' => false));
+            if (isset($warehouse_order->OrderStatus)) {
+                if ($warehouse_order->OrderStatus == 7) {
+                    try {
+                        $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/cancel.json', 'METHOD' => 'POST', "DATA" => ['email' => true]]);
+                    } catch (\Exception $e) {
+                        Log::info('Order status update error' . $id . $e->getMessage());
+                        return json_encode(array('success' => false));
+                    }
                 }
+                return json_encode(array('success' => true));
             }
-            return json_encode(array('success' => true));
         }
         return json_encode(array('success' => false));
     }
