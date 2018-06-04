@@ -212,6 +212,7 @@ class OrderController extends Controller {
                     $warehouse_shipment = $shipment_array;
                 }
                 foreach ($warehouse_shipment as $shipment) {
+                       dd($shipment);
                     $articles = $shipment->Articles->Article;
                     if (count($shipment->Articles->Article) == 1) {
                         $article_array[0] = $shipment->Articles->Article;
