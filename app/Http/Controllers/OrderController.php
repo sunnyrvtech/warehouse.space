@@ -218,9 +218,6 @@ class OrderController extends Controller {
                         $article_array[0] = $shipment->Articles->Article;
                         $articles = $article_array;
                     }
-                    dd($articles);
-                    
-                    
                     
                     $product_id_array = array_column($articles, 'ProductID');
 
