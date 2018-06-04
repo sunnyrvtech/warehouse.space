@@ -252,13 +252,13 @@ class OrderController extends Controller {
                     $item->sku = $order->sku;
 //                $item->quantity = $order->quantity;
 //                $item->price = $order->price;
-                    $item->PackerName = '---';
-                    $item->FrieghtCost = '---';
-                    $item->DispatchTime = '---';
-                    $item->PackingStartTime = '---';
-                    $item->PackingEndTime = '---';
-                    $item->Shipper = '---';
-                    $item->TrackingNumber = '---';
+                    $item->PackerName = '******';
+                    $item->FrieghtCost = '******';
+                    $item->DispatchTime = '******';
+                    $item->PackingStartTime = '******';
+                    $item->PackingEndTime = '******';
+                    $item->Shipper = '******';
+                    $item->TrackingNumber = '******';
                     $item->YoutubeUrl = '';
 
                     $order_details->items[$key] = $item;
