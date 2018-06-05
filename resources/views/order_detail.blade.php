@@ -81,8 +81,8 @@
 @push('scripts')
 <script type="text/javascript">
     $(document).ready(function () {
-        var iframe = document.getElementsByTagName("iframe");
-        alert(iframe.src);
+       var input = $(window.self.top.document).find('iframe').attr('src');
+        alert(input);
 //        iframe.setAttribute('allowFullScreen', '');
     });
 </script>
