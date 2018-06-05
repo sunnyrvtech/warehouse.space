@@ -55,7 +55,7 @@
                                             <div class="col-md-3">
                                                 @if($value->YoutubeUrl !='')
                                                 <!--https://www.youtube.com/embed/ddzU-rkzKF0-->
-                                                <iframe width="200" height="140" src="{{ $value->YoutubeUrl }}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
+                                                <object width="200" height="140" data="{{ $value->YoutubeUrl }}"></object>
                                                 @endif
                                             </div>
                                         </div>
