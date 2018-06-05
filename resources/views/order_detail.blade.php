@@ -82,7 +82,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         var iframe = document.getElementsByTagName("iframe");
-        console.log(iframe);
+        alert(iframe.src);
 //        iframe.setAttribute('allowFullScreen', '');
     });
 </script>
