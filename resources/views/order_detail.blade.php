@@ -81,6 +81,7 @@
 @push('scripts')
 <script type="text/javascript">
     $(document).ready(function () {
+        var iframe = document.getElementsByTagName("iframe");
         iframe.setAttribute('allowFullScreen', '');
     });
 </script>
