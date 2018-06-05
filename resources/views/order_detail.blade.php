@@ -55,7 +55,7 @@
                                             <div class="col-md-3">
                                                 @if($value->YoutubeUrl !='')
                                                 <!--https://www.youtube.com/embed/ddzU-rkzKF0-->
-                                                <iframe width="200" height="140" src="{{ $value->YoutubeUrl }}"></iframe>
+                                                <iframe width="200" height="140" src="{{ $value->YoutubeUrl }}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen="allowfullscreen"></iframe>
                                                 @endif
                                             </div>
                                         </div>
@@ -78,3 +78,10 @@
     </div>
 </section>
 @endsection
+@push('scripts')
+<script type="text/javascript">
+    $(document).ready(function () {
+        iframe.setAttribute('allowFullScreen', '');
+    });
+</script>
+@endpush
