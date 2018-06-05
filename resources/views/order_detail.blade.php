@@ -54,13 +54,8 @@
                                             </div>
                                             <div class="col-md-3">
                                                 @if($value->YoutubeUrl !='')
-                                                <?php
-                                                $video_id = explode("?v=", $value->YoutubeUrl);
-                                                $video_id = $video_id[1];
-                                                $YoutubeUrl = 'https://www.youtube.com/embed/' . $video_id;
-                                                ?>
                                                 <!--https://www.youtube.com/embed/ddzU-rkzKF0-->
-                                                <iframe width="200" height="140" src="{{ $YoutubeUrl }}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen="0"></iframe><br>
+                                                <iframe width="200" height="140" src="{{ $value->YoutubeUrl }}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen="0"></iframe><br>
                                                 <a target="__blank" href="{{ $value->YoutubeUrl }}">View full screen</a>
                                                 @endif
                                             </div>

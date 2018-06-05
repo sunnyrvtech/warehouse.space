@@ -242,7 +242,10 @@ class OrderController extends Controller {
                             $item->PackingEndTime = date('M d,Y H:i A', strtotime($shipment->PackingEndTime));
                             $item->Shipper = $shipment->Shipper;
                             $item->TrackingNumber = $shipment->TrackingNumber;
-                            $item->YoutubeUrl = $shipment->YoutubeUrl;
+
+                            $video_id = explode("?v=", $shipment->YoutubeUrl);
+                            $video_id = $video_id[1];
+                            $item->YoutubeUrl = 'https://www.youtube.com/embed/' . $video_id;
                         }
                     }
                     $order_details->items[$key] = $item;
@@ -281,7 +284,7 @@ class OrderController extends Controller {
     public function updateOrderStatus($id, $no, $token) {
         $client = $this->_client;
         $user = DeveloperSetting::Where([['warehouse_number', $no]])->first();
-
+        
 //        $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->get_user->shop_url, 'ACCESS_TOKEN' => $user->get_user->access_token]);
 //        $shopify_result = $shopify->call(['URL' => 'orders/408497881140/fulfillments/382282563636/cancel.json', 'METHOD' => 'POST']);
 //        dd($shopify_result);
