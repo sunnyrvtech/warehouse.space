@@ -91,8 +91,6 @@ class SettingController extends Controller {
         if ($count_webhook == 1)
             $this->registerWebHooks($user);
 
-        $data['warehouse_token'] = 'hello';
-
         if (isset($user->get_dev_setting)) {
             $dev_data = $user->get_dev_setting;
             if ($user->get_dev_setting->warehouse_token == null || $data['account_key'] != $user->get_dev_setting->account_key) {
