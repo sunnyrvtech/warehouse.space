@@ -94,7 +94,7 @@ class SettingController extends Controller {
         if (isset($user->get_dev_setting)) {
             $dev_data = $user->get_dev_setting;
             if ($user->get_dev_setting->warehouse_token == null || $data['account_key'] != $user->get_dev_setting->account_key) {
-                $token = $this->getWarehouseToken($user);
+                $token = $this->getWarehouseToken($user,$data);
                 if ($token->RegisterStoreResult->Success) {
                     $data['warehouse_token'] = $token->RegisterStoreResult->Token;
                 } else {
@@ -104,7 +104,7 @@ class SettingController extends Controller {
             }
             $dev_data->fill($data)->save();
         } else {
-            $token = $this->getWarehouseToken($user);
+            $token = $this->getWarehouseToken($user,$data);
             if ($token->RegisterStoreResult->Success) {
                 $data['warehouse_token'] = $token->RegisterStoreResult->Token;
                 DeveloperSetting::create($data);
@@ -121,11 +121,11 @@ class SettingController extends Controller {
                         ->with('success-message', 'Developer setting saved successfully!');
     }
 
-    public function getWarehouseToken($user) {
+    public function getWarehouseToken($user,$data) {
         $client = $this->_client;
         $request_array = (object) array();
-        $request_array->AccountKey = $user->get_dev_setting->account_key;
-        $request_array->Warehouse = $user->get_dev_setting->warehouse_number;
+        $request_array->AccountKey = $data['account_key'];
+        $request_array->Warehouse = $data['warehouse_number'];
         $request_array->ShopName = $user->shop_name;
         $request_array->ShopURL = $user->shop_url;
         $request_array->OrderServiceURL = url('/api/webhooks/order');
