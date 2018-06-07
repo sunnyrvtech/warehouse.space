@@ -124,7 +124,7 @@ class SettingController extends Controller {
         $request_array->Enable = true;
         $request_array->AdminEmail = $user->email;
         
-        dd($request_array);
+        //dd($request_array);
         $result = $client->RegisterStore($request_array);
         return $result;
     }
