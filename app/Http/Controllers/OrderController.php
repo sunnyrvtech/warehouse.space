@@ -289,7 +289,7 @@ class OrderController extends Controller {
 //        $shopify_result = $shopify->call(['URL' => 'orders/408497881140/fulfillments/382282563636/cancel.json', 'METHOD' => 'POST']);
 //        dd($shopify_result);
 //$shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
-        if (isset($user->get_user) && $token == env('WAREHOUSE_TOKEN')) {
+        if (isset($user->get_user) && $token == $user->warehouse_token) {
 
             $request_array = (object) array();
             $request_array->AccountKey = $user->account_key;
