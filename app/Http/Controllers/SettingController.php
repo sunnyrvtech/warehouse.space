@@ -91,19 +91,15 @@ class SettingController extends Controller {
         if ($count_webhook == 1)
             $this->registerWebHooks($user);
 
+        $data['warehouse_token'] = 'hello';
+        $token = $this->getWarehouseToken($user);
+        if ($token->RegisterStoreResult->Success)
+            $data['warehouse_token'] = $token->RegisterStoreResult->Token;
+
         if (isset($user->get_dev_setting)) {
             $dev_data = $user->get_dev_setting;
-            $data['warehouse_token'] = 'hello';
-            if ($user->get_dev_setting->warehouse_token == null) {
-                $token = $this->getWarehouseToken($user);
-                if ($token->RegisterStoreResult->Success)
-                    $data['warehouse_token'] = $token->RegisterStoreResult->Token;
-            }
             $dev_data->fill($data)->save();
         } else {
-            $token = $this->getWarehouseToken($user);
-            if ($token->RegisterStoreResult->Success)
-                    $data['warehouse_token'] = $token->RegisterStoreResult->Token;
             DeveloperSetting::create($data);
         }
 
