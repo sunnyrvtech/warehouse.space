@@ -93,7 +93,7 @@ class SettingController extends Controller {
 
         if (isset($user->get_dev_setting)) {
             $dev_data = $user->get_dev_setting;
-            if ($user->get_dev_setting->warehouse_token == null || $data['account_key'] != $user->get_dev_setting->account_key) {
+            if ($user->get_dev_setting->warehouse_token == null || ($data['account_key'] != $user->get_dev_setting->account_key || $data['warehouse_number'] != $user->get_dev_setting->warehouse_number)) {
                 $token = $this->getWarehouseToken($user,$data);
                 if ($token->RegisterStoreResult->Success) {
                     $data['warehouse_token'] = $token->RegisterStoreResult->Token;
