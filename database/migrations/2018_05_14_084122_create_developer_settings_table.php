@@ -22,6 +22,7 @@ class CreateDeveloperSettingsTable extends Migration
             $table->string('percentage_product')->nullable();
             $table->string('page_size')->nullable();
             $table->string('offset')->nullable();
+            $table->string('warehouse_token')->nullable();
             $table->timestamps();
         });
     }

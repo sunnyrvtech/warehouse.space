@@ -8,8 +8,33 @@ use App\ApiSetting;
 use App\DeveloperSetting;
 use App\Webhook;
 use App;
+use Log;
+use SoapClient;
+use SoapFault;
 
 class SettingController extends Controller {
+
+    protected $_client = null;
+
+    /**
+     * WarehouseSpace_Warehouse_Model_Api constructor.
+     */
+    public function __construct() {
+        $debug = true;
+        $wsdl = env('WSDL_URL');
+        try {
+            $this->_client = new SoapClient($wsdl, array(
+                'connection_timeout' => 5000,
+                'cache_wsdl' => $debug ? WSDL_CACHE_NONE : WSDL_CACHE_MEMORY,
+                'trace' => true,
+                'exceptions' => true,
+                'soap_version' => SOAP_1_1
+                    )
+            );
+        } catch (SoapFault $fault) {
+            Log::info('Soap client error: ' . $fault->getMessage());
+        }
+    }
 
     public function warehouseSetting(Request $request) {
         $data['users'] = auth()->user();
@@ -66,16 +91,42 @@ class SettingController extends Controller {
         if ($count_webhook == 1)
             $this->registerWebHooks($user);
 
-        if ($dev_data = DeveloperSetting::Where('user_id', auth()->id())->first()) {
+        if (isset($user->get_dev_setting)) {
+            $dev_data = $user->get_dev_setting;
+            //if ($user->get_dev_setting->warehouse_token == null)
+                $token = $this->getWarehouseToken($user);
+                dd($token);
             $dev_data->fill($data)->save();
         } else {
+            $token = $this->getWarehouseToken($user);
+            dd($token);
             DeveloperSetting::create($data);
         }
-        if (!ApiSetting::Where('user_id', auth()->id())->first())
+
+        if (!isset($user->get_api_setting))
             ApiSetting::create($data);
-        return redirect()->route('warehouse.product.sync');
+        // return redirect()->route('warehouse.product.sync');
         return redirect()->back()
                         ->with('success-message', 'Developer setting saved successfully!');
+    }
+
+    public function getWarehouseToken($user) {
+        $client = $this->_client;
+        $request_array = (object) array();
+        $request_array->AccountKey = $user->get_dev_setting->account_key;
+        $request_array->Warehouse = $user->get_dev_setting->warehouse_number;
+        $request_array->ShopName = $user->shop_name;
+        $request_array->ShopURL = $user->shop_url;
+        $request_array->OrderServiceURL = url('/api/webhooks/order');
+        $request_array->StockAdjustmentURL = '';
+        $request_array->ShopIP = $_SERVER['REMOTE_ADDR'];
+        $request_array->ShopLanguage = '';
+        $request_array->Enable = true;
+        $request_array->AdminEmail = $user->email;
+        
+        dd($request_array);
+        $result = $client->RegisterStore($request_array);
+        return $result;
     }
 
     public function registerWebHooks($user) {
