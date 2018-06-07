@@ -95,15 +95,23 @@ class SettingController extends Controller {
             $dev_data = $user->get_dev_setting;
             if ($user->get_dev_setting->warehouse_token == null || $data['account_key'] != $user->get_dev_setting->account_key) {
                 $token = $this->getWarehouseToken($user);
-                if ($token->RegisterStoreResult->Success)
+                if ($token->RegisterStoreResult->Success) {
                     $data['warehouse_token'] = $token->RegisterStoreResult->Token;
+                } else {
+                    return redirect()->back()
+                                    ->with('error-message', $token->RegisterStoreResult->ErrorMessage);
+                }
             }
             $dev_data->fill($data)->save();
         } else {
             $token = $this->getWarehouseToken($user);
-            if ($token->RegisterStoreResult->Success)
+            if ($token->RegisterStoreResult->Success) {
                 $data['warehouse_token'] = $token->RegisterStoreResult->Token;
-            DeveloperSetting::create($data);
+                DeveloperSetting::create($data);
+            } else {
+                return redirect()->back()
+                                ->with('error-message', $token->RegisterStoreResult->ErrorMessage);
+            }
         }
 
         if (!isset($user->get_api_setting))
