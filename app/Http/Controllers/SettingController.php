@@ -99,7 +99,7 @@ class SettingController extends Controller {
                     $data['warehouse_token'] = $token->RegisterStoreResult->Token;
                 } else {
                     return redirect()->back()
-                                    ->with('error-message', 'Sorry,warehouse number or account key does not exist in the warehouse,please enter the correct details');
+                                    ->with('error-message', 'Sorry, account key or number does not exist in the warehouse,please enter the correct details.');
                 }
             }
             $dev_data->fill($data)->save();
@@ -110,7 +110,7 @@ class SettingController extends Controller {
                 DeveloperSetting::create($data);
             } else {
                 return redirect()->back()
-                                ->with('error-message', "Sorry,warehouse number or account key does not exist in the warehouse,please enter the correct details !");
+                                ->with('error-message', "Sorry, account key or number does not exist in the warehouse,please enter the correct details.");
             }
         }
 
