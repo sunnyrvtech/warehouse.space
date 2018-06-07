@@ -117,7 +117,7 @@ class SettingController extends Controller {
     public function getWarehouseToken($user) {
         $client = $this->_client;
         $request_array = (object) array();
-        $request_array->AccountKey = $user->get_dev_setting->account_key;
+        $request_array->AccountKey = "sdsdsdsdfsdf";
         $request_array->Warehouse = $user->get_dev_setting->warehouse_number;
         $request_array->ShopName = $user->shop_name;
         $request_array->ShopURL = $user->shop_url;
