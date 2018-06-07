@@ -159,7 +159,7 @@ class ProductController extends Controller {
             $result = $client->MaterialBulk($final_product_array);
             if ($result->MaterialBulkResult)
                 return redirect()->back()
-                                ->with('success-message', 'Product synchronization complete successfully!');
+                                ->with('success-message', 'Product synchronization completed successfully!');
             else
                 return redirect()->back()
                                 ->with('error-message', 'Something went wrong,please try again later!');

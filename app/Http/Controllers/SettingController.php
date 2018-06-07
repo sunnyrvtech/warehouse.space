@@ -116,7 +116,7 @@ class SettingController extends Controller {
 
         if (!isset($user->get_api_setting))
             ApiSetting::create($data);
-        // return redirect()->route('warehouse.product.sync');
+        return redirect()->route('warehouse.product.sync');
         return redirect()->back()
                         ->with('success-message', 'Developer setting saved successfully!');
     }
