@@ -118,6 +118,7 @@ class OrderController extends Controller {
         $order_array->ErpTimestamp = date('Y-m-d-H:i');
         $order_array->PartnerKey = '';
         $order_array->DeliverAddress = $request->get('shipping_address')['address1'];
+        $order_array->DeliverAddress2 = $request->get('shipping_address')['address2'];
         $order_array->DeliveryPostCodeZIP = $request->get('shipping_address')['zip'];
         $order_array->Country = $request->get('shipping_address')['country'];
         $order_array->CountryCode = $request->get('shipping_address')['country_code'];
