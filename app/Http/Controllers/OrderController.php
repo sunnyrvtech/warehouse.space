@@ -167,13 +167,13 @@ class OrderController extends Controller {
         $request_array->AccountKey = $user->get_dev_setting->account_key;
         $request_array->ListInvNumbers = array($order_id);
 
-        $warehouse_order = $client->GetOrderShipmentInfo($request_array);
-        $warehouse_shipment = $warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo->Shipments;
+        $warehouse_order = $client->GetOrderShipmentInfo($request_array);        
 //        echo htmlentities($client->__getLastRequest());
-         echo "<pre>";
-        print_r($request_array);
-        dd($warehouse_order);
+//         echo "<pre>";
+//        print_r($request_array);
+//        dd($warehouse_order);
         if (isset($warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo)) {
+            $warehouse_shipment = $warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo->Shipments;
             $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
 
             $warehouse_order = $warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo;
