@@ -213,6 +213,7 @@ class OrderController extends Controller {
                     $shipment_array[0] = $warehouse_shipment;
                     $warehouse_shipment = $shipment_array;
                 }
+                $item = (object) array();
                 foreach ($warehouse_shipment as $key => $shipment) {
 
                     $articles = $shipment->Articles->Article;
@@ -224,7 +225,6 @@ class OrderController extends Controller {
                     $product_id_array = array_column($articles, 'ProductID');
 
                     //print_r($product_id_array);
-                    $item = (object) array();
                     foreach ($orders->order->line_items as $order) {
                         if (in_array($order->variant_id, $product_id_array)) {
 
@@ -247,11 +247,9 @@ class OrderController extends Controller {
                             $video_id = explode("?v=", $shipment->YoutubeUrl);
                             $video_id = $video_id[1];
                             $item->YoutubeUrl = 'https://www.youtube.com/embed/' . $video_id . '/?controls=0';
-                            
-                            $order_details->items[$key] = $item;
                         }
-                        
                     }
+                    $order_details->items[$key] = $item;
                 }
             } else {
                 foreach ($orders->order->line_items as $key => $order) {
