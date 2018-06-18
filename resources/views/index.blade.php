@@ -13,6 +13,8 @@
                 <!--<p>We pick, pack and dispatch products with next day delivery.</p>-->
             </div>
         </div>
+    </div><br>
+    <div class="card">
         <div class="card-header bg-info text-white">Requirements</div>
         <div class="card-body">
             <div class="instruction-content">
