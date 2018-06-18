@@ -22,7 +22,7 @@
                     to the left of this text, please take a screen shot of the barcode input section of the product page in shopify.</p>
             </div>
         </div>
-        <div class="card-footer">Support:-</div>
+        <!--<div class="card-footer">Support:-</div>-->
     </div>
 </section>
 @endsection
