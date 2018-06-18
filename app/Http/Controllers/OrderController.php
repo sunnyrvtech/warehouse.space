@@ -327,6 +327,10 @@ class OrderController extends Controller {
                             $articles = $article_array;
                         }
                         $product_id_array = array_column($articles, 'ProductID');
+                        if(empty($product_id_array)){
+                            return json_encode(array('success' => false));
+                        }
+                        
                         //print_r($product_id_array);
                         $item_ids_array = array();
                         foreach ($orders->order->line_items as $key => $order) {
