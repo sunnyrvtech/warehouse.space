@@ -224,7 +224,7 @@ class OrderController extends Controller {
 
                     $product_id_array = array_column($articles, 'ProductID');
 
-                    //print_r($product_id_array);
+                    print_r($product_id_array);
                     foreach ($orders->order->line_items as $order) {
                         if (in_array($order->variant_id, $product_id_array)) {
 
