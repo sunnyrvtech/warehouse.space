@@ -167,9 +167,9 @@ class OrderController extends Controller {
         $request_array->AccountKey = $user->get_dev_setting->account_key;
         $request_array->ListInvNumbers = array($order_id);
 
-        $warehouse_order = $client->GetOrderShipmentInfo($request_array);        
+        $warehouse_order = $client->GetOrderShipmentInfo($request_array);
 //        echo htmlentities($client->__getLastRequest());
-         echo "<pre>";
+        echo "<pre>";
         print_r($request_array);
         dd($warehouse_order);
         if (isset($warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo)) {
@@ -246,7 +246,7 @@ class OrderController extends Controller {
 
                             $video_id = explode("?v=", $shipment->YoutubeUrl);
                             $video_id = $video_id[1];
-                            $item->YoutubeUrl = 'https://www.youtube.com/embed/' . $video_id.'/?controls=0';
+                            $item->YoutubeUrl = 'https://www.youtube.com/embed/' . $video_id . '/?controls=0';
                         }
                     }
                     $order_details->items[$key] = $item;
@@ -285,7 +285,7 @@ class OrderController extends Controller {
     public function updateOrderStatus($id, $no, $token) {
         $client = $this->_client;
         $user = DeveloperSetting::Where([['warehouse_number', $no]])->first();
-        
+
 //        $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->get_user->shop_url, 'ACCESS_TOKEN' => $user->get_user->access_token]);
 //        $shopify_result = $shopify->call(['URL' => 'orders/408497881140/fulfillments/382282563636/cancel.json', 'METHOD' => 'POST']);
 //        dd($shopify_result);
@@ -327,10 +327,10 @@ class OrderController extends Controller {
                             $articles = $article_array;
                         }
                         $product_id_array = array_column($articles, 'ProductID');
-                        if(empty($product_id_array)){
+                        if (empty($product_id_array)) {
                             return json_encode(array('success' => false));
                         }
-                        
+
                         //print_r($product_id_array);
                         $item_ids_array = array();
                         foreach ($orders->order->line_items as $key => $order) {
@@ -361,8 +361,8 @@ class OrderController extends Controller {
                         Log::info('Order status update error' . $id . $e->getMessage());
                         return json_encode(array('success' => false));
                     }
+                    return json_encode(array('success' => true));
                 }
-                return json_encode(array('success' => true));
             }
         }
         return json_encode(array('success' => false));
