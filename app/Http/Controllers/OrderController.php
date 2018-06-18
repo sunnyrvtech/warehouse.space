@@ -248,8 +248,8 @@ class OrderController extends Controller {
                             $video_id = $video_id[1];
                             $item->YoutubeUrl = 'https://www.youtube.com/embed/' . $video_id . '/?controls=0';
                         }
+                        $order_details->items[$key] = $item;
                     }
-                    $order_details->items[$key] = $item;
                 }
             } else {
                 foreach ($orders->order->line_items as $key => $order) {
@@ -274,7 +274,7 @@ class OrderController extends Controller {
                     $order_details->items[$key] = $item;
                 }
             }
-             dd($order_details);
+            dd($order_details);
             $data['order_details'] = $order_details;
             return view('order_detail', $data);
         }
