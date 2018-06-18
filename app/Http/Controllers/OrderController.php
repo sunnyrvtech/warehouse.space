@@ -224,7 +224,7 @@ class OrderController extends Controller {
 
                     $product_id_array = array_column($articles, 'ProductID');
 
-                    print_r($product_id_array);
+//                    print_r($product_id_array);
                     foreach ($orders->order->line_items as $k=>$order) {
                         if (in_array($order->variant_id, $product_id_array)) {
 
@@ -274,7 +274,7 @@ class OrderController extends Controller {
                     $order_details->items[$key] = $item;
                 }
             }
-            dd($order_details);
+//            dd($order_details);
             $data['order_details'] = $order_details;
             return view('order_detail', $data);
         }
