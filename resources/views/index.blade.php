@@ -20,7 +20,7 @@
             <div class="instruction-content">
                 <div class="row">
                     <div class="col-md-6">
-                        <img style="max-width: 500px;" src="{{ asset('/images/barcode.png') }}">
+                        <img style="width: 100%;" src="{{ asset('/images/barcode.png') }}">
                     </div>
                     <div class="col-md-6">
                         <p>To help us pick, pack and dispatch the correct products we need your help.Every product in our warehouse has a barcode. If the product doesn’t have one when you ship it to one of our warehouses, then we will add a barcode to the product packaging.This barcode is what we scan to confirm we have the correct product your customer has ordered.</p>
