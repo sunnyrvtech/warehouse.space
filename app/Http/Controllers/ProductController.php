@@ -178,7 +178,7 @@ class ProductController extends Controller {
                 fclose($h);
                 unset($file);
                 unlink($tmpfile);
-                //echo htmlentities($client->__getLastRequest());
+                echo htmlentities($client->__getLastRequest());
                 dd($result);
             }
             die('ddd');
