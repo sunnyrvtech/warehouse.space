@@ -167,6 +167,10 @@ class ProductController extends Controller {
                     $root->appendChild($items);
                 }
             }
+            echo $dom->getElementsByTagName('MaterialArticle')->length;
+            
+            die;
+            
 //            echo '<xmp>' . $dom->saveXML() . '</xmp>';
 //            die;
 //  $dom->save('result.xml') or die('XML Create Error');
