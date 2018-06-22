@@ -124,6 +124,7 @@ class ProductController extends Controller {
             $dom->appendChild($root);
 
             foreach ($productinfo->products as $key => $product) {
+                $images = "";
                 if ($product->images != null) {
                     $images = $dom->createElement('Images');
                     foreach ($product->images as $img) {
@@ -148,7 +149,7 @@ class ProductController extends Controller {
 //                    $items->appendChild($dom->createElement('ErpTimeStamp', ''));
 //                    $items->appendChild($dom->createElement('TimeStamp', ''));
 //                    $items->appendChild($dom->createElement('HSCode', ''));
-                    if (isset($images))
+                    if ($images != "")
                         $items->appendChild($images);
 //                    $items->appendChild($dom->createElement('ItemDepth', ''));
 //                    $items->appendChild($dom->createElement('ItemHeight', ''));
@@ -171,7 +172,7 @@ class ProductController extends Controller {
 //            
 //            die;
             
-            echo '<xmp>' . $dom->saveXML() . '</xmp>';
+//            echo '<xmp>' . $dom->saveXML() . '</xmp>';
             die;
 //  $dom->save('result.xml') or die('XML Create Error');
             $tmpfile = tempnam(sys_get_temp_dir(), 'zip');
