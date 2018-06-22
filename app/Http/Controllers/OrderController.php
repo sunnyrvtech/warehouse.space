@@ -102,7 +102,7 @@ class OrderController extends Controller {
             );
         }
         
-            Log::info(' Order update' . json_encode($request->get('shipping_lines')[0]));
+            Log::info(' Order update' . json_encode($request->get('all')));
 die;
         $order_array->ArticlesList = $article_array;
         $order_array->InvNumber = $request->get('id');
