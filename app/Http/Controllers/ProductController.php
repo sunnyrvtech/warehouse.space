@@ -72,8 +72,8 @@ class ProductController extends Controller {
                     $item_array->Title = $request->get('title');
                     $item_array->Barcode = $item_value->barcode;
                     $item_array->Description = strip_tags($request->get('body_html'));
-                    $item_array->ErpTimeStamp = date('Y-m-d-H:i');
-                    $item_array->TimeStamp = date('Y-m-d-H:i');
+//                    $item_array->ErpTimeStamp = date('Y-m-d-H:i');
+//                    $item_array->TimeStamp = date('Y-m-d-H:i');
                     $item_array->HSCode = "";
                     $item_array->UOM = 'each';
                     $item_array->BuyPrice = $item_value->price;
@@ -125,42 +125,50 @@ class ProductController extends Controller {
 
             foreach ($productinfo->products as $key => $product) {
                 $items = $dom->createElement('MaterialArticle');
-                $images = $dom->createElement('Images');
-                foreach ($product->images as $img) {
-                    $images->appendChild($dom->createElement('string', $img->src));
+                if ($product->images != null) {
+                    $images = $dom->createElement('Images');
+                    foreach ($product->images as $img) {
+                        $images->appendChild($dom->createElement('string', $img->src));
+                    }
                 }
 
                 foreach ($product->variants as $item_value) {
                     $items->appendChild($dom->createElement('AccountKey', $this->_accountKey));
                     $items->appendChild($dom->createElement('ProductID', $item_value->id));
-                    $items->appendChild($dom->createElement('Article', $item_value->sku));
+                    if ($item_value->sku != "")
+                        $items->appendChild($dom->createElement('Article', $item_value->sku));
                     $items->appendChild($dom->createElement('Title', $product->title));
-                    $items->appendChild($dom->createElement('Barcode', $item_value->barcode));
+                    if ($item_value->barcode != "")
+                        $items->appendChild($dom->createElement('Barcode', $item_value->barcode));
                     $items->appendChild($dom->createElement('BuyPrice', $item_value->price));
-                    $items->appendChild($dom->createElement('Category', $product->product_type));
-                    $items->appendChild($dom->createElement('Description', strip_tags($product->body_html)));
-                    $items->appendChild($dom->createElement('ErpTimeStamp', ''));
-                    $items->appendChild($dom->createElement('TimeStamp', ''));
-                    $items->appendChild($dom->createElement('HSCode', ''));
-                    $items->appendChild($images);
-                    $items->appendChild($dom->createElement('ItemDepth', ''));
-                    $items->appendChild($dom->createElement('ItemHeight', ''));
-                    $items->appendChild($dom->createElement('ItemWeight', $item_value->weight));
-                    $items->appendChild($dom->createElement('ItemWidth', ''));
-                    $items->appendChild($dom->createElement('Manufacturer', ''));
-                    $items->appendChild($dom->createElement('MinQuantity', ''));
-                    $items->appendChild($dom->createElement('Model', ''));
-                    $items->appendChild($dom->createElement('SellPrice', $item_value->compare_at_price));
-                    $items->appendChild($dom->createElement('Supplier', ''));
+                    if ($product->product_type != "")
+                        $items->appendChild($dom->createElement('Category', $product->product_type));
+                    if ($product->body_html != "")
+                        $items->appendChild($dom->createElement('Description', strip_tags($product->body_html)));
+//                    $items->appendChild($dom->createElement('ErpTimeStamp', ''));
+//                    $items->appendChild($dom->createElement('TimeStamp', ''));
+//                    $items->appendChild($dom->createElement('HSCode', ''));
+                    if (isset($images))
+                        $items->appendChild($images);
+//                    $items->appendChild($dom->createElement('ItemDepth', ''));
+//                    $items->appendChild($dom->createElement('ItemHeight', ''));
+                    if ($item_value->weight != null)
+                        $items->appendChild($dom->createElement('ItemWeight', $item_value->weight));
+//                    $items->appendChild($dom->createElement('ItemWidth', ''));
+//                    $items->appendChild($dom->createElement('Manufacturer', ''));
+//                    $items->appendChild($dom->createElement('MinQuantity', ''));
+//                    $items->appendChild($dom->createElement('Model', ''));
+                    if ($item_value->compare_at_price != null)
+                        $items->appendChild($dom->createElement('SellPrice', $item_value->compare_at_price));
+//                    $items->appendChild($dom->createElement('Supplier', ''));
                     $items->appendChild($dom->createElement('UOM', 'each'));
                     $items->appendChild($dom->createElement('Warehouse', $this->_warehouseNumber));
-                    $items->appendChild($dom->createElement('WeightCat', ''));
+//                    $items->appendChild($dom->createElement('WeightCat', ''));
                     $root->appendChild($items);
                 }
             }
-
-
 //            echo '<xmp>' . $dom->saveXML() . '</xmp>';
+//            die;
 //  $dom->save('result.xml') or die('XML Create Error');
             $tmpfile = tempnam(sys_get_temp_dir(), 'zip');
             rename($tmpfile, substr($tmpfile, 0, strlen($tmpfile) - 4) . '.zip');
