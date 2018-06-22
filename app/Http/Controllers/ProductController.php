@@ -37,7 +37,7 @@ class ProductController extends Controller {
             if ($route_name == "warehouse.product.sync")
                 $wsdl = env('WSDL_MATERIAL_URL');
             else
-                $wsdl = env('WSDL_URL');
+                $wsdl = env('WSDL_MATERIAL_URL');
 
             try {
                 $this->_client = new SoapClient($wsdl, array(
