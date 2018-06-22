@@ -132,10 +132,10 @@ class ProductController extends Controller {
                     }
                 }
 
-                foreach ($product->variants as $item_value) {
+                foreach ($product->variants as $k=>$item_value) {
                     $items = $dom->createElement('MaterialArticle');
                     $items->appendChild($dom->createElement('AccountKey', $this->_accountKey));
-                    $items->appendChild($dom->createElement('ProductID', $i));
+                    $items->appendChild($dom->createElement('ProductID', $i+$k));
                     if ($item_value->sku != "")
                         $items->appendChild($dom->createElement('Article', $item_value->sku));
                     $items->appendChild($dom->createElement('Title', $product->title));
