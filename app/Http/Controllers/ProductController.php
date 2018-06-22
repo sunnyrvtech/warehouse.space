@@ -172,7 +172,7 @@ class ProductController extends Controller {
 //            
 //            die;
             
-//            echo '<xmp>' . $dom->saveXML() . '</xmp>';
+            echo '<xmp>' . $dom->saveXML() . '</xmp>';
             die;
 //  $dom->save('result.xml') or die('XML Create Error');
             $tmpfile = tempnam(sys_get_temp_dir(), 'zip');
