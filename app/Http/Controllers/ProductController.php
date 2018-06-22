@@ -168,6 +168,7 @@ class ProductController extends Controller {
                     $root->appendChild($items);
                     $i++;
                 }
+                $i++;
             }
             }
 //            echo $dom->getElementsByTagName('MaterialArticle')->length;
