@@ -93,6 +93,11 @@ class OrderController extends Controller {
 
         $article_array = array();
         $order_create_array = array();
+        
+        
+        
+         Log::info(' Order update' . json_encode($request->get('shipping_lines')));
+         exit();
         foreach ($request->get('line_items') as $key => $item_data) {
             $article_array[$key] = (object) array(
                         'Article' => $item_data['sku'],
@@ -133,7 +138,7 @@ class OrderController extends Controller {
         $order_array->ShortCode = "";
         $order_array->TaxAmount = $request->get('total_tax');
         $order_array->CurrencyCode = $request->get('currency');
-        $order_array->ShipmentCost = $request->get('shipping_lines')[0]['price'];
+        $order_array->ShipmentCost = $request->get('shipping_lines');
         $order_array->Warehouse = $user->get_dev_setting->warehouse_number;
         $order_array->AccountKey = $user->get_dev_setting->account_key;
         $result = $client->OrderDetail($order_array);
