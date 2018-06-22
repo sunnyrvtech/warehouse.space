@@ -174,7 +174,7 @@ class ProductController extends Controller {
                 $file = fread($h, filesize($tmpfile));
                 $zip_array = (object) array();
                 $zip_array->data = $file;
-                $result = $client->UploadProductsFile($zip_array);
+                $result = $client->UploadProductsFile(['data' => $file]);
                 fclose($h);
                 unset($file);
                 unlink($tmpfile);
