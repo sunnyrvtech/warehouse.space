@@ -38,9 +38,6 @@ class SettingController extends Controller {
 
     public function warehouseSetting(Request $request) {
         $data['users'] = auth()->user();
-        
-        
-        dd($data['users']);
         return view('setting', $data);
     }
 
