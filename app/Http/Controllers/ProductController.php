@@ -35,7 +35,7 @@ class ProductController extends Controller {
             }
             $debug = true;
             if ($route_name == "warehouse.product.sync")
-                $wsdl = env('WSDL_URL');
+                $wsdl = env('WSDL_MATERIAL_URL');
             else
                 $wsdl = env('WSDL_URL');
 
@@ -113,68 +113,88 @@ class ProductController extends Controller {
     }
 
     public function synchronizeProducts(Request $request) {
-         $user = $this->_user;
+        $user = $this->_user;
         $client = $this->_client;
         $shopify = $this->_shopify;
         if ($client != null && $shopify != null) {
-//            $limit = $user->get_dev_setting->page_size;
-//            $page = $user->get_dev_setting->offset;
             $productinfo = $shopify->call(['URL' => 'products.json', 'METHOD' => 'GET']);
-            $i = 0;
+            $dom = new DOMDocument('1.0');
+            $dom->formatOutput = true;
+            $root = $dom->createElement('ArrayOfMaterialArticle');
+            $dom->appendChild($root);
 
-            $product_array = array();
             foreach ($productinfo->products as $key => $product) {
-                $product_images = array_column($product->images, 'src');
+                $images = "";
+                if ($product->images != null) {
+                    $images = $dom->createElement('Images');
+                    foreach ($product->images as $img) {
+                        $images->appendChild($dom->createElement('string', $img->src));
+                    }
+                }
 
                 foreach ($product->variants as $item_value) {
-
-//                    $hscode = $shopify->call(['URL' => 'products/'.$product->id.'/variants/'.$item_value->id.'/metafields.json', 'METHOD' => 'GET']);
-
-                    $item_array = (object) array();
-                    $item_array->ProductID = $item_value->id;
-                    $item_array->Article = $item_value->sku;
-                    $item_array->Title = $product->title;
-                    $item_array->Barcode = $item_value->barcode;
-                    $item_array->Description = strip_tags($product->body_html);
-                    $item_array->ErpTimeStamp = date('Y-m-d-H:i');
-                    $item_array->TimeStamp = date('Y-m-d-H:i');
-                    $item_array->HSCode = "";
-                    $item_array->UOM = 'each';
-                    $item_array->BuyPrice = $item_value->price;
-                    $item_array->SellPrice = $item_value->compare_at_price;
-                    $item_array->Supplier = "";
-                    $item_array->Images = $product_images;
-                    $item_array->Manufacturer = "";
-                    $item_array->MinQuantity = 0;
-                    $item_array->ItemWeight = $item_value->weight;
-                    $item_array->ItemHeight = 0;
-                    $item_array->ItemWidth = 0;
-                    $item_array->ItemDepth = 0;
-                    $item_array->WeightCat = 0;
-                    $item_array->Model = "";
-                    $item_array->Category = $product->product_type;
-                    $item_array->Warehouse = $this->_warehouseNumber;
-                    $item_array->AccountKey = $this->_accountKey;
-
-                    $product_array[$i] = $item_array;
-                    $i++;
+                    $items = $dom->createElement('MaterialArticle');
+                    $items->appendChild($dom->createElement('AccountKey', $this->_accountKey));
+                    $items->appendChild($dom->createElement('ProductID', $item_value->id));
+                    if ($item_value->sku != "")
+                        $items->appendChild($dom->createElement('Article', $item_value->sku));
+                    $items->appendChild($dom->createElement('Title', htmlspecialchars($product->title)));
+                    if ($item_value->barcode != "")
+                        $items->appendChild($dom->createElement('Barcode', $item_value->barcode));
+                    $items->appendChild($dom->createElement('BuyPrice', $item_value->price));
+                    if ($product->product_type != "")
+                        $items->appendChild($dom->createElement('Category', $product->product_type));
+                    if ($product->body_html != "")
+                        $items->appendChild($dom->createElement('Description', htmlspecialchars(strip_tags($product->body_html))));
+//                    $items->appendChild($dom->createElement('ErpTimeStamp', ''));
+//                    $items->appendChild($dom->createElement('TimeStamp', ''));
+//                    $items->appendChild($dom->createElement('HSCode', ''));
+                    if ($images != "")
+                        $items->appendChild($images);
+//                    $items->appendChild($dom->createElement('ItemDepth', ''));
+//                    $items->appendChild($dom->createElement('ItemHeight', ''));
+                    if ($item_value->weight != null)
+                        $items->appendChild($dom->createElement('ItemWeight', $item_value->weight));
+//                    $items->appendChild($dom->createElement('ItemWidth', ''));
+//                    $items->appendChild($dom->createElement('Manufacturer', ''));
+//                    $items->appendChild($dom->createElement('MinQuantity', ''));
+//                    $items->appendChild($dom->createElement('Model', ''));
+                    if ($item_value->compare_at_price != null)
+                        $items->appendChild($dom->createElement('SellPrice', $item_value->compare_at_price));
+//                    $items->appendChild($dom->createElement('Supplier', ''));
+                    $items->appendChild($dom->createElement('UOM', 'each'));
+                    $items->appendChild($dom->createElement('Warehouse', $this->_warehouseNumber));
+//                    $items->appendChild($dom->createElement('WeightCat', ''));
+                    $root->appendChild($items);
                 }
             }
-
-            $final_product_array = (object) array();
-            $final_product_array->ArticlesList = $product_array;
-
-            $result = $client->MaterialBulk($final_product_array);
-            if ($result->MaterialBulkResult)
-                return redirect()->back()
-                                ->with('success-message', 'Product synchronization completed successfully!');
-            else
-                return redirect()->back()
-                                ->with('error-message', 'Something went wrong,please try again later!');
+//            echo $dom->getElementsByTagName('MaterialArticle')->length;
+//            echo '<xmp>' . $dom->saveXML() . '</xmp>';
+//            $dom->save('result.xml') or die('XML Create Error');
+            $tmpfile = tempnam(sys_get_temp_dir(), 'zip');
+            rename($tmpfile, substr($tmpfile, 0, strlen($tmpfile) - 4) . '.zip');
+            $tmpfile = substr($tmpfile, 0, strlen($tmpfile) - 4) . '.zip';
+            $zip = new ZipArchive;
+            $res = $zip->open($tmpfile, ZipArchive::OVERWRITE);
+            if ($res === TRUE) {
+                $zip->addFromString('Articles.xml', $dom->saveXML());
+                $zip->close();
+                $h = fopen($tmpfile, 'r');
+                $file = fread($h, filesize($tmpfile));
+                $zip_array = (object) array();
+                $zip_array->data = $file;
+                $result = $client->UploadProductsFile($zip_array);
+                fclose($h);
+                unset($file);
+                unlink($tmpfile);
+               // echo htmlentities($client->__getLastRequest());
+                if ($result)
+                    return redirect()->back()
+                                    ->with('success-message', 'Product synchronization completed successfully!');
+            }
         }
         return redirect()->back()
                         ->with('error-message', 'Something went wrong,please try again later!');
-        
-                }
+    }
 
 }
