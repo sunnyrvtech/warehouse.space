@@ -138,14 +138,14 @@ class ProductController extends Controller {
                     $items->appendChild($dom->createElement('ProductID', $item_value->id));
                     if ($item_value->sku != "")
                         $items->appendChild($dom->createElement('Article', $item_value->sku));
-                    $items->appendChild($dom->createElement('Title', $product->title));
+                    $items->appendChild($dom->createElement('Title', htmlspecialchars($product->title)));
                     if ($item_value->barcode != "")
                         $items->appendChild($dom->createElement('Barcode', $item_value->barcode));
                     $items->appendChild($dom->createElement('BuyPrice', $item_value->price));
                     if ($product->product_type != "")
                         $items->appendChild($dom->createElement('Category', $product->product_type));
                     if ($product->body_html != "")
-                        $items->appendChild($dom->createElement('Description', strip_tags($product->body_html)));
+                        $items->appendChild($dom->createElement('Description', htmlspecialchars(strip_tags($product->body_html))));
 //                    $items->appendChild($dom->createElement('ErpTimeStamp', ''));
 //                    $items->appendChild($dom->createElement('TimeStamp', ''));
 //                    $items->appendChild($dom->createElement('HSCode', ''));
