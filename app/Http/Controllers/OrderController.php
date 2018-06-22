@@ -65,7 +65,7 @@ class OrderController extends Controller {
     }
 
     public function createOrder($request, $user) {
-          Log::info(' Order update' . json_encode($request));
+          Log::info(' Order update' . json_encode($request->all()));
           die;
         $client = $this->_client;
         if ($request->get('financial_status') == 'pending') {
