@@ -171,12 +171,12 @@ class ProductController extends Controller {
                 
             }
             }
-            echo $dom->getElementsByTagName('MaterialArticle')->length;
+//            echo $dom->getElementsByTagName('MaterialArticle')->length;
 //            
 //            die;
             
-            echo '<xmp>' . $dom->saveXML() . '</xmp>';
-            die;
+//            echo '<xmp>' . $dom->saveXML() . '</xmp>';
+//            die;
 //  $dom->save('result.xml') or die('XML Create Error');
             $tmpfile = tempnam(sys_get_temp_dir(), 'zip');
             rename($tmpfile, substr($tmpfile, 0, strlen($tmpfile) - 4) . '.zip');
