@@ -171,7 +171,7 @@ class ProductController extends Controller {
                 $i++;
             }
             }
-//            echo $dom->getElementsByTagName('MaterialArticle')->length;
+            echo $dom->getElementsByTagName('MaterialArticle')->length;
 //            
 //            die;
             
