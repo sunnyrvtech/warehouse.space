@@ -101,9 +101,7 @@ class OrderController extends Controller {
                         'Quantity' => $item_data['quantity']
             );
         }
-        
-            Log::info(' Order update' . $request->get('shipping_lines')[0]['price']);
-die;
+
         $order_array->ArticlesList = $article_array;
         $order_array->InvNumber = $request->get('id');
         $order_array->Customer = $billing_first_name . ' ' . $billing_last_name;
@@ -135,7 +133,7 @@ die;
         $order_array->ShortCode = "";
         $order_array->TaxAmount = $request->get('total_tax');
         $order_array->CurrencyCode = $request->get('currency');
-        $order_array->ShipmentCost = $request->get('shipping_lines')[0]->price;
+        $order_array->ShipmentCost = $request->get('shipping_lines')[0]['price'];
         $order_array->Warehouse = $user->get_dev_setting->warehouse_number;
         $order_array->AccountKey = $user->get_dev_setting->account_key;
         $result = $client->OrderDetail($order_array);
