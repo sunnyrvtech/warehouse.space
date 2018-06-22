@@ -102,7 +102,7 @@ class OrderController extends Controller {
             );
         }
         
-            Log::info(' Order update' . $request->get('shipping_lines')[0]->price);
+            Log::info(' Order update' . $request->get('shipping_lines')[0]['price']);
 die;
         $order_array->ArticlesList = $article_array;
         $order_array->InvNumber = $request->get('id');
