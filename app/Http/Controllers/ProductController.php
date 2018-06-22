@@ -122,7 +122,7 @@ class ProductController extends Controller {
             $dom->formatOutput = true;
             $root = $dom->createElement('ArrayOfMaterialArticle');
             $dom->appendChild($root);
-
+            for($i=1;$i<=10;$i++){
             foreach ($productinfo->products as $key => $product) {
                 $images = "";
                 if ($product->images != null) {
@@ -135,7 +135,7 @@ class ProductController extends Controller {
                 foreach ($product->variants as $item_value) {
                     $items = $dom->createElement('MaterialArticle');
                     $items->appendChild($dom->createElement('AccountKey', $this->_accountKey));
-                    $items->appendChild($dom->createElement('ProductID', $item_value->id));
+                    $items->appendChild($dom->createElement('ProductID', $i));
                     if ($item_value->sku != "")
                         $items->appendChild($dom->createElement('Article', $item_value->sku));
                     $items->appendChild($dom->createElement('Title', $product->title));
@@ -168,9 +168,10 @@ class ProductController extends Controller {
                     $root->appendChild($items);
                 }
             }
-//            echo $dom->getElementsByTagName('MaterialArticle')->length;
+            }
+            echo $dom->getElementsByTagName('MaterialArticle')->length;
 //            
-//            die;
+            die;
             
 //            echo '<xmp>' . $dom->saveXML() . '</xmp>';
 //            die;
