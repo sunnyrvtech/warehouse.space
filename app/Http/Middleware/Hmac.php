@@ -41,7 +41,6 @@ class Hmac {
         }else{
             $shopify_parameter = json_decode(base64_decode($request->route()->parameters()['slug']));
             if(auth()->user()->shop_url != $shopify_parameter->shop){
-                die('hello');
                 auth()->logout();
                 return redirect()->back();
             }
