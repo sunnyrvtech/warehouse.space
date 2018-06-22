@@ -16,7 +16,12 @@ class Hmac {
      */
     public function handle($request, Closure $next) {
         $shopify_parameter = json_decode(base64_decode($request->route()->parameters()['slug']));
-            dd($shopify_parameter);
+//            dd($shopify_parameter);
+            dd(auth()->user()->shop_url);
+            
+            
+            
+            
         if (!auth()->check()) {
             if ($shopify_parameter) {
                 $params = array();
