@@ -69,9 +69,9 @@ class ProductController extends Controller {
                     $item_array = (object) array();
                     $item_array->ProductID = $item_value->id;
                     $item_array->Article = $item_value->sku;
-                    $item_array->Title = $request->get('title');
+                    $item_array->Title = htmlspecialchars($request->get('title'));
                     $item_array->Barcode = $item_value->barcode;
-                    $item_array->Description = strip_tags($request->get('body_html'));
+                    $item_array->Description = htmlspecialchars(strip_tags($request->get('body_html')));
 //                    $item_array->ErpTimeStamp = date('Y-m-d-H:i');
 //                    $item_array->TimeStamp = date('Y-m-d-H:i');
                     $item_array->HSCode = "";
@@ -168,13 +168,9 @@ class ProductController extends Controller {
                     $root->appendChild($items);
                 }
             }
-            echo $dom->getElementsByTagName('MaterialArticle')->length;
-//            
-//            die;
-            
-            echo '<xmp>' . $dom->saveXML() . '</xmp>';
-            die;
-//  $dom->save('result.xml') or die('XML Create Error');
+//            echo $dom->getElementsByTagName('MaterialArticle')->length;
+//            echo '<xmp>' . $dom->saveXML() . '</xmp>';
+//            $dom->save('result.xml') or die('XML Create Error');
             $tmpfile = tempnam(sys_get_temp_dir(), 'zip');
             rename($tmpfile, substr($tmpfile, 0, strlen($tmpfile) - 4) . '.zip');
             $tmpfile = substr($tmpfile, 0, strlen($tmpfile) - 4) . '.zip';
@@ -192,9 +188,10 @@ class ProductController extends Controller {
                 unset($file);
                 unlink($tmpfile);
                 echo htmlentities($client->__getLastRequest());
-                dd($result);
+                if ($result)
+                    return redirect()->back()
+                                    ->with('success-message', 'Product synchronization completed successfully!');
             }
-            die('ddd');
         }
         return redirect()->back()
                         ->with('error-message', 'Something went wrong,please try again later!');
