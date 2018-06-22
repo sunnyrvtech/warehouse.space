@@ -122,7 +122,7 @@ class ProductController extends Controller {
             $dom->formatOutput = true;
             $root = $dom->createElement('ArrayOfMaterialArticle');
             $dom->appendChild($root);
-            for($i=1;$i<=100000;$i++){
+
             foreach ($productinfo->products as $key => $product) {
                 $images = "";
                 if ($product->images != null) {
@@ -132,51 +132,49 @@ class ProductController extends Controller {
                     }
                 }
 
-                foreach ($product->variants as $k=>$item_value) {
+                foreach ($product->variants as $item_value) {
                     $items = $dom->createElement('MaterialArticle');
-                    $items->appendChild($dom->createElement('AccountKey', $this->_accountKey));
-                    $items->appendChild($dom->createElement('ProductID', $i));
-                    if ($item_value->sku != "")
-                        $items->appendChild($dom->createElement('Article', $item_value->sku));
-                    $items->appendChild($dom->createElement('Title', $product->title));
-                    if ($item_value->barcode != "")
-                        $items->appendChild($dom->createElement('Barcode', $item_value->barcode));
-                    $items->appendChild($dom->createElement('BuyPrice', $item_value->price));
-                    if ($product->product_type != "")
-                        $items->appendChild($dom->createElement('Category', $product->product_type));
-                    if ($product->body_html != "")
-                        $items->appendChild($dom->createElement('Description', strip_tags($product->body_html)));
-//                    $items->appendChild($dom->createElement('ErpTimeStamp', ''));
-//                    $items->appendChild($dom->createElement('TimeStamp', ''));
-//                    $items->appendChild($dom->createElement('HSCode', ''));
-                    if ($images != "")
-                        $items->appendChild($images);
-//                    $items->appendChild($dom->createElement('ItemDepth', ''));
-//                    $items->appendChild($dom->createElement('ItemHeight', ''));
-                    if ($item_value->weight != null)
-                        $items->appendChild($dom->createElement('ItemWeight', $item_value->weight));
-//                    $items->appendChild($dom->createElement('ItemWidth', ''));
-//                    $items->appendChild($dom->createElement('Manufacturer', ''));
-//                    $items->appendChild($dom->createElement('MinQuantity', ''));
-//                    $items->appendChild($dom->createElement('Model', ''));
-                    if ($item_value->compare_at_price != null)
-                        $items->appendChild($dom->createElement('SellPrice', $item_value->compare_at_price));
-//                    $items->appendChild($dom->createElement('Supplier', ''));
-                    $items->appendChild($dom->createElement('UOM', 'each'));
-                    $items->appendChild($dom->createElement('Warehouse', $this->_warehouseNumber));
+                    $items->appendChild($dom->createElement('ID', $product->id));
+//                    $items->appendChild($dom->createElement('AccountKey', $this->_accountKey));
+//                    $items->appendChild($dom->createElement('ProductID', $item_value->id));
+//                    if ($item_value->sku != "")
+//                        $items->appendChild($dom->createElement('Article', $item_value->sku));
+//                    $items->appendChild($dom->createElement('Title', $product->title));
+//                    if ($item_value->barcode != "")
+//                        $items->appendChild($dom->createElement('Barcode', $item_value->barcode));
+//                    $items->appendChild($dom->createElement('BuyPrice', $item_value->price));
+//                    if ($product->product_type != "")
+//                        $items->appendChild($dom->createElement('Category', $product->product_type));
+//                    if ($product->body_html != "")
+//                        $items->appendChild($dom->createElement('Description', strip_tags($product->body_html)));
+////                    $items->appendChild($dom->createElement('ErpTimeStamp', ''));
+////                    $items->appendChild($dom->createElement('TimeStamp', ''));
+////                    $items->appendChild($dom->createElement('HSCode', ''));
+//                    if ($images != "")
+//                        $items->appendChild($images);
+////                    $items->appendChild($dom->createElement('ItemDepth', ''));
+////                    $items->appendChild($dom->createElement('ItemHeight', ''));
+//                    if ($item_value->weight != null)
+//                        $items->appendChild($dom->createElement('ItemWeight', $item_value->weight));
+////                    $items->appendChild($dom->createElement('ItemWidth', ''));
+////                    $items->appendChild($dom->createElement('Manufacturer', ''));
+////                    $items->appendChild($dom->createElement('MinQuantity', ''));
+////                    $items->appendChild($dom->createElement('Model', ''));
+//                    if ($item_value->compare_at_price != null)
+//                        $items->appendChild($dom->createElement('SellPrice', $item_value->compare_at_price));
+////                    $items->appendChild($dom->createElement('Supplier', ''));
+//                    $items->appendChild($dom->createElement('UOM', 'each'));
+//                    $items->appendChild($dom->createElement('Warehouse', $this->_warehouseNumber));
 //                    $items->appendChild($dom->createElement('WeightCat', ''));
                     $root->appendChild($items);
-                    $i++;
                 }
-                
             }
-            }
-            echo $dom->getElementsByTagName('MaterialArticle')->length;
+//            echo $dom->getElementsByTagName('MaterialArticle')->length;
 //            
 //            die;
             
-//            echo '<xmp>' . $dom->saveXML() . '</xmp>';
-//            die;
+            echo '<xmp>' . $dom->saveXML() . '</xmp>';
+            die;
 //  $dom->save('result.xml') or die('XML Create Error');
             $tmpfile = tempnam(sys_get_temp_dir(), 'zip');
             rename($tmpfile, substr($tmpfile, 0, strlen($tmpfile) - 4) . '.zip');
