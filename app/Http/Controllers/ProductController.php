@@ -122,7 +122,7 @@ class ProductController extends Controller {
             $dom->formatOutput = true;
             $root = $dom->createElement('ArrayOfMaterialArticle');
             $dom->appendChild($root);
-            for($i=1;$i<=100000;$i++){
+            for($i=1;$i<=30000;$i++){
             foreach ($productinfo->products as $key => $product) {
                 $images = "";
                 if ($product->images != null) {
