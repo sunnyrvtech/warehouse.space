@@ -187,7 +187,7 @@ class ProductController extends Controller {
                 fclose($h);
                 unset($file);
                 unlink($tmpfile);
-                echo htmlentities($client->__getLastRequest());
+               // echo htmlentities($client->__getLastRequest());
                 if ($result)
                     return redirect()->back()
                                     ->with('success-message', 'Product synchronization completed successfully!');
