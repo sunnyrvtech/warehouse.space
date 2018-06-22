@@ -35,8 +35,7 @@ class OrderController extends Controller {
     }
 
     public function handleOrders(Request $request, $slug) {
-        Log::info('Orders ' . $slug . ':' . json_encode($request->all()));
-        exit;
+        //Log::info('Orders ' . $slug . ':' . json_encode($request->all()));
         $client = $this->_client;
         $shopUrl = $request->headers->get('x-shopify-shop-domain');
         $user = User::Where('shop_url', $shopUrl)->first();
@@ -68,7 +67,7 @@ class OrderController extends Controller {
     public function createOrder($request, $user) {
         
         
-                    Log::info(' Order update' . json_encode($request->get('all')));
+                    Log::info(' Order update' . json_encode($request->get(all)));
 die;
         
         $client = $this->_client;
