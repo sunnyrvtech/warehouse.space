@@ -138,7 +138,7 @@ class ProductController extends Controller {
                     $items->appendChild($dom->createElement('ProductID', $item_value->id));
                     if ($item_value->sku != "")
                         $items->appendChild($dom->createElement('Article', $item_value->sku));
-                    $items->appendChild($dom->createElement('Title', $product->title));
+//                    $items->appendChild($dom->createElement('Title', $product->title));
                     if ($item_value->barcode != "")
                         $items->appendChild($dom->createElement('Barcode', $item_value->barcode));
                     $items->appendChild($dom->createElement('BuyPrice', $item_value->price));
