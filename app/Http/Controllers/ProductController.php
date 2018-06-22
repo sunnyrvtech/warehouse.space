@@ -124,7 +124,6 @@ class ProductController extends Controller {
             $dom->appendChild($root);
 
             foreach ($productinfo->products as $key => $product) {
-                $items = $dom->createElement('MaterialArticle');
                 if ($product->images != null) {
                     $images = $dom->createElement('Images');
                     foreach ($product->images as $img) {
@@ -133,6 +132,7 @@ class ProductController extends Controller {
                 }
 
                 foreach ($product->variants as $item_value) {
+                    $items = $dom->createElement('MaterialArticle');
                     $items->appendChild($dom->createElement('AccountKey', $this->_accountKey));
                     $items->appendChild($dom->createElement('ProductID', $item_value->id));
                     if ($item_value->sku != "")
@@ -167,7 +167,7 @@ class ProductController extends Controller {
                     $root->appendChild($items);
                 }
             }
-//            echo $dom->getElementsByTagName('MaterialArticle')->length;
+            echo $dom->getElementsByTagName('MaterialArticle')->length;
 //            
 //            die;
             
