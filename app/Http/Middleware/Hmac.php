@@ -15,14 +15,8 @@ class Hmac {
      * @return mixed
      */
     public function handle($request, Closure $next) {
-        $shopify_parameter = json_decode(base64_decode($request->route()->parameters()['slug']));
-//            dd($shopify_parameter);
-            dd(auth()->user()->shop_url);
-            
-            
-            
-            
         if (!auth()->check()) {
+            $shopify_parameter = json_decode(base64_decode($request->route()->parameters()['slug']));
             if ($shopify_parameter) {
                 $params = array();
                 foreach ($shopify_parameter as $param => $value) {
@@ -44,6 +38,13 @@ class Hmac {
                 return redirect()->to('/');
             }
             return redirect()->to('/');
+        }else{
+            $shopify_parameter = json_decode(base64_decode($request->route()->parameters()['slug']));
+            if(auth()->user()->shop_url != $shopify_parameter->shop){
+                die('hello');
+                auth()->logout();
+                return redirect()->back();
+            }
         }
         return $next($request);
     }
