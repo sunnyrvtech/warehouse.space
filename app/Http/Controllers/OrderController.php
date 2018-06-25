@@ -127,7 +127,7 @@ class OrderController extends Controller {
         $order_array->EmailAddress = $request->get('email');
         $order_array->PaymentMethod = $request->get('gateway');
         $order_array->PaymentDescription = $request->get('gateway');
-        $order_array->OrderTotalWeight = $request->get('total_weight');
+        $order_array->OrderTotalWeight = $request->get('total_weight')/1000;
         $order_array->OrderType = 4;
         $order_array->InvoiceID = "";
         $order_array->ShortCode = "";
