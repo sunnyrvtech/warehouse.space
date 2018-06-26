@@ -28,8 +28,8 @@
                         <p>This barcode is what we scan, so that we can confirm we have  correctly picked the product your customer has ordered.</p>
                         <p>To help us with this process we need you to ensure that every product you have in your store has a Barcode value defined, that matches the barcode on the product. The barcode must be unique per product, including variants.</p>
                         <p>We are unable to receive a product into our warehouse that you have not defined its Barcode value in Shopify.</p>
-                        <p>Thanks for your assistance in helping us, ship your products perfectly every time.</p>
                         <p>Enter you license key and warehouse number on the settings page to connect your Shopify store to Warehouse.Space</p>
+                        <p>Thanks for your assistance in helping us, ship your products perfectly every time.</p>
                     </div>
                 </div>
             </div>
