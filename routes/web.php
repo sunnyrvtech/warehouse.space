@@ -20,7 +20,7 @@ Route::get('login', function () {
 Route::post('login', 'Auth\LoginController@login')->name('login');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
-Route::group(['middleware' => ['auth','Hmac']], function () {
+Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard', 'Auth\ShopifyController@index')->name('dashboard');
     Route::get('warehouse/setting', 'SettingController@warehouseSetting')->name('warehouse.setting');
     Route::post('warehouse/api/setting', 'SettingController@apiPostSetting')->name('warehouse.api.setting');

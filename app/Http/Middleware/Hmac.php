@@ -15,11 +15,6 @@ class Hmac {
      * @return mixed
      */
     public function handle($request, Closure $next) {
-        
-        dd($request);
-        
-        
-        
         if (!auth()->check()) {
             $shopify_parameter = json_decode(base64_decode($request->route()->parameters()['slug']));
             if ($shopify_parameter) {
