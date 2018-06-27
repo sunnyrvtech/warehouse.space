@@ -13,9 +13,8 @@ use Carbon\Carbon;
 class ShopifyController extends Controller {
 
     public function index(Request $request) {
-        
-        dd(auth()->user());
-        return view('index');
+        $data['users'] = auth()->user();
+        return view('index',$data);
     }
 
     public function installShop(Request $request) {
