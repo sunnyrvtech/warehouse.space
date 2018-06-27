@@ -22,7 +22,7 @@ Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard', 'Auth\ShopifyController@index')->name('dashboard');
-    Route::get('warehouse/setting', 'SettingController@warehouseSetting')->name('warehouse_setting');
+    Route::get('warehouse/setting', 'SettingController@warehouseSetting')->name('warehouse.setting');
     Route::post('warehouse/api/setting', 'SettingController@apiPostSetting')->name('warehouse.api.setting');
     Route::post('warehouse/dev/setting', 'SettingController@devPostSetting')->name('warehouse.dev.setting');
     Route::get('warehouse/product/sync', 'ProductController@synchronizeProducts')->name('warehouse.product.sync');
