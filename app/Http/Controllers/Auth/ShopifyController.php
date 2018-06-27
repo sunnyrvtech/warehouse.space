@@ -12,7 +12,9 @@ use Carbon\Carbon;
 
 class ShopifyController extends Controller {
 
-    public function index(Request $request) {
+    public function index(Request $request,$slug) {
+        
+        dd($slug);
         $data['users'] = auth()->user();
         return view('index',$data);
     }
@@ -135,7 +137,7 @@ class ShopifyController extends Controller {
         if (isset($shopify_parameter->model) && $shopify_parameter->model == 'order_details') {
             return redirect()->route('warehouse.order.details', $slug);
         }
-        return redirect()->to('/dashboard');
+        return redirect()->route('dashboard',$slug);
     }
 
 }

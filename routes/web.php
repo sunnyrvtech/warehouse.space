@@ -21,8 +21,6 @@ Route::post('login', 'Auth\LoginController@login')->name('login');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/dashboard', 'Auth\ShopifyController@index')->name('dashboard');
-    Route::get('warehouse/setting', 'SettingController@warehouseSetting')->name('warehouse.setting');
     Route::post('warehouse/api/setting', 'SettingController@apiPostSetting')->name('warehouse.api.setting');
     Route::post('warehouse/dev/setting', 'SettingController@devPostSetting')->name('warehouse.dev.setting');
     Route::get('warehouse/product/sync', 'ProductController@synchronizeProducts')->name('warehouse.product.sync');
@@ -30,6 +28,8 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 Route::group(['middleware' => 'Hmac'], function () {
+    Route::get('/dashboard/{slug}', 'Auth\ShopifyController@index')->name('dashboard');
+    Route::get('warehouse/setting/{slug}', 'SettingController@warehouseSetting')->name('warehouse.setting');
     Route::get('aunthenticate/{slug}', 'Auth\ShopifyController@storeAuthenticate')->name('authenticate');
     Route::get('warehouse/order/details/{slug}', 'OrderController@orderDetails')->name('warehouse.order.details');
 });
