@@ -14,7 +14,7 @@ class ShopifyController extends Controller {
 
     public function index(Request $request) {
         
-        dd($request->all());
+        dd(auth()->user());
         return view('index');
     }
 
