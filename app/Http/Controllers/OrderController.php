@@ -279,6 +279,7 @@ class OrderController extends Controller {
             }
 //            dd($order_details);
             $data['order_details'] = $order_details;
+            $data['slug'] = $slug;
             return view('order_detail', $data);
         }
 

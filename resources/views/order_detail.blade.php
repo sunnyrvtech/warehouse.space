@@ -18,7 +18,7 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-                                    <a href="{{ route('dashboard') }}"><img class="logo" src="{{ asset('/images/WSLogo.png') }}" alt="logo"></a>
+                                    <a href="{{ route('dashboard',$slug) }}"><img class="logo" src="{{ asset('/images/WSLogo.png') }}" alt="logo"></a>
                                 </div>
                                 <div class="col-md-9 col-sm-8 col-xs-12">
                                     <div class="float-right">
