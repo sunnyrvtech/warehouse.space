@@ -13,6 +13,8 @@ use Carbon\Carbon;
 class ShopifyController extends Controller {
 
     public function index(Request $request) {
+        
+        dd($request->all());
         return view('index');
     }
 
