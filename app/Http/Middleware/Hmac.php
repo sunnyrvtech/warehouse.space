@@ -40,7 +40,7 @@ class Hmac {
             return redirect()->to('/');
         }else{
             $shopify_parameter = json_decode(base64_decode($request->route()->parameters()['slug']));
-            if(auth()->user()->shop_url != $shopify_parameter->shop){
+           if(auth()->user()->shop_url != $shopify_parameter->shop){
                 auth()->logout();
                 return redirect()->route('authenticate', $request->route()->parameters()['slug']);
             }

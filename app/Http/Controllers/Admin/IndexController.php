@@ -17,7 +17,8 @@ class IndexController extends Controller {
     public function customerLogin(Request $request, $id) {
         $user = User::find($id);
         auth()->login($user);
-        return redirect()->to('/dashboard');
+        $slug = base64_encode(json_encode(array('shop'=>$user->shop_url)));
+        return redirect()->route('dashboard',$slug);
     }
 
 }
