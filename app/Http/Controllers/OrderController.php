@@ -185,7 +185,7 @@ class OrderController extends Controller {
             try {
                 $orders = $shopify->call(['URL' => 'orders/' . $warehouse_order->InvNumber . '.json?fields=id,financial_status,fulfillment_status,created_at,line_items', 'METHOD' => 'GET']);
             } catch (\Exception $e) {
-                return redirect()->route('dashboard')->with('error-message', $e->getMessage());
+                return redirect()->route('dashboard',$slug)->with('error-message', $e->getMessage());
             }
             // dd($orders);
 
@@ -282,7 +282,7 @@ class OrderController extends Controller {
             return view('order_detail', $data);
         }
 
-        return redirect()->route('dashboard')->with('error-message', 'sorry! this order is not found in warehouse.');
+        return redirect()->route('dashboard',$slug)->with('error-message', 'sorry! this order is not found in warehouse.');
     }
 
     public function updateOrderStatus($id, $no, $token) {
