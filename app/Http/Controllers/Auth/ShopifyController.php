@@ -13,9 +13,7 @@ use Carbon\Carbon;
 class ShopifyController extends Controller {
 
     public function index(Request $request,$slug) {
-        
-        dd($slug);
-        $data['users'] = auth()->user();
+        $data['slug'] = $slug;
         return view('index',$data);
     }
 
