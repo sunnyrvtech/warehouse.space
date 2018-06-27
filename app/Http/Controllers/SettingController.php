@@ -36,8 +36,9 @@ class SettingController extends Controller {
         }
     }
 
-    public function warehouseSetting(Request $request) {
+    public function warehouseSetting(Request $request,$slug) {
         $data['users'] = auth()->user();
+        $data['slug'] = $slug;
         return view('setting', $data);
     }
 
