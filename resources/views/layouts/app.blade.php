@@ -25,7 +25,7 @@
         @if(Request::segment(3) != "details")
         <nav class="navbar navbar-expand-lg navbar-dark default-color">
             <div class="container">
-                <a class="ws-logo" href="{{ 'https' . '://' . $users->shop_url . '/' . 'admin/apps/' . env('SHOPIFY_APP_NAME') }}">
+                <a class="ws-logo" href="{{ 'https' . '://' . $users->shop_url . '/' . 'admin/apps/' . env('SHOPIFY_APP_NAME').'/?model=dashboard' }}">
                     <img src="{{ asset('/images/WSLogo.png') }}" alt="logo">
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,10 +34,10 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="{{ 'https' . '://' . $users->shop_url . '/' . 'admin/apps/' . env('SHOPIFY_APP_NAME') }}">Instructions</a>
+                            <a class="nav-link" href="{{ 'https' . '://' . $users->shop_url . '/' . 'admin/apps/' . env('SHOPIFY_APP_NAME').'/?model=dashboard' }}">Instructions</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ 'https' . '://' . $users->shop_url . '/' . 'admin/apps/' . env('SHOPIFY_APP_NAME') }}">Settings</a>
+                            <a class="nav-link" href="{{ 'https' . '://' . $users->shop_url . '/' . 'admin/apps/' . env('SHOPIFY_APP_NAME').'/?model=warehouse_setting' }}">Settings</a>
                         </li>
                     </ul>
                 </div>
