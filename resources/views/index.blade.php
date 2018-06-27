@@ -7,7 +7,7 @@
             <div class="instruction-content">
                 <p>Ship your products faster and cheaper by storing them closer to your customers.</p>
                 <p>Use Warehouse.Space distribution centers to reduce your shipping costs. We pick, pack and dispatch products to your customers with same day delivery in a number of major cities, and next day for many more.</p>
-                <p>Sign up at <a href="https://warehouse.space">Warehouse.Space</a> for free, and get your license key and warehouse number and start shipping to customers world wide at local postal rates.</p>
+                <p>Sign up at <a target="_blank" href="https://warehouse.space">Warehouse.Space</a> for free, and get your license key and warehouse number and start shipping to customers world wide at local postal rates.</p>
                 <p>Warehouse.Space - Your international order fulfillment partner.</p>
                 <p>Use our warehouses in Europe, Asia, Oceania and America to reduce your shipping costs.</p>
                 <!--<p>We pick, pack and dispatch products with next day delivery.</p>-->
@@ -28,7 +28,7 @@
                         <p>This barcode is what we scan, so that we can confirm we have  correctly picked the product your customer has ordered.</p>
                         <p>To help us with this process we need you to ensure that every product you have in your store has a Barcode value defined, that matches the barcode on the product. The barcode must be unique per product, including variants.</p>
                         <p>We are unable to receive a product into our warehouse that you have not defined its Barcode value in Shopify.</p>
-                        <p>Enter you license key and warehouse number on the settings page to connect your Shopify store to Warehouse.Space</p>
+                        <p>Enter you license key and warehouse number at <a href="{{ route('warehouse.setting',$slug) }}">settings page</a>to connect your Shopify store to Warehouse.Space</p>
                         <p>Thanks for your assistance in helping us, ship your products perfectly every time.</p>
                     </div>
                 </div>
