@@ -135,11 +135,7 @@ class ShopifyController extends Controller {
         if (isset($shopify_parameter->model) && $shopify_parameter->model == 'order_details') {
             return redirect()->route('warehouse.order.details', $slug);
         }
-        
-        $redirect_url = 'https' . '://' . $shopify_parameter->shop . '/' . 'admin/apps/' . env('SHOPIFY_APP_NAME');
-
-        $data['redirect_url'] = $redirect_url;
-        return view('load', $data);
+        return redirect()->route('dashboard',$slug);
     }
 
 }
