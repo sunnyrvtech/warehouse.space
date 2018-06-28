@@ -136,7 +136,6 @@ class ShopifyController extends Controller {
             return redirect()->route('warehouse.order.details', $slug);
         }
         
-        die('dssd');
         return redirect()->route('dashboard',$slug);
     }
 
