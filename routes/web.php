@@ -1,7 +1,7 @@
 <?php
 
-//header('Access-Control-Allow-Origin:  *');
-//header('Access-Control-Allow-Methods:  GET');
+header('Access-Control-Allow-Origin:  *');
+header('Access-Control-Allow-Methods:  GET');
 
 /*
   |--------------------------------------------------------------------------
@@ -30,7 +30,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('warehouse/order/test', 'OrderController@updateOrderStatus');
 });
 
-Route::group(['middleware' => ['cors','Hmac']], function () {
+Route::group(['middleware' => 'Hmac'], function () {
     Route::get('/dashboard/{slug}', 'Auth\ShopifyController@index')->name('dashboard');
     Route::get('warehouse/setting/{slug}', 'SettingController@warehouseSetting')->name('warehouse.setting');
     Route::get('aunthenticate/{slug}', 'Auth\ShopifyController@storeAuthenticate')->name('authenticate');
