@@ -33,10 +33,6 @@ class Hmac {
                     $shop_url = $shopify_parameter->shop;
                     $user = User::Where('shop_url', $shop_url)->first();
                     auth()->login($user);
-                    
-                    echo "<script>window.top.location =".route('dashboard',$request->route()->parameters()['slug'])."</script>";
-                    
-                    die;
                     return $next($request);
                 }
                 return redirect()->to('/');
