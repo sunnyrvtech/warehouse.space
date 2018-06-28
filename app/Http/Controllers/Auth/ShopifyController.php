@@ -22,9 +22,7 @@ class ShopifyController extends Controller {
         $data['slug'] = $slug;
         if (!auth()->check()) {
             $data['redirect_url'] = route('authenticate', $slug);
-        } else {
-            $data['redirect_url'] = 'https' . '://' . $shopify_parameter->shop . '/' . 'admin/apps/' . env('SHOPIFY_APP_NAME');
-        }
+        } 
 
         return view('load', $data);
     }
