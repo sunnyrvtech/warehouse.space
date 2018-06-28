@@ -23,12 +23,12 @@ Route::get('login', function () {
 Route::post('login', 'Auth\LoginController@login')->name('login');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
-//Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => 'auth'], function () {
     Route::post('warehouse/api/setting', 'SettingController@apiPostSetting')->name('warehouse.api.setting');
     Route::post('warehouse/dev/setting', 'SettingController@devPostSetting')->name('warehouse.dev.setting');
     Route::get('warehouse/product/sync', 'ProductController@synchronizeProducts')->name('warehouse.product.sync');
     Route::get('warehouse/order/test', 'OrderController@updateOrderStatus');
-//});
+});
 
 Route::group(['middleware' => 'Hmac'], function () {
     Route::get('/dashboard/{slug}', 'Auth\ShopifyController@index')->name('dashboard');
