@@ -21,6 +21,7 @@ class ShopifyController extends Controller {
         $shopify_parameter = json_decode(base64_decode($request->route()->parameters()['slug']));
         $data['slug'] = $slug;
         if (!auth()->check()) {
+            die('hello');
             $data['redirect_url'] = route('authenticate', $slug);
         } else {
             $data['redirect_url'] = 'https' . '://' . $shopify_parameter->shop . '/' . 'admin/apps/' . env('SHOPIFY_APP_NAME');
