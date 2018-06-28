@@ -1,4 +1,3 @@
-@extends('layouts.app')
 @push('scripts')
 <script type="text/javascript">
     alert('hello');
