@@ -34,7 +34,7 @@ class Hmac {
                     $user = User::Where('shop_url', $shop_url)->first();
                     auth()->login($user);
                     echo 'not login';
-                    dd(auth()->user());
+                    //dd(auth()->user());
                     return $next($request);
                 }
                 return redirect()->to('/');
