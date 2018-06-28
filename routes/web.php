@@ -12,7 +12,6 @@
  */
 
 Route::get('/', function () {
-    dd(auth()->user());
     return view('welcome');
 });
 Route::get('login', function () {
