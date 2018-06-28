@@ -12,16 +12,21 @@ use Carbon\Carbon;
 
 class ShopifyController extends Controller {
 
-    public function index(Request $request,$slug) {
+    public function index(Request $request, $slug) {
         $data['slug'] = $slug;
-        return view('index',$data);
+        return view('index', $data);
     }
-    
-    public function load(Request $request,$slug) {
+
+    public function load(Request $request, $slug) {
         $shopify_parameter = json_decode(base64_decode($request->route()->parameters()['slug']));
-        $data['slug'] = $slug; 
-        $data['redirect_url'] = route('authenticate', $request->route()->parameters()['slug']);
-        return view('load',$data);
+        $data['slug'] = $slug;
+        if (!auth()->check()) {
+            $data['redirect_url'] = route('load', $slug);
+        } else {
+            $data['redirect_url'] = 'https' . '://' . $shopify_parameter->shop . '/' . 'admin/apps/' . env('SHOPIFY_APP_NAME');
+        }
+
+        return view('load', $data);
     }
 
     public function installShop(Request $request) {
@@ -142,12 +147,7 @@ class ShopifyController extends Controller {
         if (isset($shopify_parameter->model) && $shopify_parameter->model == 'order_details') {
             return redirect()->route('warehouse.order.details', $slug);
         }
-        
-        echo $request->route()->getName();
-        die;
-        
-        
-        return redirect()->route('dashboard',$slug);
+        return redirect()->route('dashboard', $slug);
     }
 
 }
