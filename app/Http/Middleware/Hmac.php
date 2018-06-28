@@ -36,9 +36,9 @@ class Hmac {
                     return redirect()->route('load', $request->route()->parameters()['slug']);
                     return $next($request);
                 }
-                return redirect()->to('/');
+                return redirect()->to('/404');
             }
-            return redirect()->to('/');
+            return redirect()->to('/404');
         } else {
             $shopify_parameter = json_decode(base64_decode($request->route()->parameters()['slug']));
             if (auth()->user()->shop_url != $shopify_parameter->shop) {

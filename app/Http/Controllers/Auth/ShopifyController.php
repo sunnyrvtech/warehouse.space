@@ -25,7 +25,6 @@ class ShopifyController extends Controller {
         } else {
             $data['redirect_url'] = 'https' . '://' . $shopify_parameter->shop . '/' . 'admin/apps/' . env('SHOPIFY_APP_NAME');
         }
-
         return view('load', $data);
     }
 

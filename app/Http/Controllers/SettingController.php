@@ -71,9 +71,6 @@ class SettingController extends Controller {
     public function devPostSetting(Request $request) {
         $data = $request->all();
         $user = auth()->user();
-        
-        dd($user);
-        
         if (!isset($user->get_dev_setting)) {
             $this->validate($request, [
                 'warehouse_number' => 'required|max:50|unique:developer_settings',
