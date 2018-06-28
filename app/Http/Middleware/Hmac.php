@@ -33,9 +33,8 @@ class Hmac {
                     $shop_url = $shopify_parameter->shop;
                     $user = User::Where('shop_url', $shop_url)->first();
                     auth()->login($user);
-
-
                     return redirect()->route('load', $request->route()->parameters()['slug']);
+                    return $next($request);
                 }
                 return redirect()->to('/');
             }
