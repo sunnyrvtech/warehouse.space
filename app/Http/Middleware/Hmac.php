@@ -34,7 +34,7 @@ class Hmac {
                     $user = User::Where('shop_url', $shop_url)->first();
                     auth()->login($user);
                     
-                    echo "<script>top.location =".route('dashboard',$request->route()->parameters()['slug'])."</script>";
+                    echo "<script>window.top.location =".route('dashboard',$request->route()->parameters()['slug'])."</script>";
                     
                     die;
                     return $next($request);
