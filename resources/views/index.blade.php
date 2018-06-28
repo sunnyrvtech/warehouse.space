@@ -38,4 +38,7 @@
 </section>
 @endsection
 @push('scripts')
+<script type="text/javascript">
+    alert("{{ route('dashboard',$slug) }}");
+</script>
 @endpush
