@@ -33,14 +33,16 @@ class Hmac {
                     $shop_url = $shopify_parameter->shop;
                     $user = User::Where('shop_url', $shop_url)->first();
                     auth()->login($user);
-                    return $next($request);
+
+
+                    return redirect()->route('load', $request->route()->parameters()['slug']);
                 }
                 return redirect()->to('/');
             }
             return redirect()->to('/');
-        }else{
+        } else {
             $shopify_parameter = json_decode(base64_decode($request->route()->parameters()['slug']));
-           if(auth()->user()->shop_url != $shopify_parameter->shop){
+            if (auth()->user()->shop_url != $shopify_parameter->shop) {
                 auth()->logout();
                 return redirect()->route('authenticate', $request->route()->parameters()['slug']);
             }
