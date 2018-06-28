@@ -142,6 +142,11 @@ class ShopifyController extends Controller {
         if (isset($shopify_parameter->model) && $shopify_parameter->model == 'order_details') {
             return redirect()->route('warehouse.order.details', $slug);
         }
+        
+        echo $request->route()->getName();
+        die;
+        
+        
         return redirect()->route('dashboard',$slug);
     }
 
