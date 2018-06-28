@@ -61,6 +61,5 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'IsAdmin' => \App\Http\Middleware\IsAdmin::class,
         'Hmac' => \App\Http\Middleware\Hmac::class,
-        'cors' => \App\Http\Middleware\Cors::class,
     ];
 }
