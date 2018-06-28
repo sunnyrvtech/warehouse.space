@@ -14,6 +14,10 @@ class ShopifyController extends Controller {
 
     public function index(Request $request,$slug) {
         $data['slug'] = $slug;
+        
+        
+        dd(auth()->user());
+        
         return view('index',$data);
     }
 

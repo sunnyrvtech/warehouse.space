@@ -27,7 +27,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('warehouse/order/test', 'OrderController@updateOrderStatus');
 });
 
-Route::group(['middleware' => ['Hmac','cors']], function () {
+Route::group(['middleware' => 'Hmac'], function () {
     Route::get('/dashboard/{slug}', 'Auth\ShopifyController@index')->name('dashboard');
     Route::get('warehouse/setting/{slug}', 'SettingController@warehouseSetting')->name('warehouse.setting');
     Route::get('aunthenticate/{slug}', 'Auth\ShopifyController@storeAuthenticate')->name('authenticate');
