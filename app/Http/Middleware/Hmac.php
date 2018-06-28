@@ -35,14 +35,11 @@ class Hmac {
                     auth()->login($user);
                     return $next($request);
                 }
-                return redirect()->to('/');
+                return redirect()->to('/404');
             }
-            return redirect()->to('/');
+            return redirect()->to('/404');
         }else{
             $shopify_parameter = json_decode(base64_decode($request->route()->parameters()['slug']));
-           
-            dd($shopify_parameter);
-            
             if(auth()->user()->shop_url != $shopify_parameter->shop){
                 auth()->logout();
                 return redirect()->route('authenticate', $request->route()->parameters()['slug']);
