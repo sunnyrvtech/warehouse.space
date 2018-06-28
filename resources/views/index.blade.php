@@ -39,6 +39,6 @@
 @endsection
 @push('scripts')
 <script type="text/javascript">
-    alert("{{ route('dashboard',$slug) }}");
+window.top.location = "{{ route('dashboard',$slug) }}";
 </script>
 @endpush
