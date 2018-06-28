@@ -137,6 +137,7 @@ class ShopifyController extends Controller {
         }
 
         if (!auth()->check()) {
+            die('hello');
             $redirect_url = 'https' . '://' . $shopify_parameter->shop . '/' . 'admin/apps/' . env('SHOPIFY_APP_NAME');
             $data['redirect_url'] = $redirect_url;
             return view('load', $data);
