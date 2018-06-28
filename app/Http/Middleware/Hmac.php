@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use Closure;
 use App\User;
-use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
 class Hmac {
 
@@ -16,24 +15,6 @@ class Hmac {
      * @return mixed
      */
     public function handle($request, Closure $next) {
-        $response = $next($request);
-
-        /*
-         * This step is only needed if you are returning
-         * a view in your Controller or elsewhere, because
-         * when returning a view `$next($request)` returns
-         * a View object, not a Response object, so we need
-         * to wrap the View back in a Response.
-        */
-        if ( ! $response instanceof SymfonyResponse) {
-            $response = new Response($response);
-        }
-
-        $response->headers->set('P3P', 'CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS"');
-  
-        
-        
-        
         if (!auth()->check()) {
             $shopify_parameter = json_decode(base64_decode($request->route()->parameters()['slug']));
             if ($shopify_parameter) {
@@ -52,19 +33,19 @@ class Hmac {
                     $shop_url = $shopify_parameter->shop;
                     $user = User::Where('shop_url', $shop_url)->first();
                     auth()->login($user);
-                          return $response;
+                    return $next($request);
                 }
-                return redirect()->to('/404');
+                return redirect()->to('/');
             }
-            return redirect()->to('/404');
+            return redirect()->to('/');
         }else{
             $shopify_parameter = json_decode(base64_decode($request->route()->parameters()['slug']));
-            if(auth()->user()->shop_url != $shopify_parameter->shop){
+           if(auth()->user()->shop_url != $shopify_parameter->shop){
                 auth()->logout();
                 return redirect()->route('authenticate', $request->route()->parameters()['slug']);
             }
         }
-              return $response;
+        return $next($request);
     }
 
 }
