@@ -19,7 +19,7 @@ class ShopifyController extends Controller {
     
     public function load(Request $request,$slug) {
         $shopify_parameter = json_decode(base64_decode($request->route()->parameters()['slug']));
-            
+        $data['slug'] = $slug; 
         $data['redirect_url'] = 'https' . '://' . $shopify_parameter->shop . '/' . 'admin/apps/' . env('SHOPIFY_APP_NAME');
         return view('load',$data);
     }
