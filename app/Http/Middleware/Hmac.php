@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use App\User;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class Hmac {
 
@@ -33,6 +34,7 @@ class Hmac {
                     $shop_url = $shopify_parameter->shop;
                     $user = User::Where('shop_url', $shop_url)->first();
                     auth()->login($user);
+                    $next($request)->header('P3P', 'CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS"');
                     return $next($request);
                 }
                 return redirect()->to('/404');
