@@ -6,11 +6,9 @@
         <form id="syncForm" action="{{ route('warehouse.dev.setting')}}" method="post">
             {{ csrf_field()}}
             <div class="card-body">
-                <div class="form-group">
-                    <div class="col-md-6">
-                        <h4 class="lebel-msg">Connect your Shopify Store to Warehouse.space</h4>
-                        <p>Register at <a target="_blank" href="https://warehouse.space">https://warehouse.space</a> to get your license key and warehouse number.</p>
-                    </div>
+                <div class="row">
+                    <h4 class="lebel-msg">Connect your Shopify Store to Warehouse.space</h4>
+                    <p>Register at <a target="_blank" href="https://warehouse.space">https://warehouse.space</a> to get your license key and warehouse number.</p>
                 </div>
                 <div class="form-group">
                     <div class="col-md-6">
