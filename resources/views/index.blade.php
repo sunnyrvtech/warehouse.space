@@ -10,7 +10,7 @@
                 <p>Sign up at <a target="_blank" href="https://warehouse.space">Warehouse.Space</a> for free, and get your license key and warehouse number and start shipping to customers world wide at local postal rates.</p>
                 <p>Warehouse.Space - Your international order fulfillment partner.</p>
                 <p>Use our warehouses in Europe, Asia, Oceania and America to reduce your shipping costs.</p>
-                <p>Enter you license key and warehouse number at <a href="{{ route('warehouse.setting',$slug) }}">settings page</a> to connect your Shopify store to Warehouse.Space</p>
+                <p>Enter you license key and warehouse number at <a href="{{ route('warehouse.setting',$slug) }}">settings page</a> to connect your Shopify store to Warehouse.Space.</p>
                 <!--<p>We pick, pack and dispatch products with next day delivery.</p>-->
             </div>
         </div>
