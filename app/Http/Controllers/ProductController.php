@@ -69,7 +69,7 @@ class ProductController extends Controller {
                     $item_array = (object) array();
                     $item_array->ProductID = $item_value->id;
                     $item_array->Article = $item_value->sku;
-                    $item_array->Title = htmlspecialchars($request->get('title'));
+                    $item_array->Title = htmlspecialchars($item_value->title);
                     $item_array->Barcode = $item_value->barcode;
                     $item_array->Description = htmlspecialchars(strip_tags($request->get('body_html')));
 //                    $item_array->ErpTimeStamp = date('Y-m-d-H:i');
@@ -138,7 +138,7 @@ class ProductController extends Controller {
                     $items->appendChild($dom->createElement('ProductID', $item_value->id));
                     if ($item_value->sku != "")
                         $items->appendChild($dom->createElement('Article', $item_value->sku));
-                    $items->appendChild($dom->createElement('Title', htmlspecialchars($product->title)));
+                    $items->appendChild($dom->createElement('Title', htmlspecialchars($item_value->title)));
                     if ($item_value->barcode != "")
                         $items->appendChild($dom->createElement('Barcode', $item_value->barcode));
                     $items->appendChild($dom->createElement('BuyPrice', $item_value->price));
