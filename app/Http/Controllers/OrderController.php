@@ -46,11 +46,11 @@ class OrderController extends Controller {
                     if (isset($result->OrderDetailResult->CancellationReason)) {
                         $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
                         try {
-                            $shopify->call(['URL' => 'orders/' . $request->get('id') . '.json', 'METHOD' => 'PUT', "DATA" => ['id' => $request->get('id'), 'note' => $result->OrderDetailResult->CancellationReason]]);
+                            $fff = $shopify->call(['URL' => 'orders/' . $request->get('id') . '.json', 'METHOD' => 'PUT', "DATA" => ['id' => $request->get('id'), 'note' => $result->OrderDetailResult->CancellationReason]]);
                         } catch (\Exception $e) {
                             Log::info('Error in Order cancel order note update' . $request->get('id') . $e->getMessage());
                         }
-                       Log::info($shopUrl . ' Order ' . $slug . 'note updated'); 
+                       Log::info($shopUrl . ' Order ' . $slug . json_decode($fff)); 
                     }
                     Log::info($shopUrl . ' Order ' . $slug . json_encode($result));
                     exit();
