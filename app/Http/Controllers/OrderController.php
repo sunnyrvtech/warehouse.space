@@ -50,7 +50,7 @@ class OrderController extends Controller {
                         } catch (\Exception $e) {
                             Log::info('Error in Order cancel order note update' . $request->get('id') . $e->getMessage());
                         }
-                       Log::info($shopUrl . ' Order ' . $slug . json_decode($fff)); 
+                       Log::info($shopUrl . ' Order ' . $slug . json_encode($fff)); 
                     }
                     Log::info($shopUrl . ' Order ' . $slug . json_encode($result));
                     exit();
