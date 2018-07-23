@@ -166,7 +166,7 @@ class OrderController extends Controller {
 
 
         try {
-            $shopify_result = $shopify->call(['URL' => 'orders/' . 514539946037 . '.json', 'METHOD' => 'PUT', "DATA" => ['order'=>['id' => 514539946037, 'note_attributes' => ['name' => 'colour', 'value' => 'asdadakjkjakjasd']]]]);
+            $shopify_result = $shopify->call(['URL' => 'orders/' . 514539946037 . '.json', 'METHOD' => 'PUT', "DATA" => ['order'=>['id' => 514539946037, 'note'=>'cancel order']]]);
         } catch (\Exception $e) {
             Log::info('Order cancel status update error' . 514539946037 . $e->getMessage());
             return json_encode(array('success' => false));
