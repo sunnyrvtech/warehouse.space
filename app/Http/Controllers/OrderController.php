@@ -161,22 +161,6 @@ class OrderController extends Controller {
     }
 
     public function orderDetails(Request $request, $slug) {
-        $user = auth()->user();
-  $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
-
-
-        try {
-            $shopify_result = $shopify->call(['URL' => 'orders/' . 514539946037 . '.json', 'METHOD' => 'PUT', "DATA" => ['order'=>['id' => 514539946037, 'note'=>'cancel order']]]);
-        } catch (\Exception $e) {
-            Log::info('Order cancel status update error' . 514539946037 . $e->getMessage());
-            return json_encode(array('success' => false));
-        }
-
-
-dd($shopify_result);
-
-
-
         $client = $this->_client;
 
         $shopify_parameter = json_decode(base64_decode($slug));
@@ -375,12 +359,12 @@ dd($shopify_result);
             }
             if (isset($warehouse_order->OrderStatus)) {
                 if ($warehouse_order->OrderStatus == 7) {
-                    try {
-                        $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '.json', 'METHOD' => 'PUT', "DATA" => ['id' => $id, 'note_attributes' => ['name' => 'colour', 'value' => 'asdadakjkjakjasd']]]);
-                    } catch (\Exception $e) {
-                        Log::info('Order cancel status update error' . $id . $e->getMessage());
-                        return json_encode(array('success' => false));
-                    }
+//                    try {
+//                        $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/cancel.json', 'METHOD' => 'POST', "DATA" => ['email' => true]]);
+//                    } catch (\Exception $e) {
+//                        Log::info('Order status update error' . $id . $e->getMessage());
+//                        return json_encode(array('success' => false));
+//                    }
                     return json_encode(array('success' => true));
                 }
             }
