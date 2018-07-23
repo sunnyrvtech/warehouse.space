@@ -133,7 +133,7 @@ class OrderController extends Controller {
         $order_array->ShortCode = "";
         $order_array->TaxAmount = $request->get('total_tax');
         $order_array->CurrencyCode = $request->get('currency');
-        $order_array->ShipmentCost = $request->get('shipping_lines')[0]['price'];
+        $order_array->ShipmentCost = 2;
         $order_array->Warehouse = $user->get_dev_setting->warehouse_number;
         $order_array->AccountKey = $user->get_dev_setting->account_key;
         $result = $client->OrderDetail($order_array);
