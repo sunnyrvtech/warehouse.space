@@ -127,7 +127,7 @@ class OrderController extends Controller {
         $order_array->EmailAddress = $request->get('email');
         $order_array->PaymentMethod = $request->get('gateway');
         $order_array->PaymentDescription = $request->get('gateway');
-        $order_array->OrderTotalWeight = $request->get('total_weight')/1000;
+        $order_array->OrderTotalWeight = $request->get('total_weight') / 1000;
         $order_array->OrderType = 4;
         $order_array->InvoiceID = "";
         $order_array->ShortCode = "";
@@ -161,6 +161,22 @@ class OrderController extends Controller {
     }
 
     public function orderDetails(Request $request, $slug) {
+        $user = auth()->user();
+  $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
+
+
+        try {
+            $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '.json', 'METHOD' => 'PUT', "DATA" => ['id' => $id, 'note_attributes' => ['name' => 'colour', 'value' => 'asdadakjkjakjasd']]]);
+        } catch (\Exception $e) {
+            Log::info('Order cancel status update error' . $id . $e->getMessage());
+            return json_encode(array('success' => false));
+        }
+
+
+dd($shopify_result);
+
+
+
         $client = $this->_client;
 
         $shopify_parameter = json_decode(base64_decode($slug));
@@ -185,7 +201,7 @@ class OrderController extends Controller {
             try {
                 $orders = $shopify->call(['URL' => 'orders/' . $warehouse_order->InvNumber . '.json?fields=id,financial_status,fulfillment_status,created_at,line_items', 'METHOD' => 'GET']);
             } catch (\Exception $e) {
-                return redirect()->route('dashboard',$slug)->with('error-message', $e->getMessage());
+                return redirect()->route('dashboard', $slug)->with('error-message', $e->getMessage());
             }
             // dd($orders);
 
@@ -228,7 +244,7 @@ class OrderController extends Controller {
                     $product_id_array = array_column($articles, 'ProductID');
 
 //                    print_r($product_id_array);
-                    foreach ($orders->order->line_items as $k=>$order) {
+                    foreach ($orders->order->line_items as $k => $order) {
                         if (in_array($order->variant_id, $product_id_array)) {
 
                             $item->variant_id = $order->variant_id;
@@ -283,7 +299,7 @@ class OrderController extends Controller {
             return view('order_detail', $data);
         }
 
-        return redirect()->route('dashboard',$slug)->with('error-message', 'sorry! this order is not found in warehouse.');
+        return redirect()->route('dashboard', $slug)->with('error-message', 'sorry! this order is not found in warehouse.');
     }
 
     public function updateOrderStatus($id, $no, $token) {
@@ -360,9 +376,9 @@ class OrderController extends Controller {
             if (isset($warehouse_order->OrderStatus)) {
                 if ($warehouse_order->OrderStatus == 7) {
                     try {
-                        $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/cancel.json', 'METHOD' => 'POST', "DATA" => ['email' => true]]);
+                        $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '.json', 'METHOD' => 'PUT', "DATA" => ['id' => $id, 'note_attributes' => ['name' => 'colour', 'value' => 'asdadakjkjakjasd']]]);
                     } catch (\Exception $e) {
-                        Log::info('Order status update error' . $id . $e->getMessage());
+                        Log::info('Order cancel status update error' . $id . $e->getMessage());
                         return json_encode(array('success' => false));
                     }
                     return json_encode(array('success' => true));
