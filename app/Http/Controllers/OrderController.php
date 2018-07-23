@@ -43,6 +43,13 @@ class OrderController extends Controller {
             if (isset($user->get_dev_setting)) {
                 if ($slug == "create" || $slug == "update") {
                     $result = $this->createOrder($request, $user);
+                    if (isset($result->OrderDetailResult->CancellationReason)) {
+                        try {
+                            $shopify_result = $shopify->call(['URL' => 'orders/' . $request->get('id') . '.json', 'METHOD' => 'PUT', "DATA" => ['id' => $request->get('id'), 'note' => $result->OrderDetailResult->CancellationReason]]);
+                        } catch (\Exception $e) {
+                            Log::info('Error in Order cancel order note update' . $request->get('id') . $e->getMessage());
+                        }
+                    }
                     Log::info($shopUrl . ' Order ' . $slug . json_encode($result));
                     exit();
                 } else if ($slug == "update") {
@@ -133,7 +140,7 @@ class OrderController extends Controller {
         $order_array->ShortCode = "";
         $order_array->TaxAmount = $request->get('total_tax');
         $order_array->CurrencyCode = $request->get('currency');
-        $order_array->ShipmentCost = isset($request->get('shipping_lines')[0]['price'])?$request->get('shipping_lines')[0]['price']:0.00;
+        $order_array->ShipmentCost = isset($request->get('shipping_lines')[0]['price']) ? $request->get('shipping_lines')[0]['price'] : 0.00;
         $order_array->Warehouse = $user->get_dev_setting->warehouse_number;
         $order_array->AccountKey = $user->get_dev_setting->account_key;
         $result = $client->OrderDetail($order_array);
