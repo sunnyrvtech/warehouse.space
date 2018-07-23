@@ -169,13 +169,12 @@ class OrderController extends Controller {
     }
 
     public function orderDetails(Request $request, $slug) {
-        
+                $user = auth()->user();
                     $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->get_user->shop_url, 'ACCESS_TOKEN' => $user->get_user->access_token]);
 
         
         
         try {
-                    $orders = $shopify->call(['URL' => 'orders/' . $id . '.json?fields=id,financial_status,fulfillment_status,created_at,line_items', 'METHOD' => 'GET']);
                     $locations = $shopify->call(['URL' => 'locationss.json', 'METHOD' => 'GET']);
                 } catch (\Exception $e) {
                     return json_encode(array('success' => false));
