@@ -43,7 +43,7 @@ class OrderController extends Controller {
             if (isset($user->get_dev_setting)) {
                 if ($slug == "create" || $slug == "update") {
                     $result = $this->createOrder($request, $user);
-                    Log::info($shopUrl . ' Order ' . $slug . json_encode($result));
+                    Log::info($shopUrl . ' Order ' . $slug . json_encode($request->all()));
                     exit();
                 } else if ($slug == "update") {
                     Log::info($shopUrl . ' Order ' . $slug);
