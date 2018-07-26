@@ -169,20 +169,6 @@ class OrderController extends Controller {
     }
 
     public function orderDetails(Request $request, $slug) {
-                $user = auth()->user();
-                    $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
-
-        
-        
-        try {
-                    $locations = $shopify->call(['URL' => 'locations.json', 'METHOD' => 'GET']);
-                } catch (\Exception $e) {
-                    return json_encode(array('success' => false));
-                }
-        
-        dd($locations->locations[0]->id);
-        
-        
         $client = $this->_client;
 
         $shopify_parameter = json_decode(base64_decode($slug));
@@ -370,7 +356,7 @@ class OrderController extends Controller {
                         // echo count($warehouse_shipment);
                         //dd($item_ids_array);
                         try {
-                            $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => array("location_id" => null, "tracking_number" => $shipment->TrackingNumber, "line_items" => $item_ids_array)]]);
+                            $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => array("location_id" => $locations->locations[0]->id, "tracking_number" => $shipment->TrackingNumber, "line_items" => $item_ids_array)]]);
                         } catch (\Exception $e) {
                             Log::info('Order status update error ' . $id . $e->getMessage());
                             return json_encode(array('success' => false));
