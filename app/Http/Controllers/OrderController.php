@@ -175,7 +175,7 @@ class OrderController extends Controller {
         
         
         try {
-                    $locations = $shopify->call(['URL' => 'locationss.json', 'METHOD' => 'GET']);
+                    $locations = $shopify->call(['URL' => 'locations.json', 'METHOD' => 'GET']);
                 } catch (\Exception $e) {
                     return json_encode(array('success' => false));
                 }
