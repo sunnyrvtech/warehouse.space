@@ -180,7 +180,7 @@ class OrderController extends Controller {
                     return json_encode(array('success' => false));
                 }
         
-        dd($locations);
+        dd($locations->locations[0]->id);
         
         
         $client = $this->_client;
