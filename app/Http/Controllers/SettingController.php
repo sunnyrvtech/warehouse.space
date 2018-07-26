@@ -21,7 +21,8 @@ class SettingController extends Controller {
      */
     public function __construct() {
         $debug = true;
-        $wsdl = env('WSDL_URL');
+        echo $wsdl = env('WSDL_URL');
+        die;
         try {
             $this->_client = new SoapClient($wsdl, array(
                 'connection_timeout' => 5000,
@@ -124,10 +125,6 @@ class SettingController extends Controller {
 
     public function getWarehouseToken($user,$data) {
         $client = $this->_client;
-        
-        
-        echo env('WSDL_URL');
-        die;
         $request_array = (object) array();
         $request_array->AccountKey = $data['account_key'];
         $request_array->Warehouse = $data['warehouse_number'];
@@ -140,7 +137,7 @@ class SettingController extends Controller {
         $request_array->Enable = true;
         $request_array->AdminEmail = $user->email;
 
-        ;
+        //dd($request_array);
         $result = $client->RegisterStore($request_array);
         return $result;
     }
