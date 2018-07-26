@@ -124,6 +124,9 @@ class SettingController extends Controller {
 
     public function getWarehouseToken($user,$data) {
         $client = $this->_client;
+        
+        
+        dd($client);
         $request_array = (object) array();
         $request_array->AccountKey = $data['account_key'];
         $request_array->Warehouse = $data['warehouse_number'];
@@ -136,7 +139,7 @@ class SettingController extends Controller {
         $request_array->Enable = true;
         $request_array->AdminEmail = $user->email;
 
-        dd($request_array);
+        ;
         $result = $client->RegisterStore($request_array);
         return $result;
     }
