@@ -22,8 +22,6 @@ class SettingController extends Controller {
     public function __construct() {
         $debug = true;
         $wsdl = env('WSDL_URL');
-        echo $wsdl;
-        die;
         try {
             $this->_client = new SoapClient($wsdl, array(
                 'connection_timeout' => 5000,
@@ -128,7 +126,8 @@ class SettingController extends Controller {
         $client = $this->_client;
         
         
-        dd($client);
+        echo env('WSDL_URL');
+        die;
         $request_array = (object) array();
         $request_array->AccountKey = $data['account_key'];
         $request_array->Warehouse = $data['warehouse_number'];
