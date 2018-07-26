@@ -22,6 +22,8 @@ class SettingController extends Controller {
     public function __construct() {
         $debug = true;
         $wsdl = env('WSDL_URL');
+        echo $wsdl;
+        die;
         try {
             $this->_client = new SoapClient($wsdl, array(
                 'connection_timeout' => 5000,
