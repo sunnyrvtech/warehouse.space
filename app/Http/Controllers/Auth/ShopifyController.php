@@ -151,4 +151,13 @@ class ShopifyController extends Controller {
         return redirect()->route('dashboard', $slug);
     }
 
+    public function shopRedact(Request $request) {
+        $shopUrl = $request->get('shop_domain');
+        Log::info('Uninstall2:' . $shopUrl);
+        if ($user = User::where(['shop_url' => $shopUrl])->first()) {
+            $user->delete();
+        }
+        return 'true';
+    }
+
 }

@@ -380,5 +380,9 @@ class OrderController extends Controller {
         }
         return json_encode(array('success' => false));
     }
+    
+      public function orderRedact(Request $request) {
+          return 'true';
+      }
 
 }
