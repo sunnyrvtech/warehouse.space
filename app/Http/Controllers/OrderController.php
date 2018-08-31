@@ -132,6 +132,7 @@ class OrderController extends Controller {
         $order_array->CountryCode = $request->get('shipping_address')['country_code'];
         $order_array->City = $request->get('shipping_address')['city'];
         $order_array->StateOrProvinceCode = $request->get('shipping_address')['province_code'];
+        $order_array->CompanyName = $request->get('shipping_address')['company'];
         $order_array->EmailAddress = $request->get('email');
         $order_array->PaymentMethod = $request->get('gateway');
         $order_array->PaymentDescription = $request->get('gateway');
