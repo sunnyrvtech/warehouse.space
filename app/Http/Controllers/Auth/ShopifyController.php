@@ -114,9 +114,10 @@ class ShopifyController extends Controller {
         if (!$user->exists) {
             $user->save();
             try {
-                $recurring = $sh->call(['URL' => 'recurring_application_charges.json', 'METHOD' => 'POST', "DATA" => ["recurring_application_charge" => array("name" => "Free", "price" => 0.00, "return_url" => $redirect_url)]]);
+                $recurring = $sh->call(['URL' => 'recurring_application_charges.json', 'METHOD' => 'POST', "DATA" => ["recurring_application_charge" => array("name" => "Free", "price" => 0.00, "return_url" => $redirect_url, "capped_amount" => "100", "terms" => "free plan $0.00")]]);
+                Recurring::create(array('user_id' => $user->id, 'recurring_id' => $recurring->recurring_application_charge->id, 'plan' => 'free', 'status' => 'pending'));
             } catch (\Exception $e) {
-                Log::info('Recurring not created: '. $e->getMessage());
+                Log::info('Recurring not created: ' . $e->getMessage());
             }
             return redirect()->to($redirect_url);
         } else {

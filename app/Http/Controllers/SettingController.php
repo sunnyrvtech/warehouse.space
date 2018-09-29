@@ -84,21 +84,6 @@ class SettingController extends Controller {
 //            'percentage_product' => 'required|max:50',
             ]);
         }
-        
-        $redirect_url = 'https' . '://' . $user->shop_url . '/' . 'admin/apps/' . env('SHOPIFY_APP_NAME');
-        
-
-          $sh = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
-
-            $recurring = $sh->call(['URL' => 'recurring_application_charges.json', 'METHOD' => 'POST', "DATA" => ["recurring_application_charge" => array("name" => "Free", "price" => 0.00, "return_url" => $redirect_url, "capped_amount" => "100", "terms" => "free plan $0.00")]]);
-            
-        dd($recurring);
-        
-        
-        
-        
-        
-        
 
         $data['user_id'] = auth()->id();
 
