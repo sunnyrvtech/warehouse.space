@@ -89,9 +89,8 @@ class SettingController extends Controller {
         
 
           $sh = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
-
-            $recurring = $sh->call(['URL' => 'recurring_application_charges.json', 'METHOD' => 'POST', "DATA" => ["recurring_application_charge" => array("name" => "Free", "price" => 0.00, "return_url" => $redirect_url)]]);
-            
+  $shopinfo = $sh->call(['URL' => 'shop.json', 'METHOD' => 'GET']);
+       
         dd($recurring);
         
         
