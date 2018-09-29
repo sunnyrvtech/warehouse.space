@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
+use App\Recurring;
 use App\Webhook;
 use App;
 use Log;
@@ -30,13 +31,9 @@ class ShopifyController extends Controller {
 
     public function installShop(Request $request) {
         $shopUrl = $request->get('shop');
-
-
         if (!$shopUrl) {
             return 404;
         }
-
-
         $user = User::Where('shop_url', $shopUrl);
 
         if ($user->count() > 0) {
@@ -116,10 +113,25 @@ class ShopifyController extends Controller {
 
         if (!$user->exists) {
             $user->save();
+            try {
+                $recurring = $sh->call(['URL' => 'recurring_application_charges.json', 'METHOD' => 'POST', "DATA" => ["recurring_application_charge" => array("name" => "Free", "price" => 0.00, "return_url" => $redirect_url)]]);
+                Recurring::create(array('user_id' => $user->id, 'recurring_id' => $recurring->recurring_application_charge->id, 'plan' => 'free', 'status' => 'pending'));
+            } catch (\Exception $e) {
+                Log::info('Recurring not created');
+            }
             return redirect()->to($redirect_url);
         } else {
             return redirect()->to($redirect_url);
         }
+    }
+
+    public function upgradeDowngrade($user) {
+        $redirect_url = 'https' . '://' . $shopUrl . '/' . 'admin/apps/' . env('SHOPIFY_APP_NAME');
+        $recurring = $sh->call(['URL' => 'recurring_application_charges.json', 'METHOD' => 'POST', "DATA" => ["recurring_application_charge" => array("name" => "Free", "price" => 0.00, "return_url" => $redirect_url)]]);
+
+        Recurring::create(array('user_id' => $user->id, 'recurring_id' => $recurring->recurring_application_charge->id, 'plan' => 'free', 'status' => 'pending'));
+        //$return_url = $recurring->recurring_application_charge->confirmation_url;
+        return View('fb-feed.admin.redirect', compact('return_url'));
     }
 
     public function handleAppUninstallation(Request $request) {
