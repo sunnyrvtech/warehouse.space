@@ -37,6 +37,9 @@ class ShopifyController extends Controller {
         $user = User::Where('shop_url', $shopUrl);
 
         if ($user->count() > 0) {
+            if ($request->get('charge_id') != null) {
+                $user = $this->activatePlan($user);
+            }
             $slug = base64_encode(json_encode($request->all()));
             return redirect()->route('authenticate', $slug);
         }
@@ -118,8 +121,10 @@ class ShopifyController extends Controller {
                 Recurring::create(array('user_id' => $user->id, 'recurring_id' => $recurring->recurring_application_charge->id, 'plan' => 'free', 'status' => 'pending'));
             } catch (\Exception $e) {
                 Log::info('Recurring not created: ' . $e->getMessage());
+                return redirect()->to($redirect_url);
             }
-            return redirect()->to($redirect_url);
+            $return_url = $recurring->recurring_application_charge->confirmation_url;
+            return View('admin.redirect', compact('return_url'));
         } else {
             return redirect()->to($redirect_url);
         }
@@ -132,6 +137,22 @@ class ShopifyController extends Controller {
         Recurring::create(array('user_id' => $user->id, 'recurring_id' => $recurring->recurring_application_charge->id, 'plan' => 'free', 'status' => 'pending'));
         //$return_url = $recurring->recurring_application_charge->confirmation_url;
         return View('fb-feed.admin.redirect', compact('return_url'));
+    }
+
+    public function activatePlan($user) {
+        $sh = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
+
+        if ($user_recurring = Recurring::where('user_id', '=', $user->id)->first()) {
+            $recurrings = $sh->call(['URL' => 'recurring_application_charges/' . $user_recurring->id . '.json', 'METHOD' => 'GET']);
+            if ($recurrings->recurring_application_charge->status == "accepted") {
+                $user_recurring->status = 'active';
+                $recurring = $sh->call(['URL' => 'recurring_application_charges/' . $recurrings->recurring_application_charge->id . '/activate.json', 'METHOD' => 'POST']);
+            } elseif ($recurrings->recurring_application_charge->status == "declined") {
+                $user->status = 'declined';
+            }
+            $user_recurring->save();
+        }
+        return $user;
     }
 
     public function handleAppUninstallation(Request $request) {
