@@ -144,6 +144,8 @@ class ShopifyController extends Controller {
 
         if ($user_recurring = Recurring::where('user_id', '=', $user->id)->first()) {
             $recurrings = $sh->call(['URL' => 'recurring_application_charges/' . $user_recurring->id . '.json', 'METHOD' => 'GET']);
+            
+            dd($recurrings);
             if ($recurrings->recurring_application_charge->status == "accepted") {
                 $user_recurring->status = 'active';
                 $recurring = $sh->call(['URL' => 'recurring_application_charges/' . $recurrings->recurring_application_charge->id . '/activate.json', 'METHOD' => 'POST']);
