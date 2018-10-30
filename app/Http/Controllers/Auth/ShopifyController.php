@@ -143,9 +143,8 @@ class ShopifyController extends Controller {
         $sh = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
 
         if ($user_recurring = Recurring::where('user_id', '=', $user->id)->first()) {
-            $recurrings = $sh->call(['URL' => 'recurring_application_charges/' . $user_recurring->id . '.json', 'METHOD' => 'GET']);
+            $recurrings = $sh->call(['URL' => 'recurring_application_charges/' . $user_recurring->recurring_id . '.json', 'METHOD' => 'GET']);
             
-            dd($recurrings);
             if ($recurrings->recurring_application_charge->status == "accepted") {
                 $user_recurring->status = 'active';
                 $recurring = $sh->call(['URL' => 'recurring_application_charges/' . $recurrings->recurring_application_charge->id . '/activate.json', 'METHOD' => 'POST']);
