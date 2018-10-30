@@ -34,9 +34,9 @@ class ShopifyController extends Controller {
         if (!$shopUrl) {
             return 404;
         }
-        $user = User::Where('shop_url', $shopUrl);
+        $user = User::Where('shop_url', $shopUrl)->first();
 
-        if ($user->count() > 0) {
+        if ($user) {
             if ($request->get('charge_id') != null) {
                 $user = $this->activatePlan($user);
             }
@@ -140,9 +140,6 @@ class ShopifyController extends Controller {
     }
 
     public function activatePlan($user) {
-        dd($user);
-        
-        
         $sh = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
 
         if ($user_recurring = Recurring::where('user_id', '=', $user->id)->first()) {
