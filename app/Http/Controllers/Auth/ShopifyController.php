@@ -38,6 +38,7 @@ class ShopifyController extends Controller {
 
         if ($user->count() > 0) {
             if ($request->get('charge_id') != null) {
+                    dd($user);
                 $user = $this->activatePlan($user);
             }
             $slug = base64_encode(json_encode($request->all()));
