@@ -37,6 +37,10 @@ class ShopifyController extends Controller {
         $user = User::Where('shop_url', $shopUrl)->first();
 
         if ($user) {
+            
+            dd($request->all());
+            
+            
 //            if ($request->get('charge_id') != null) {
 //                $user = $this->activatePlan($user);
 //            }
