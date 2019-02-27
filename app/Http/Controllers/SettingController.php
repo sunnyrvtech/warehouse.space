@@ -106,6 +106,10 @@ class SettingController extends Controller {
             $dev_data->fill($data)->save();
         } else {
             $token = $this->getWarehouseToken($user,$data);
+            
+            
+            dd($token);
+            
             if ($token->RegisterStoreResult->Success) {
                 $data['warehouse_token'] = $token->RegisterStoreResult->Token;
                 DeveloperSetting::create($data);
