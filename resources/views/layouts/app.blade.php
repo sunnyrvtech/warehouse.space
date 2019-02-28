@@ -35,10 +35,10 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item active">
+                        <li class="nav-item @if($request->route()->getName() == 'dashboard') active @endif">
                             <a class="nav-link" href="{{ route('dashboard',$slug) }}">Instructions</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item @if($request->route()->getName() == 'warehouse.setting') active @endif">
                             <a class="nav-link" href="{{ route('warehouse.setting',$slug) }}">Settings</a>
                         </li>
                     </ul>

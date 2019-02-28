@@ -8,7 +8,7 @@
             <div class="card-body">
                 <div class="form-group">
                     <div class="col-md-12">
-                        <h4 class="lebel-msg">Connect your Shopify Store to Warehouse.space</h4>
+                        <h4 class="lebel-msg">Connect your Shopify Store to Warehouse.Space</h4>
                         <p>Register at <a target="_blank" href="https://warehouse.space">https://warehouse.space</a> to get your license key and warehouse number.</p>
                     </div>
                 </div>
@@ -26,7 +26,7 @@
                 <div class="form-group">
                     <div class="col-md-6">
                         <label for="account_key">License Key</label>
-                        <input class="form-control{{ $errors->has('account_key') ? ' is-invalid' : '' }}" type="text" value="{{ isset($users->get_dev_setting->account_key)?$users->get_dev_setting->account_key:'' }}" name="account_key" placeholder="Warehouse Account Key">
+                        <input class="form-control{{ $errors->has('account_key') ? ' is-invalid' : '' }}" type="text" value="{{ isset($users->get_dev_setting->account_key)?$users->get_dev_setting->account_key:'' }}" name="account_key" placeholder="Warehouse License Key">
                         @if ($errors->has('account_key'))
                         <span class="invalid-feedback">
                             <strong>{{ $errors->first('account_key') }}</strong>
@@ -43,7 +43,7 @@
                 @endif
                 <div class="form-group">
                     <div class="col-md-6">
-                        <p>Pressing the Save button, will begin the process of syncing your products to your warehouse.space account.</p>
+                        <p>Pressing the Save button, will begin the process of syncing your products to your Warehouse.Space account.</p>
                         <p>If you have a large number of products, this process may take some time</p>
                     </div>
                 </div>
