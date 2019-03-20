@@ -388,7 +388,7 @@ class OrderController extends Controller {
         $client = $this->_client;
         $user = DeveloperSetting::Where([['warehouse_number', $no]])->first();
 
-        if (isset($user->get_user) && $token == $user->warehouse_token) {
+        if (isset($user->get_user)) {
 
             $request_array = (object) array();
             $request_array->AccountKey = $user->account_key;
