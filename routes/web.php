@@ -28,9 +28,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('warehouse/api/setting', 'SettingController@apiPostSetting')->name('warehouse.api.setting');
     Route::post('warehouse/dev/setting', 'SettingController@devPostSetting')->name('warehouse.dev.setting');
     Route::get('warehouse/product/sync', 'ProductController@synchronizeProducts')->name('warehouse.product.sync');
-    Route::get('warehouse/order/test', 'OrderController@checkorderDetails');
+  
 });
-
+  Route::get('warehouse/order/test', 'OrderController@checkorderDetails');
 Route::group(['middleware' => 'Hmac'], function () {
     Route::get('/dashboard/{slug}', 'Auth\ShopifyController@index')->name('dashboard');
     Route::get('warehouse/setting/{slug}', 'SettingController@warehouseSetting')->name('warehouse.setting');
