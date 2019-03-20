@@ -190,7 +190,7 @@ class OrderController extends Controller {
 
             $warehouse_order = $warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo;
 
-            dd($warehouse_order);
+//            dd($warehouse_order);
             try {
                 $orders = $shopify->call(['URL' => 'orders/' . $warehouse_order->InvNumber . '.json?fields=id,financial_status,fulfillment_status,created_at,line_items', 'METHOD' => 'GET']);
             } catch (\Exception $e) {
@@ -323,7 +323,7 @@ class OrderController extends Controller {
                 } catch (\Exception $e) {
                     return json_encode(array('success' => false));
                 }
-                //dd($orders);
+                dd($orders);
 
                 if ($warehouse_order->OrderStatus == 4 && $orders->order->fulfillment_status == null && isset($warehouse_order->Shipments->ShipmentDetail)) {
                     $warehouse_shipment = $warehouse_order->Shipments->ShipmentDetail;
