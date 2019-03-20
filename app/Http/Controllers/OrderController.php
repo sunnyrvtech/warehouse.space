@@ -323,7 +323,7 @@ class OrderController extends Controller {
                 } catch (\Exception $e) {
                     return json_encode(array('success' => false));
                 }
-                //dd($orders);
+                dd($orders);
 
                 if ($warehouse_order->OrderStatus == 4 && $orders->order->fulfillment_status == null && isset($warehouse_order->Shipments->ShipmentDetail)) {
                     $warehouse_shipment = $warehouse_order->Shipments->ShipmentDetail;
@@ -354,8 +354,8 @@ class OrderController extends Controller {
                             }
                         }
                         $item_ids_array = array_values($item_ids_array);
-                        // echo count($warehouse_shipment);
-                        //dd($item_ids_array);
+                         echo count($warehouse_shipment);
+                        dd($item_ids_array);
                         try {
                             $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => array("location_id" => $locations->locations[0]->id, "tracking_number" => $shipment->TrackingNumber, "line_items" => $item_ids_array)]]);
                         } catch (\Exception $e) {
@@ -380,26 +380,6 @@ class OrderController extends Controller {
             }
         }
         return json_encode(array('success' => false));
-    }
-    
-    public function checkorderDetails() {
-        $id = 787645923379;
-        $no = 1305;
-        $client = $this->_client;
-        $user = DeveloperSetting::Where([['warehouse_number', $no]])->first();
-
-        if (isset($user->get_user)) {
-
-            $request_array = (object) array();
-            $request_array->AccountKey = $user->account_key;
-            $request_array->ListInvNumbers = array($id);
-            $warehouse_order = $client->GetOrderShipmentInfo($request_array);
-                    echo htmlentities($client->__getLastRequest());
-        echo "<pre>";
-        //print_r($request_array);
-        dd($warehouse_order);
-    }
-    die('hello');
     }
     
       public function orderRedact(Request $request) {
