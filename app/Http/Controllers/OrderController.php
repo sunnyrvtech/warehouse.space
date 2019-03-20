@@ -394,11 +394,10 @@ class OrderController extends Controller {
             $request_array->AccountKey = $user->account_key;
             $request_array->ListInvNumbers = array($id);
             $warehouse_order = $client->GetOrderShipmentInfo($request_array);
-            $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->get_user->shop_url, 'ACCESS_TOKEN' => $user->get_user->access_token]);
-            echo "<pre>";
-            print_r($request_array);
-            print_r($warehouse_order);
-            die;
+                    echo htmlentities($client->__getLastRequest());
+        echo "<pre>";
+        //print_r($request_array);
+        dd($warehouse_order);
     }
     die('hello');
     }
