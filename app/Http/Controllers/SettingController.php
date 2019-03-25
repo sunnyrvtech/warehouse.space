@@ -73,8 +73,8 @@ class SettingController extends Controller {
         $user = auth()->user();
         if (!isset($user->get_dev_setting)) {
             $this->validate($request, [
-                'warehouse_number' => 'required|max:50|unique:developer_settings',
-                'account_key' => 'required|max:50|unique:developer_settings',
+                'warehouse_number' => 'required|max:50',
+                'account_key' => 'required|max:50',
             ]);
         } else {
             $id = $user->get_dev_setting->id;
