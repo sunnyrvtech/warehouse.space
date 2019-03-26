@@ -16,6 +16,7 @@ class CreateDeveloperSettingsTable extends Migration
         Schema::create('developer_settings', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
+            $table->integer('store_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->integer('warehouse_number');
             $table->string('account_key');

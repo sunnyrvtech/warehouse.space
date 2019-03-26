@@ -144,7 +144,7 @@ class OrderController extends Controller {
         $order_array->CurrencyCode = $request->get('currency');
         $order_array->ShipmentCost = isset($request->get('shipping_lines')[0]['price']) ? $request->get('shipping_lines')[0]['price'] : 0.00;
         $order_array->Warehouse = $user->get_dev_setting->warehouse_number;
-        $order_array->AccountKey = $user->get_dev_setting->account_key;
+        $order_array->AccountKey = $user->get_dev_setting->account_key.'|'.$user->get_dev_setting->store_id;
         $result = $client->OrderDetail($order_array);
         //Log::info(' Order update' . $client->__getLastRequest());
 //        Log::info(' Order update' . $client->__getLastResponse());

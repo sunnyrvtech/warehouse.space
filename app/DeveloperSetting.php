@@ -12,7 +12,7 @@ class DeveloperSetting extends Model {
      * @var array
      */
     protected $fillable = [
-        'user_id', 'warehouse_number', 'account_key', 'percentage_product', 'page_size', 'offset','warehouse_token'
+        'user_id', 'store_id', 'warehouse_number', 'account_key', 'percentage_product', 'page_size', 'offset','warehouse_token'
     ];      
     
     public function get_user(){

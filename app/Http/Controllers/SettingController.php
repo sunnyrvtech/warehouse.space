@@ -97,6 +97,7 @@ class SettingController extends Controller {
             if ($user->get_dev_setting->warehouse_token == null || ($data['account_key'] != $user->get_dev_setting->account_key || $data['warehouse_number'] != $user->get_dev_setting->warehouse_number)) {
                 $token = $this->getWarehouseToken($user,$data);
                 if ($token->RegisterStoreResult->Success) {
+                    $data['store_id'] = $token->RegisterStoreResult->StoreID;
                     $data['warehouse_token'] = $token->RegisterStoreResult->Token;
                 } else {
                     return redirect()->back()
@@ -107,6 +108,7 @@ class SettingController extends Controller {
         } else {
             $token = $this->getWarehouseToken($user,$data);
             if ($token->RegisterStoreResult->Success) {
+                $data['store_id'] = $token->RegisterStoreResult->StoreID;
                 $data['warehouse_token'] = $token->RegisterStoreResult->Token;
                 DeveloperSetting::create($data);
             } else {
