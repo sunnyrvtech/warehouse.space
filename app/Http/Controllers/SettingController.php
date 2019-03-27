@@ -134,6 +134,7 @@ class SettingController extends Controller {
         $request_array->OrderServiceURL = url('/api/webhooks/order');
         $request_array->StockAdjustmentURL = '';
         $request_array->ShopIP = $_SERVER['REMOTE_ADDR'];
+        $request_array->StoreID = 0;    ///   0 is set on first call
         $request_array->ShopLanguage = '';
         $request_array->Enable = true;
         $request_array->AdminEmail = $user->email;
