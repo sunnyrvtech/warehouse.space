@@ -301,7 +301,7 @@ class OrderController extends Controller {
 
 //        $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->get_user->shop_url, 'ACCESS_TOKEN' => $user->get_user->access_token]);
 //        $shopify_result = $shopify->call(['URL' => 'orders/408497881140/fulfillments/382282563636/cancel.json', 'METHOD' => 'POST']);
-//        dd($shopify_result);
+        dd($user);
 //$shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
         if (isset($user->get_user) && $token == $user->warehouse_token) {
 
@@ -323,7 +323,7 @@ class OrderController extends Controller {
                 } catch (\Exception $e) {
                     return json_encode(array('success' => false));
                 }
-                dd($orders);
+                //dd($orders);
 
                 if ($warehouse_order->OrderStatus == 4 && $orders->order->fulfillment_status == null && isset($warehouse_order->Shipments->ShipmentDetail)) {
                     $warehouse_shipment = $warehouse_order->Shipments->ShipmentDetail;
