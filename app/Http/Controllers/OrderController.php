@@ -320,9 +320,9 @@ class OrderController extends Controller {
                     $orders = $shopify->call(['URL' => 'orders/' . $id . '.json?fields=id,financial_status,fulfillment_status,created_at,line_items', 'METHOD' => 'GET']);
                     $locations = $shopify->call(['URL' => 'locations.json', 'METHOD' => 'GET']);
                 } catch (\Exception $e) {
-                    return json_encode(array('success' => false,'message'=>$e->getMessage()));
+                    return json_encode(array('success' => false));
                 }
-                dd($orders);
+                //dd($orders);
 
                 if ($warehouse_order->OrderStatus == 4 && $orders->order->fulfillment_status == null && isset($warehouse_order->Shipments->ShipmentDetail)) {
                     $warehouse_shipment = $warehouse_order->Shipments->ShipmentDetail;
