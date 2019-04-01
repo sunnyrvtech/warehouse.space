@@ -36,7 +36,7 @@ class ShopifyController extends Controller {
         }
         $user = User::Where('shop_url', $shopUrl)->first();
 
-        if ($user) {
+        if (!$user) {
             if(!$request->get('hmac')){ /// this is used if someone tring to install and access app outside shopify app link.If app already installed in his store then we redirect to the shopify app area and if he is not logged in then shopify take him to the login screen
                $redirect_url = 'https' . '://' . $shopUrl . '/' . 'admin/apps/' . env('SHOPIFY_APP_NAME');
                return redirect()->to($redirect_url);
