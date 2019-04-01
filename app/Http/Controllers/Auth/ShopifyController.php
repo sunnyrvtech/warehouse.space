@@ -106,8 +106,10 @@ class ShopifyController extends Controller {
         $sh = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $shopUrl, 'ACCESS_TOKEN' => $accessToken]);
 
         $shopinfo = $sh->call(['URL' => 'shop.json', 'METHOD' => 'GET']);
-        if($user){
-           $user->delete();  ////  This is used if entries is not deleted on uninstalled app
+        
+        $check_user = User::where(['shop_url' => $shopUrl])->first();
+        if($check_user){
+           $check_user->delete();  ////  This is used if entries is not deleted on uninstalled app
         }
         $user = User::firstOrNew(['access_token' => $accessToken]);
 
