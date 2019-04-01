@@ -183,14 +183,14 @@ class OrderController extends Controller {
 //        echo htmlentities($client->__getLastRequest());
 //        echo "<pre>";
 //        print_r($request_array);
-//        dd($warehouse_order);
+        dd($warehouse_order);
         if (isset($warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo)) {
             $warehouse_shipment = $warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo->Shipments;
             $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
 
             $warehouse_order = $warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo;
 
-//            dd($warehouse_order);
+            dd($warehouse_order);
             try {
                 $orders = $shopify->call(['URL' => 'orders/' . $warehouse_order->InvNumber . '.json?fields=id,financial_status,fulfillment_status,created_at,line_items', 'METHOD' => 'GET']);
             } catch (\Exception $e) {
