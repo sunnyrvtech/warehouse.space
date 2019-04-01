@@ -320,7 +320,7 @@ class OrderController extends Controller {
                     $orders = $shopify->call(['URL' => 'orders/' . $id . '.json?fields=id,financial_status,fulfillment_status,created_at,line_items', 'METHOD' => 'GET']);
                     $locations = $shopify->call(['URL' => 'locations.json', 'METHOD' => 'GET']);
                 } catch (\Exception $e) {
-                    return json_encode(array('success' => false));
+                    return json_encode(array('success' => false,'message'=>$e->getMessage()));
                 }
                 dd($orders);
 
