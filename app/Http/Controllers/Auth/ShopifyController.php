@@ -37,9 +37,9 @@ class ShopifyController extends Controller {
         $user = User::Where('shop_url', $shopUrl)->first();
 
         if ($user) {
-            if(!$request->get('hmac')){ /// this is used if someone tring to install and access app outside shopify app link.If app already installed in his store then we redirect to the shopify app area and if he is not logged in then shopify take him to the login screen
-               $redirect_url = 'https' . '://' . $shopUrl . '/' . 'admin/apps/' . env('SHOPIFY_APP_NAME');
-               return redirect()->to($redirect_url);
+            if (!$request->get('hmac')) { /// this is used if someone tring to install and access app outside shopify app link.If app already installed in his store then we redirect to the shopify app area and if he is not logged in then shopify take him to the login screen
+                $redirect_url = 'https' . '://' . $shopUrl . '/' . 'admin/apps/' . env('SHOPIFY_APP_NAME');
+                return redirect()->to($redirect_url);
             }
 //            if ($request->get('charge_id') != null) {
 //                $user = $this->activatePlan($user);
@@ -106,21 +106,18 @@ class ShopifyController extends Controller {
         $sh = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $shopUrl, 'ACCESS_TOKEN' => $accessToken]);
 
         $shopinfo = $sh->call(['URL' => 'shop.json', 'METHOD' => 'GET']);
-        $user = User::firstOrNew(['access_token' => $accessToken]);
-
-        $user->name = $shopinfo->shop->shop_owner;
-        $user->email = $shopinfo->shop->email;
-        $user->shop_name = $shopinfo->shop->name;
-        $user->shop_url = $shopUrl;
-        $user->status = 1;
-        $user->access_token = $accessToken;
-        $user->created_at = Carbon::now();
-        $user->updated_at = Carbon::now();
-
-
-        if (!$user->exists) {
+        $user = User::where(['shop_url' => $shopUrl])->first();
+        if ($user) {
+            $user->name = $shopinfo->shop->shop_owner;
+            $user->email = $shopinfo->shop->email;
+            $user->shop_name = $shopinfo->shop->name;
+            $user->shop_url = $shopUrl;
+            $user->status = 1;
+            $user->access_token = $accessToken;
+            $user->created_at = Carbon::now();
+            $user->updated_at = Carbon::now();
             $user->save();
-//            try {
+            //            try {
 //                $recurring = $sh->call(['URL' => 'recurring_application_charges.json', 'METHOD' => 'POST', "DATA" => ["recurring_application_charge" => array("name" => "Free", "price" => 0.00, "return_url" => $redirect_url, "capped_amount" => "100", "terms" => "free plan $0.00")]]);
 //                Recurring::create(array('user_id' => $user->id, 'recurring_id' => $recurring->recurring_application_charge->id, 'plan' => 'free', 'status' => 'pending'));
 //            } catch (\Exception $e) {
@@ -129,10 +126,20 @@ class ShopifyController extends Controller {
 //            }
 //            $return_url = $recurring->recurring_application_charge->confirmation_url;
 //            return View('admin.redirect', compact('return_url'));
-            return redirect()->to($redirect_url);
         } else {
-            return redirect()->to($redirect_url);
+            $new_user = array(
+                'name' => $shopinfo->shop->shop_owner,
+                'email' => $shopinfo->shop->email,
+                'shop_name' => $shopinfo->shop->name,
+                'shop_url' => $shopUrl,
+                'status' => 1,
+                'access_token' => $accessToken,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            );
+            User::create($new_user);
         }
+        return redirect()->to($redirect_url);
     }
 
     public function upgradeDowngrade($user) {
@@ -149,7 +156,7 @@ class ShopifyController extends Controller {
 
         if ($user_recurring = Recurring::where('user_id', '=', $user->id)->first()) {
             $recurrings = $sh->call(['URL' => 'recurring_application_charges/' . $user_recurring->recurring_id . '.json', 'METHOD' => 'GET']);
-            
+
             if ($recurrings->recurring_application_charge->status == "accepted") {
                 $user_recurring->status = 'active';
                 $recurring = $sh->call(['URL' => 'recurring_application_charges/' . $recurrings->recurring_application_charge->id . '/activate.json', 'METHOD' => 'POST']);
