@@ -51,17 +51,17 @@ class OrderController extends Controller {
                             Log::info('Error in Order cancel order note update' . $request->get('id') . $e->getMessage());
                         }
                     }
-                    Log::info($shopUrl . ' Order ' . $slug . json_encode($result));
+                    Log::info($shopUrl . ' Order ' . $request->get('id') . $slug . json_encode($result));
                     exit();
                 } else if ($slug == "update") {
-                    Log::info($shopUrl . ' Order ' . $slug);
+                    Log::info($shopUrl . ' Order ' . $request->get('id') . $slug);
                     exit();
                 } else if ($slug == "paid" || $slug == "cancelled") {
                     $result = $this->changeOrderStatus($request, $user);
-                    Log::info($shopUrl . ' Order ' . $slug . json_encode($result));
+                    Log::info($shopUrl . ' Order ' . $request->get('id') . $slug . json_encode($result));
                     exit();
                 } else {///    this is use to handle delete request
-                    Log::info($shopUrl . ' Order ' . $slug);
+                    Log::info($shopUrl . ' Order ' . $request->get('id') . $slug);
                     exit();
                 }
             }
@@ -144,7 +144,7 @@ class OrderController extends Controller {
         $order_array->CurrencyCode = $request->get('currency');
         $order_array->ShipmentCost = isset($request->get('shipping_lines')[0]['price']) ? $request->get('shipping_lines')[0]['price'] : 0.00;
         $order_array->Warehouse = $user->get_dev_setting->warehouse_number;
-        $order_array->AccountKey = $user->get_dev_setting->account_key.'|'.$user->get_dev_setting->store_id;
+        $order_array->AccountKey = $user->get_dev_setting->account_key . '|' . $user->get_dev_setting->store_id;
         $result = $client->OrderDetail($order_array);
         //Log::info(' Order update' . $client->__getLastRequest());
 //        Log::info(' Order update' . $client->__getLastResponse());
@@ -297,7 +297,7 @@ class OrderController extends Controller {
 
     public function updateOrderStatus($id, $no, $token) {
         $client = $this->_client;
-        $user = DeveloperSetting::Where(['warehouse_number'=> $no,'warehouse_token'=>$token])->first();
+        $user = DeveloperSetting::Where(['warehouse_number' => $no, 'warehouse_token' => $token])->first();
 
 //        $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->get_user->shop_url, 'ACCESS_TOKEN' => $user->get_user->access_token]);
 //        $shopify_result = $shopify->call(['URL' => 'orders/408497881140/fulfillments/382282563636/cancel.json', 'METHOD' => 'POST']);
@@ -380,9 +380,9 @@ class OrderController extends Controller {
         }
         return json_encode(array('success' => false));
     }
-    
-      public function orderRedact(Request $request) {
-          return 'true';
-      }
+
+    public function orderRedact(Request $request) {
+        return 'true';
+    }
 
 }
