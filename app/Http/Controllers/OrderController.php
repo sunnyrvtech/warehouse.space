@@ -383,7 +383,7 @@ class OrderController extends Controller {
     
     public function checkWebhooks($id){
                 $client = $this->_client;
-        $user = User::Where(['user_id' => $id])->first();
+        $user = User::Where(['id' => $id])->first();
         $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
           try {
                     $webhooks = $shopify->call(['URL' => 'webhooks.json', 'METHOD' => 'GET']);
