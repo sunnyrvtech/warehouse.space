@@ -79,8 +79,8 @@ class SettingController extends Controller {
         } else {
             $id = $user->get_dev_setting->id;
             $this->validate($request, [
-                'warehouse_number' => 'required|max:50|unique:developer_settings,warehouse_number,' . $id,
-                'account_key' => 'required|max:50|unique:developer_settings,account_key,' . $id,
+                'warehouse_number' => 'required|max:50',
+                'account_key' => 'required|max:50',
 //            'percentage_product' => 'required|max:50',
             ]);
         }
