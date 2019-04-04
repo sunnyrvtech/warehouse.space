@@ -427,7 +427,7 @@ class OrderController extends Controller {
       
         $update_array = array();
         foreach ($webhook_array as $key => $value) {
-            $webhook = $sh->call(['URL' => 'webhooks.json', 'METHOD' => 'POST', "DATA" => ["webhook" => array("topic" => $value['name'], "address" => $value['url'], "format" => "json")]]);
+            $webhook = $shopify->call(['URL' => 'webhooks.json', 'METHOD' => 'POST', "DATA" => ["webhook" => array("topic" => $value['name'], "address" => $value['url'], "format" => "json")]]);
             $update_array[$key] = array(
                 'name' => $value['name'],
                 'webhook_id' => $webhook->webhook->id
