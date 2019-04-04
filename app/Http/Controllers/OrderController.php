@@ -41,7 +41,7 @@ class OrderController extends Controller {
         $user = User::Where('shop_url', $shopUrl)->first();
         if ($client != null) {
             if (isset($user->get_dev_setting)) {
-                if ($slug == "create" || $slug == "update") {
+                if ($slug == "create") {
                     $result = $this->createOrder($request, $user);
                     if (isset($result->OrderDetailResult->CancellationReason)) {
                         $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
