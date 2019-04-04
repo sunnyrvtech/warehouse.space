@@ -380,6 +380,19 @@ class OrderController extends Controller {
         }
         return json_encode(array('success' => false));
     }
+    
+    public function checkWebhooks($id){
+                $client = $this->_client;
+        $user = DeveloperSetting::Where(['user_id' => $id])->first();
+        $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->get_user->shop_url, 'ACCESS_TOKEN' => $user->get_user->access_token]);
+          try {
+                    $webhooks = $shopify->call(['URL' => 'webhooks.json', 'METHOD' => 'GET']);
+                } catch (\Exception $e) {
+                    dd($e->getMessage());
+                }
+                
+                dd($webhooks);
+    }
 
     public function orderRedact(Request $request) {
         return 'true';
