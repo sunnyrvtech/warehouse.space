@@ -94,32 +94,32 @@ class SettingController extends Controller {
 
         if (isset($user->get_dev_setting)) {
             $dev_data = $user->get_dev_setting;
-            if ($user->get_dev_setting->warehouse_token == null || ($data['account_key'] != $user->get_dev_setting->account_key || $data['warehouse_number'] != $user->get_dev_setting->warehouse_number)) {
-                $token = $this->getWarehouseToken($user,$data);
-                if ($token->RegisterStoreResult->Success) {
-                    $data['store_id'] = $token->RegisterStoreResult->StoreID;
-                    $data['warehouse_token'] = $token->RegisterStoreResult->Token;
-                } else {
-                    return redirect()->back()
-                                    ->with('error-message', 'Sorry, account key or number does not exist in the warehouse,please enter the correct details.');
-                }
-            }
+//            if ($user->get_dev_setting->warehouse_token == null || ($data['account_key'] != $user->get_dev_setting->account_key || $data['warehouse_number'] != $user->get_dev_setting->warehouse_number)) {
+//                $token = $this->getWarehouseToken($user,$data);
+//                if ($token->RegisterStoreResult->Success) {
+//                    $data['store_id'] = $token->RegisterStoreResult->StoreID;
+//                    $data['warehouse_token'] = $token->RegisterStoreResult->Token;
+//                } else {
+//                    return redirect()->back()
+//                                    ->with('error-message', 'Sorry, account key or number does not exist in the warehouse,please enter the correct details.');
+//                }
+//            }
             $dev_data->fill($data)->save();
         } else {
-            $token = $this->getWarehouseToken($user,$data);
-            if ($token->RegisterStoreResult->Success) {
-                $data['store_id'] = $token->RegisterStoreResult->StoreID;
-                $data['warehouse_token'] = $token->RegisterStoreResult->Token;
+//            $token = $this->getWarehouseToken($user,$data);
+//            if ($token->RegisterStoreResult->Success) {
+//                $data['store_id'] = $token->RegisterStoreResult->StoreID;
+//                $data['warehouse_token'] = $token->RegisterStoreResult->Token;
                 DeveloperSetting::create($data);
-            } else {
-                return redirect()->back()
-                                ->with('error-message', "Sorry, account key or number does not exist in the warehouse,please enter the correct details.");
-            }
+//            } else {
+//                return redirect()->back()
+//                                ->with('error-message', "Sorry, account key or number does not exist in the warehouse,please enter the correct details.");
+//            }
         }
 
-        if (!isset($user->get_api_setting))
-            ApiSetting::create($data);
-        return redirect()->route('warehouse.product.sync');
+//        if (!isset($user->get_api_setting))
+//            ApiSetting::create($data);
+//        return redirect()->route('warehouse.product.sync');
         return redirect()->back()
                         ->with('success-message', 'Developer setting saved successfully!');
     }
