@@ -385,63 +385,18 @@ class OrderController extends Controller {
                 $client = $this->_client;
         $user = User::Where(['id' => $id])->first();
         $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
-          $webhook_array = array(
-            [
-                'name' => "app/uninstalled",
-                'url' => route('webhook.uninstalled')
-            ],
-            [
-                'name' => "products/create",
-                'url' => route('webhook.products', 'create')
-            ],
-            [
-                'name' => "products/update",
-                'url' => route('webhook.products', 'update')
-            ],
-            [
-                'name' => "products/delete",
-                'url' => route('webhook.products', 'delete')
-            ],
-            [
-                'name' => "orders/create",
-                'url' => route('webhook.orders', 'create')
-            ],
-            [
-                'name' => "orders/updated",
-                'url' => route('webhook.orders', 'update')
-            ],
-            [
-                'name' => "orders/delete",
-                'url' => route('webhook.orders', 'delete')
-            ],
-            [
-                'name' => "orders/paid",
-                'url' => route('webhook.orders', 'paid')
-            ],
-            [
-                'name' => "orders/cancelled",
-                'url' => route('webhook.orders', 'cancelled')
-            ],
-        );
-
-      
-        $update_array = array();
-        foreach ($webhook_array as $key => $value) {
-              try {
-            $webhook = $shopify->call(['URL' => 'webhooks.json', 'METHOD' => 'POST', "DATA" => ["webhook" => array("topic" => $value['name'], "address" => $value['url'], "format" => "json")]]);
-             } catch (\Exception $e) {
-                 dd($e->getMessage());
-             }
-            $update_array[$key] = array(
-                'name' => $value['name'],
-                'webhook_id' => $webhook->webhook->id
-            );
-        }
-
-        echo json_encode($update_array);
-        
-        dd($update_array);
-         
+          try {
+                    $webhooks = $shopify->call(['URL' => 'webhooks.json', 'METHOD' => 'GET']);
+                } catch (\Exception $e) {
+                    dd($e->getMessage());
+                }
+                
+                
+                
+                
+                
+                
+                dd($webhooks);
     }
 
     public function orderRedact(Request $request) {
