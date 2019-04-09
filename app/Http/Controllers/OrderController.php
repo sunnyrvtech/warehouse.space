@@ -42,15 +42,24 @@ class OrderController extends Controller {
         if ($client != null) {
             if (isset($user->get_dev_setting)) {
                 if ($slug == "create") {
-                    //$result = $this->createOrder($request, $user);
-                     Log::info($shopUrl . ' Order ' . $request->get('id') . $slug);
+                    $result = $this->createOrder($request, $user);
+                    if (isset($result->OrderDetailResult->CancellationReason)) {
+                        $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
+                        try {
+                            $shopify->call(['URL' => 'orders/' . $request->get('id') . '.json', 'METHOD' => 'PUT', "DATA" => ['order' => ['id' => $request->get('id'), 'note' => $result->OrderDetailResult->CancellationReason]]]);
+                        } catch (\Exception $e) {
+                            Log::info('Error in Order cancel order note update' . $request->get('id') . $e->getMessage());
+                        }
+                        return response()->json(['success' => true], 200);
+                    }
+                    Log::info($shopUrl . ' Order ' . $request->get('id') . $slug . json_encode($result));
                     return response()->json(['success' => true], 200);
                 } else if ($slug == "update") {
                     Log::info($shopUrl . ' Order ' . $request->get('id') . $slug);
                     return response()->json(['success' => true], 200);
                 } else if ($slug == "paid" || $slug == "cancelled") {
-                    //$result = $this->changeOrderStatus($request, $user);
-                     Log::info($shopUrl . ' Order ' . $request->get('id') . $slug);
+                    $result = $this->changeOrderStatus($request, $user);
+                    Log::info($shopUrl . ' Order ' . $request->get('id') . $slug . json_encode($result));
                     return response()->json(['success' => true], 200);
                 } else {///    this is use to handle delete request
                     Log::info($shopUrl . ' Order ' . $request->get('id') . $slug);
