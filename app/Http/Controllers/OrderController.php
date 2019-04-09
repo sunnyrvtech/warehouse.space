@@ -371,7 +371,7 @@ class OrderController extends Controller {
 //                        Log::info('Order status update error' . $id . $e->getMessage());
 //                        return json_encode(array('success' => false));
 //                    }
-                    return json_encode(array('success' => false,'message'=>$e->'found order status 7 in the response'));
+                    return json_encode(array('success' => false,'message'=>'found order status 7 in the response'));
                 }
             }
         }
