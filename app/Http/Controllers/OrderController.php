@@ -183,7 +183,7 @@ class OrderController extends Controller {
 //        echo htmlentities($client->__getLastRequest());
 //        echo "<pre>";
 //        print_r($request_array);
-//        dd($warehouse_order);
+       dd($warehouse_order);
         if (isset($warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo)) {
             $warehouse_shipment = $warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo->Shipments;
             $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
@@ -298,10 +298,6 @@ class OrderController extends Controller {
     public function updateOrderStatus($id, $no, $token) {
         $client = $this->_client;
         $user = DeveloperSetting::Where(['warehouse_number' => $no, 'warehouse_token' => $token])->first();
-
-//        $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->get_user->shop_url, 'ACCESS_TOKEN' => $user->get_user->access_token]);
-//        $shopify_result = $shopify->call(['URL' => 'orders/408497881140/fulfillments/382282563636/cancel.json', 'METHOD' => 'POST']);
-//$shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
         if (isset($user->get_user)) {
 
             $request_array = (object) array();
