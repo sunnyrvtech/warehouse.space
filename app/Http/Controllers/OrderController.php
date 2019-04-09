@@ -43,7 +43,7 @@ class OrderController extends Controller {
             if (isset($user->get_dev_setting)) {
                 if ($slug == "create") {
                     $result = $this->createOrder($request, $user);
-                    if (isset($result->OrderDetailResult->CancellationReason)) {
+                    if (isset($result->OrderDetailResult->CancellationReason) && $result->OrderDetailResult->CancellationReason != null && $result->OrderDetailResult->CancellationReason !="") {
                         $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
                         try {
                             $shopify->call(['URL' => 'orders/' . $request->get('id') . '.json', 'METHOD' => 'PUT', "DATA" => ['order' => ['id' => $request->get('id'), 'note' => $result->OrderDetailResult->CancellationReason]]]);
