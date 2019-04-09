@@ -201,7 +201,7 @@ class ShopifyController extends Controller {
         if ($user = User::where(['shop_url' => $shopUrl])->first()) {
             $user->delete();
         }
-        return 'true';
+        return response()->json(['success' => true], 200);
     }
 
 }

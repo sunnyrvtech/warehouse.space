@@ -101,14 +101,14 @@ class ProductController extends Controller {
 
                 $result = $client->MaterialBulk($final_product_array);
                 Log::info($shopUrl . ' Product ' . $slug . $result->MaterialBulkResult);
-                return json_encode(array('success' => true));
+                return response()->json(['success' => true], 200);
             }
             Log::info($shopUrl . ' Product ' . $slug . 'not saved account setting yet !');
             exit();
         } else {
             if ($slug != "delete")
                 Log::info($shopUrl . ' Product ' . $slug . 'problem in soap client !');
-            return json_encode(array('success' => true));
+            return response()->json(['success' => true], 200);
         }
     }
 
