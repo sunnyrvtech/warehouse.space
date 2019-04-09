@@ -43,34 +43,25 @@ class OrderController extends Controller {
             if (isset($user->get_dev_setting)) {
                 if ($slug == "create") {
                     $result = $this->createOrder($request, $user);
-                    if (isset($result->OrderDetailResult->CancellationReason)) {
-                        $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
-                        try {
-                            $shopify->call(['URL' => 'orders/' . $request->get('id') . '.json', 'METHOD' => 'PUT', "DATA" => ['order' => ['id' => $request->get('id'), 'note' => $result->OrderDetailResult->CancellationReason]]]);
-                        } catch (\Exception $e) {
-                            Log::info('Error in Order cancel order note update' . $request->get('id') . $e->getMessage());
-                        }
-                        return json_encode(array('success' => true));
-                    }
                     Log::info($shopUrl . ' Order ' . $request->get('id') . $slug . json_encode($result));
-                    return json_encode(array('success' => true));
+                    return response()->json(['success' => true], 200);
                 } else if ($slug == "update") {
                     Log::info($shopUrl . ' Order ' . $request->get('id') . $slug);
-                    return json_encode(array('success' => true));
+                    return response()->json(['success' => true], 200);
                 } else if ($slug == "paid" || $slug == "cancelled") {
                     $result = $this->changeOrderStatus($request, $user);
                     Log::info($shopUrl . ' Order ' . $request->get('id') . $slug . json_encode($result));
-                    return json_encode(array('success' => true));
+                    return response()->json(['success' => true], 200);
                 } else {///    this is use to handle delete request
                     Log::info($shopUrl . ' Order ' . $request->get('id') . $slug);
-                    return json_encode(array('success' => true));
+                    return response()->json(['success' => true], 200);
                 }
             }
             Log::info($shopUrl . ' Order ' . $slug . 'not saved account setting yet !');
-            return json_encode(array('success' => true));
+            return response()->json(['success' => true], 200);
         }
         Log::info($shopUrl . ' Order ' . $slug . 'problem in soap client !');
-        return json_encode(array('success' => true));
+        return response()->json(['success' => true], 200);
     }
 
     public function createOrder($request, $user) {
@@ -360,7 +351,7 @@ class OrderController extends Controller {
                         }
 //                            dd($shopify_result);
                     }
-                    return json_encode(array('success' => true));
+                    return response()->json(['success' => true], 200);
                 }
             }
             if (isset($warehouse_order->OrderStatus)) {
