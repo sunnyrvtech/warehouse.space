@@ -50,26 +50,27 @@ class OrderController extends Controller {
                         } catch (\Exception $e) {
                             Log::info('Error in Order cancel order note update' . $request->get('id') . $e->getMessage());
                         }
+                        return json_encode(array('success' => true));
                     }
                     Log::info($shopUrl . ' Order ' . $request->get('id') . $slug . json_encode($result));
-                    exit();
+                    return json_encode(array('success' => true));
                 } else if ($slug == "update") {
                     Log::info($shopUrl . ' Order ' . $request->get('id') . $slug);
-                    exit();
+                    return json_encode(array('success' => true));
                 } else if ($slug == "paid" || $slug == "cancelled") {
                     $result = $this->changeOrderStatus($request, $user);
                     Log::info($shopUrl . ' Order ' . $request->get('id') . $slug . json_encode($result));
-                    exit();
+                    return json_encode(array('success' => true));
                 } else {///    this is use to handle delete request
                     Log::info($shopUrl . ' Order ' . $request->get('id') . $slug);
-                    exit();
+                    return json_encode(array('success' => true));
                 }
             }
             Log::info($shopUrl . ' Order ' . $slug . 'not saved account setting yet !');
-            exit();
+            return json_encode(array('success' => true));
         }
         Log::info($shopUrl . ' Order ' . $slug . 'problem in soap client !');
-        exit();
+        return json_encode(array('success' => true));
     }
 
     public function createOrder($request, $user) {
@@ -316,7 +317,7 @@ class OrderController extends Controller {
                     $orders = $shopify->call(['URL' => 'orders/' . $id . '.json?fields=id,financial_status,fulfillment_status,created_at,line_items', 'METHOD' => 'GET']);
                     $locations = $shopify->call(['URL' => 'locations.json', 'METHOD' => 'GET']);
                 } catch (\Exception $e) {
-                    return json_encode(array('success' => false));
+                    return json_encode(array('success' => false,'message'=>$e->getMessage()));
                 }
                 //dd($orders);
 
@@ -337,7 +338,7 @@ class OrderController extends Controller {
                         }
                         $product_id_array = array_column($articles, 'ProductID');
                         if (empty($product_id_array)) {
-                            return json_encode(array('success' => false));
+                            return json_encode(array('success' => false,'message'=>'product id not found in the response'));
                         }
 
                         //print_r($product_id_array);
@@ -355,7 +356,7 @@ class OrderController extends Controller {
                             $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => array("location_id" => $locations->locations[0]->id, "tracking_number" => $shipment->TrackingNumber, "line_items" => $item_ids_array, "notify_customer" => true)]]);
                         } catch (\Exception $e) {
                             Log::info('Order status update error ' . $id . $e->getMessage());
-                            return json_encode(array('success' => false));
+                            return json_encode(array('success' => false,'message'=>$e->getMessage()));
                         }
 //                            dd($shopify_result);
                     }
@@ -370,11 +371,11 @@ class OrderController extends Controller {
 //                        Log::info('Order status update error' . $id . $e->getMessage());
 //                        return json_encode(array('success' => false));
 //                    }
-                    return json_encode(array('success' => true));
+                    return json_encode(array('success' => false,'message'=>$e->'found order status 7 in the response'));
                 }
             }
         }
-        return json_encode(array('success' => false));
+        return json_encode(array('success' => false,'message'=>'user not found!'));
     }
     
     public function checkWebhooks($id){
