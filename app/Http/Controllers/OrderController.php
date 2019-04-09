@@ -42,14 +42,14 @@ class OrderController extends Controller {
         if ($client != null) {
             if (isset($user->get_dev_setting)) {
                 if ($slug == "create") {
-                    $result = $this->createOrder($request, $user);
+                    //$result = $this->createOrder($request, $user);
                     Log::info($shopUrl . ' Order ' . $request->get('id') . $slug . json_encode($result));
                     return response()->json(['success' => true], 200);
                 } else if ($slug == "update") {
                     Log::info($shopUrl . ' Order ' . $request->get('id') . $slug);
                     return response()->json(['success' => true], 200);
                 } else if ($slug == "paid" || $slug == "cancelled") {
-                    $result = $this->changeOrderStatus($request, $user);
+                    //$result = $this->changeOrderStatus($request, $user);
                     Log::info($shopUrl . ' Order ' . $request->get('id') . $slug . json_encode($result));
                     return response()->json(['success' => true], 200);
                 } else {///    this is use to handle delete request
