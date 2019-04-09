@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel {
     protected function schedule(Schedule $schedule) {
         $schedule->call(function () {
             Log::info("Cron running " . date('H:i:s'));
-        })->everyFiveMinutes();
+        })->everyMinute();
     }
 
     /**
