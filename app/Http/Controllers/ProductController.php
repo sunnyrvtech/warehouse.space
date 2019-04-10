@@ -26,6 +26,7 @@ class ProductController extends Controller {
     public function __construct() {
 
         $this->middleware(function ($request, $next) {
+            Log::info('yes it is coming');
             $route_name = $request->route()->getName();
             $this->_user = auth()->user();
             $user = $this->_user;
@@ -54,6 +55,7 @@ class ProductController extends Controller {
             }
             return $next($request);
         });
+        Log::info('not coming');
     }
 
     public function handleProducts(Request $request, $slug) {
