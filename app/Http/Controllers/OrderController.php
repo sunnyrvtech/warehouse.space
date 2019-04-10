@@ -393,7 +393,7 @@ class OrderController extends Controller {
     public function checkWebhooks($id) {
 
         
-            $jobs = Job::Where('id',1)->first();
+            $job = Job::Where('id',1)->first();
         
         $request = json_decode($job->request_data);
         $client = $this->_client;
