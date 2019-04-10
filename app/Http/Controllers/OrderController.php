@@ -393,57 +393,21 @@ class OrderController extends Controller {
     }
 
     public function checkWebhooks($id) {
-        $job = Job::find($id);
-        $request = json_decode($job->request_data);
         $client = $this->_client;
-        $shopUrl = $job->shop_url;
-        $user = User::Where('shop_url', $shopUrl)->first();
-        $product_images = array_column($request->images, 'src');
-                $i = 0;
-                $product_array = array();
-                foreach ($request->variants as $item_value) {
-                    $item_value = (object) $item_value;
-                    $item_array = (object) array();
-                    $item_array->ProductID = $item_value->id;
-                    $item_array->Article = $item_value->sku;
-                    $item_array->Title = htmlspecialchars($item_value->title);
-                    $item_array->Barcode = $item_value->barcode;
-                    $item_array->Description = htmlspecialchars(strip_tags($request->body_html));
-//                    $item_array->ErpTimeStamp = date('Y-m-d-H:i');
-//                    $item_array->TimeStamp = date('Y-m-d-H:i');
-                    $item_array->HSCode = "";
-                    $item_array->UOM = 'each';
-                    $item_array->BuyPrice = $item_value->price;
-                    $item_array->SellPrice = $item_value->compare_at_price;
-                    $item_array->Supplier = "";
-                    $item_array->Images = $product_images;
-                    $item_array->Manufacturer = "";
-                    $item_array->MinQuantity = 0;
-                    $item_array->ItemWeight = $item_value->weight;
-                    $item_array->ItemHeight = 0;
-                    $item_array->ItemWidth = 0;
-                    $item_array->ItemDepth = 0;
-                    $item_array->WeightCat = 0;
-                    $item_array->Model = "";
-                    $item_array->Category = $request->product_type;
-                    $item_array->Warehouse = $user->get_dev_setting->warehouse_number;
-                    $item_array->AccountKey = $user->get_dev_setting->account_key;
-
-                    $product_array[$i] = $item_array;
-                    $i++;
-                }
-
-                $final_product_array = (object) array();
-                $final_product_array->ArticlesList = $product_array;
-
-               // $result = $client->MaterialBulk($final_product_array);
+        $user = User::Where(['id' => $id])->first();
+        $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
+        try {
+            $webhooks = $shopify->call(['URL' => 'webhooks.json', 'METHOD' => 'GET']);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
 
 
 
 
 
 
-        dd($final_product_array);
+        dd($webhooks);
     }
 
     public function orderRedact(Request $request) {

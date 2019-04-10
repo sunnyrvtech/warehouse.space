@@ -5,6 +5,7 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProductController;
 use App\Job;
 use Log;
 
@@ -27,13 +28,19 @@ class Kernel extends ConsoleKernel {
      */
     protected function schedule(Schedule $schedule) {
         $schedule->call(function () {
-            $ordercontroller = new OrderController;
+            $Ordercontroller = new OrderController;
+            $Productcontroller = new ProductController;
             // Log::info("Cron running " . date('H:i:s'));
               $jobs = Job::get();
               if ($jobs->toArray()) {
               foreach ($jobs as $job) {
                 if($job->api == 'order'){
-                    $result = $ordercontroller->dispatchOrderByCronJob($job);
+                    $result = $Ordercontroller->dispatchOrderByCronJob($job);
+                    if($result){
+                        $job->delete();
+                    }
+                }elseif($job->api == 'product'){
+                    $result = $Productcontroller->dispatchProductByCronJob($job);
                     if($result){
                         $job->delete();
                     }
