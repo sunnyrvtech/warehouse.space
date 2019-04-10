@@ -398,7 +398,7 @@ class OrderController extends Controller {
         $request = json_decode($job->request_data);
         $client = $this->_client;
         $shopUrl = $job->shop_url;
-        if ($request->get('financial_status') == 'pending') {
+        if ($request->financial_status == 'pending') {
             $order_status = 6;
         } else {
             $order_status = 0;
