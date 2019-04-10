@@ -28,16 +28,16 @@ class Kernel extends ConsoleKernel {
     protected function schedule(Schedule $schedule) {
         $schedule->call(function () {
             // Log::info("Cron running " . date('H:i:s'));
-//              $jobs = Job::get();
-//              if ($jobs->toArray()) {
-//              foreach ($jobs as $job) {
-//                if($job->api == 'order' && $job->method == 'create'){
-//                    OrderController::createOrder($job);
-//                }elseif($job->api == 'order' && ($job->method == 'paid' || $job->method == 'cancelled')){
-//                    OrderController::changeOrderStatus($job);
-//                }
-//              }
-//          }
+              $jobs = Job::get();
+              if ($jobs->toArray()) {
+              foreach ($jobs as $job) {
+                if($job->api == 'order' && $job->method == 'create'){
+                    OrderController::createOrder($job);
+                }elseif($job->api == 'order' && ($job->method == 'paid' || $job->method == 'cancelled')){
+                    OrderController::changeOrderStatus($job);
+                }
+              }
+          }
         })->everyMinute();
     }
 
