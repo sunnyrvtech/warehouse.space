@@ -31,10 +31,8 @@ class Kernel extends ConsoleKernel {
               $jobs = Job::get();
               if ($jobs->toArray()) {
               foreach ($jobs as $job) {
-                if($job->api == 'order' && $job->method == 'create'){
-                    OrderController::createOrder($job);
-                }elseif($job->api == 'order' && ($job->method == 'paid' || $job->method == 'cancelled')){
-                    OrderController::changeOrderStatus($job);
+                if($job->api == 'order'){
+                    OrderController::dispatchOrderByCronJob($job);
                 }
               }
           }
