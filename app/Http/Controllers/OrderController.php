@@ -367,7 +367,7 @@ class OrderController extends Controller {
                         // echo count($warehouse_shipment);
                         //dd($item_ids_array);
                         try {
-                            $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => array("location_id" => $locations->locations[0]->id, "tracking_number" => $shipment->TrackingNumber, "line_items" => $item_ids_array, "notify_customer" => true,"service"=>"Warehouse.Space")]]);
+                            $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => array("location_id" => $locations->locations[0]->id, "tracking_number" => $shipment->TrackingNumber, "line_items" => $item_ids_array, "notify_customer" => true)]]);
                         } catch (\Exception $e) {
                             Log::info('Order status update error ' . $id . $e->getMessage());
                             return json_encode(array('success' => false, 'message' => $e->getMessage()));
