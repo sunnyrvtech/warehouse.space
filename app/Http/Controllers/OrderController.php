@@ -36,7 +36,7 @@ class OrderController extends Controller {
     }
 
     public function handleOrders(Request $request, $slug) {
-        Log::info('Orders ' . $slug . ':' . json_encode($request->all()));
+        //Log::info('Orders ' . $slug . ':' . json_encode($request->all()));
         $shopUrl = $request->headers->get('x-shopify-shop-domain');
         if ($slug == "create") {
             Job::create(array('shop_url'=>$shopUrl,'request_data'=>json_encode($request->all()),'api'=>'order','method'=>$slug));
@@ -78,9 +78,11 @@ class OrderController extends Controller {
                 }
             } else {
                 Log::info($shopUrl . ' Order ' . $job->method . 'not saved account setting yet !');
+                return false;
             }
         } else {
             Log::info($shopUrl . ' Order ' . $job->method . 'problem in soap client !');
+            return false;
         }
         return true;
     }

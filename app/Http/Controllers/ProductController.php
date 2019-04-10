@@ -56,22 +56,34 @@ class ProductController extends Controller {
     }
 
     public function handleProducts(Request $request, $slug) {
-        $client = $this->_client;
         $shopUrl = $request->headers->get('x-shopify-shop-domain');
-        if ($client != null && ($slug == "create" || $slug == "update")) {
+        if ($slug == "create" || $slug == "update") {
+            Job::create(array('shop_url'=>$shopUrl,'request_data'=>json_encode($request->all()),'api'=>'product','method'=>$slug));
+            return response()->json(['success' => true], 200);
+        } else {
+            Log::info($shopUrl . ' Product ' . $slug);  ///de;ete product request handle
+            return response()->json(['success' => true], 200);
+        }
+    }
+    
+    public function dispatchProductByCronJob($job) {
+        $request = json_decode($job->request_data);
+        $client = $this->_client;
+        $shopUrl = $job->shop_url;
+        if ($client != null && ($job->method == "create" || $job->method == "update")) {
             $user = User::Where('shop_url', $shopUrl)->first();
             if (isset($user->get_dev_setting)) {
-                $product_images = array_column($request->get('images'), 'src');
+                $product_images = array_column($request->images, 'src');
                 $i = 0;
                 $product_array = array();
-                foreach ($request->get('variants') as $item_value) {
+                foreach ($request->variants as $item_value) {
                     $item_value = (object) $item_value;
                     $item_array = (object) array();
                     $item_array->ProductID = $item_value->id;
                     $item_array->Article = $item_value->sku;
                     $item_array->Title = htmlspecialchars($item_value->title);
                     $item_array->Barcode = $item_value->barcode;
-                    $item_array->Description = htmlspecialchars(strip_tags($request->get('body_html')));
+                    $item_array->Description = htmlspecialchars(strip_tags($request->body_html));
 //                    $item_array->ErpTimeStamp = date('Y-m-d-H:i');
 //                    $item_array->TimeStamp = date('Y-m-d-H:i');
                     $item_array->HSCode = "";
@@ -88,7 +100,7 @@ class ProductController extends Controller {
                     $item_array->ItemDepth = 0;
                     $item_array->WeightCat = 0;
                     $item_array->Model = "";
-                    $item_array->Category = $request->get('product_type');
+                    $item_array->Category = $request->product_type;
                     $item_array->Warehouse = $user->get_dev_setting->warehouse_number;
                     $item_array->AccountKey = $user->get_dev_setting->account_key;
 
@@ -100,16 +112,18 @@ class ProductController extends Controller {
                 $final_product_array->ArticlesList = $product_array;
 
                 $result = $client->MaterialBulk($final_product_array);
-                Log::info($shopUrl . ' Product ' . $slug . $result->MaterialBulkResult);
-                return response()->json(['success' => true], 200);
+                Log::info($shopUrl . ' Product ' . $job->method . $result->MaterialBulkResult);
+            }else{
+                Log::info($shopUrl . ' Product ' . $job->method . 'not saved account setting yet !');
+                return false;
             }
-            Log::info($shopUrl . ' Product ' . $slug . 'not saved account setting yet !');
-            exit();
         } else {
-            if ($slug != "delete")
-                Log::info($shopUrl . ' Product ' . $slug . 'problem in soap client !');
-            return response()->json(['success' => true], 200);
+            if ($slug != "delete"){
+                Log::info($shopUrl . ' Product ' . $job->method . 'problem in soap client !');
+                return false;
+            }
         }
+        return true;
     }
 
     public function synchronizeProducts(Request $request) {
