@@ -32,7 +32,10 @@ class Kernel extends ConsoleKernel {
               if ($jobs->toArray()) {
               foreach ($jobs as $job) {
                 if($job->api == 'order'){
-                    OrderController::dispatchOrderByCronJob($job);
+                    $result = OrderController::dispatchOrderByCronJob($job);
+                    if($result){
+                        $job->delete();
+                    }
                 }
               }
           }
