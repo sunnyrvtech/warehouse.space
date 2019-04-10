@@ -70,7 +70,7 @@ class OrderController extends Controller {
                             Log::info('Error in Order cancel order note update' . $request->id . $e->getMessage());
                         }
                     } else {
-                        Log::info($shopUrl . ' Order ' . $request->get('id') . $job->method . json_encode($result));
+                        Log::info($shopUrl . ' Order ' . $request->id . $job->method . json_encode($result));
                     }
                 } else if ($job->method == "paid" || $job->method == "cancelled") {
                     $result = $this->changeOrderStatus($request, $user);
