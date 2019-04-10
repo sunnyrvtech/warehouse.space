@@ -7,6 +7,7 @@ use Log;
 use SoapClient;
 use SoapFault;
 use App\User;
+use App\Job;
 use App\DeveloperSetting;
 use App;
 
@@ -35,42 +36,53 @@ class OrderController extends Controller {
     }
 
     public function handleOrders(Request $request, $slug) {
-        //Log::info('Orders ' . $slug . ':' . json_encode($request->all()));
-        $client = $this->_client;
+        Log::info('Orders ' . $slug . ':' . json_encode($request->all()));
         $shopUrl = $request->headers->get('x-shopify-shop-domain');
-        $user = User::Where('shop_url', $shopUrl)->first();
+        if ($slug == "create") {
+            Job::create(array('shop_url'=>$shopUrl,'request_data'=>json_encode($request->all()),'api'=>'order','method'=>$slug));
+            return response()->json(['success' => true], 200);
+        } else if ($slug == "update") {
+            Log::info($shopUrl . ' Order ' . $request->get('id') . $slug);
+            return response()->json(['success' => true], 200);
+        } else if ($slug == "paid" || $slug == "cancelled") {
+            Job::create(array('shop_url'=>$shopUrl,'request_data'=>json_encode($request->all()),'api'=>'order','method'=>$slug));
+            return response()->json(['success' => true], 200);
+        } else {///    this is use to handle delete request
+            Log::info($shopUrl . ' Order ' . $request->get('id') . $slug);
+            return response()->json(['success' => true], 200);
+        }
+    }
+
+    public function dispatchOrderByCronJob($job) {
+        $request = json_decode($job->request_data);
+        $client = $this->_client;
+        $shopUrl = $job->shop_url;
         if ($client != null) {
+            $user = User::Where('shop_url', $shopUrl)->first();
             if (isset($user->get_dev_setting)) {
-                if ($slug == "create") {
+                if ($job->method == 'create') {
                     $result = $this->createOrder($request, $user);
-                    if (isset($result->OrderDetailResult->CancellationReason) && $result->OrderDetailResult->CancellationReason != null && $result->OrderDetailResult->CancellationReason !="") {
+                    if (isset($result->OrderDetailResult->CancellationReason) && $result->OrderDetailResult->CancellationReason != null && $result->OrderDetailResult->CancellationReason != "") {
                         $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
                         try {
                             $shopify->call(['URL' => 'orders/' . $request->get('id') . '.json', 'METHOD' => 'PUT', "DATA" => ['order' => ['id' => $request->get('id'), 'note' => $result->OrderDetailResult->CancellationReason]]]);
                         } catch (\Exception $e) {
                             Log::info('Error in Order cancel order note update' . $request->get('id') . $e->getMessage());
                         }
-                        return response()->json(['success' => true], 200);
+                    } else {
+                        Log::info($shopUrl . ' Order ' . $request->get('id') . $job->method . json_encode($result));
                     }
-                    Log::info($shopUrl . ' Order ' . $request->get('id') . $slug . json_encode($result));
-                    return response()->json(['success' => true], 200);
-                } else if ($slug == "update") {
-                    Log::info($shopUrl . ' Order ' . $request->get('id') . $slug);
-                    return response()->json(['success' => true], 200);
-                } else if ($slug == "paid" || $slug == "cancelled") {
+                } else if ($job->method == "paid" || $job->method == "cancelled") {
                     $result = $this->changeOrderStatus($request, $user);
-                    Log::info($shopUrl . ' Order ' . $request->get('id') . $slug . json_encode($result));
-                    return response()->json(['success' => true], 200);
-                } else {///    this is use to handle delete request
-                    Log::info($shopUrl . ' Order ' . $request->get('id') . $slug);
-                    return response()->json(['success' => true], 200);
+                    Log::info($shopUrl . ' Order ' . $request->get('id') . $job->method . json_encode($result));
                 }
+            } else {
+                Log::info($shopUrl . ' Order ' . $job->method . 'not saved account setting yet !');
             }
-            Log::info($shopUrl . ' Order ' . $slug . 'not saved account setting yet !');
-            return response()->json(['success' => true], 200);
+        } else {
+            Log::info($shopUrl . ' Order ' . $job->method . 'problem in soap client !');
         }
-        Log::info($shopUrl . ' Order ' . $slug . 'problem in soap client !');
-        return response()->json(['success' => true], 200);
+        return true;
     }
 
     public function createOrder($request, $user) {
@@ -317,7 +329,7 @@ class OrderController extends Controller {
                     $orders = $shopify->call(['URL' => 'orders/' . $id . '.json?fields=id,financial_status,fulfillment_status,created_at,line_items', 'METHOD' => 'GET']);
                     $locations = $shopify->call(['URL' => 'locations.json', 'METHOD' => 'GET']);
                 } catch (\Exception $e) {
-                    return json_encode(array('success' => false,'message'=>$e->getMessage()));
+                    return json_encode(array('success' => false, 'message' => $e->getMessage()));
                 }
                 //dd($orders);
 
@@ -338,7 +350,7 @@ class OrderController extends Controller {
                         }
                         $product_id_array = array_column($articles, 'ProductID');
                         if (empty($product_id_array)) {
-                            return json_encode(array('success' => false,'message'=>'product id not found in the response'));
+                            return json_encode(array('success' => false, 'message' => 'product id not found in the response'));
                         }
 
                         //print_r($product_id_array);
@@ -356,7 +368,7 @@ class OrderController extends Controller {
                             $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => array("location_id" => $locations->locations[0]->id, "tracking_number" => $shipment->TrackingNumber, "line_items" => $item_ids_array, "notify_customer" => true)]]);
                         } catch (\Exception $e) {
                             Log::info('Order status update error ' . $id . $e->getMessage());
-                            return json_encode(array('success' => false,'message'=>$e->getMessage()));
+                            return json_encode(array('success' => false, 'message' => $e->getMessage()));
                         }
 //                            dd($shopify_result);
                     }
@@ -371,29 +383,29 @@ class OrderController extends Controller {
 //                        Log::info('Order status update error' . $id . $e->getMessage());
 //                        return json_encode(array('success' => false));
 //                    }
-                    return json_encode(array('success' => false,'message'=>'found order status 7 in the response'));
+                    return json_encode(array('success' => false, 'message' => 'found order status 7 in the response'));
                 }
             }
         }
-        return json_encode(array('success' => false,'message'=>'user not found!'));
+        return json_encode(array('success' => false, 'message' => 'user not found!'));
     }
-    
-    public function checkWebhooks($id){
-                $client = $this->_client;
+
+    public function checkWebhooks($id) {
+        $client = $this->_client;
         $user = User::Where(['id' => $id])->first();
         $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
-          try {
-                    $webhooks = $shopify->call(['URL' => 'webhooks.json', 'METHOD' => 'GET']);
-                } catch (\Exception $e) {
-                    dd($e->getMessage());
-                }
-                
-                
-                
-                
-                
-                
-                dd($webhooks);
+        try {
+            $webhooks = $shopify->call(['URL' => 'webhooks.json', 'METHOD' => 'GET']);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
+
+
+
+
+
+
+        dd($webhooks);
     }
 
     public function orderRedact(Request $request) {
