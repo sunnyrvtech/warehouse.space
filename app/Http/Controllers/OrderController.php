@@ -128,7 +128,7 @@ class OrderController extends Controller {
         $order_array->ArticlesList = $article_array;
         $order_array->InvNumber = $request->id;
         $order_array->Customer = $billing_first_name . ' ' . $billing_last_name;
-        $order_array->Comments = '';
+        $order_array->Comments = $request->note;
         $order_array->ContactPersonName = $shipping_first_name . ' ' . $shipping_last_name;
         $order_array->ContactPersonPhone = isset($request->shipping_address->phone)?$request->shipping_address->phone:'';
         $order_array->Shipper = isset($request->processing_method)?$request->processing_method:'';
