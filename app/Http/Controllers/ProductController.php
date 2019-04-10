@@ -59,70 +59,72 @@ class ProductController extends Controller {
     public function handleProducts(Request $request, $slug) {
         $shopUrl = $request->headers->get('x-shopify-shop-domain');
         if ($slug == "create" || $slug == "update") {
-            Job::create(array('shop_url'=>$shopUrl,'request_data'=>json_encode($request->all()),'api'=>'product','method'=>$slug));
+            Job::create(array('shop_url' => $shopUrl, 'request_data' => json_encode($request->all()), 'api' => 'product', 'method' => $slug));
             return response()->json(['success' => true], 200);
         } else {
             Log::info($shopUrl . ' Product ' . $slug);  ///de;ete product request handle
             return response()->json(['success' => true], 200);
         }
     }
-    
+
     public function dispatchProductByCronJob($job) {
         $request = json_decode($job->request_data);
         $client = $this->_client;
         $shopUrl = $job->shop_url;
-        if ($client != null && ($job->method == "create" || $job->method == "update")) {
+        if ($client != null) {
             $user = User::Where('shop_url', $shopUrl)->first();
             if (isset($user->get_dev_setting)) {
-                $product_images = array_column($request->images, 'src');
-                $i = 0;
-                $product_array = array();
-                foreach ($request->variants as $item_value) {
-                    $item_value = (object) $item_value;
-                    $item_array = (object) array();
-                    $item_array->ProductID = $item_value->id;
-                    $item_array->Article = $item_value->sku;
-                    $item_array->Title = htmlspecialchars($item_value->title);
-                    $item_array->Barcode = $item_value->barcode;
-                    $item_array->Description = htmlspecialchars(strip_tags($request->body_html));
+                if ($job->method == "create" || $job->method == "update") {
+                    $product_images = array_column($request->images, 'src');
+                    $i = 0;
+                    $product_array = array();
+                    foreach ($request->variants as $item_value) {
+                        $item_value = (object) $item_value;
+                        $item_array = (object) array();
+                        $item_array->ProductID = $item_value->id;
+                        $item_array->Article = $item_value->sku;
+                        $item_array->Title = htmlspecialchars($item_value->title);
+                        $item_array->Barcode = $item_value->barcode;
+                        $item_array->Description = htmlspecialchars(strip_tags($request->body_html));
 //                    $item_array->ErpTimeStamp = date('Y-m-d-H:i');
 //                    $item_array->TimeStamp = date('Y-m-d-H:i');
-                    $item_array->HSCode = "";
-                    $item_array->UOM = 'each';
-                    $item_array->BuyPrice = $item_value->price;
-                    $item_array->SellPrice = $item_value->compare_at_price;
-                    $item_array->Supplier = "";
-                    $item_array->Images = $product_images;
-                    $item_array->Manufacturer = "";
-                    $item_array->MinQuantity = 0;
-                    $item_array->ItemWeight = $item_value->weight;
-                    $item_array->ItemHeight = 0;
-                    $item_array->ItemWidth = 0;
-                    $item_array->ItemDepth = 0;
-                    $item_array->WeightCat = 0;
-                    $item_array->Model = "";
-                    $item_array->Category = $request->product_type;
-                    $item_array->Warehouse = $user->get_dev_setting->warehouse_number;
-                    $item_array->AccountKey = $user->get_dev_setting->account_key;
+                        $item_array->HSCode = "";
+                        $item_array->UOM = 'each';
+                        $item_array->BuyPrice = $item_value->price;
+                        $item_array->SellPrice = $item_value->compare_at_price;
+                        $item_array->Supplier = "";
+                        $item_array->Images = $product_images;
+                        $item_array->Manufacturer = "";
+                        $item_array->MinQuantity = 0;
+                        $item_array->ItemWeight = $item_value->weight;
+                        $item_array->ItemHeight = 0;
+                        $item_array->ItemWidth = 0;
+                        $item_array->ItemDepth = 0;
+                        $item_array->WeightCat = 0;
+                        $item_array->Model = "";
+                        $item_array->Category = $request->product_type;
+                        $item_array->Warehouse = $user->get_dev_setting->warehouse_number;
+                        $item_array->AccountKey = $user->get_dev_setting->account_key;
 
-                    $product_array[$i] = $item_array;
-                    $i++;
+                        $product_array[$i] = $item_array;
+                        $i++;
+                    }
+
+                    $final_product_array = (object) array();
+                    $final_product_array->ArticlesList = $product_array;
+
+                    $result = $client->MaterialBulk($final_product_array);
+                    Log::info($shopUrl . ' Product ' . $job->method . $result->MaterialBulkResult);
+                } else {
+                    ///  this is used to handle delete product request
                 }
-
-                $final_product_array = (object) array();
-                $final_product_array->ArticlesList = $product_array;
-
-                $result = $client->MaterialBulk($final_product_array);
-                Log::info($shopUrl . ' Product ' . $job->method . $result->MaterialBulkResult);
-            }else{
+            } else {
                 Log::info($shopUrl . ' Product ' . $job->method . 'not saved account setting yet !');
                 return false;
             }
         } else {
-            if ($job->method  != "delete"){
-                Log::info($shopUrl . ' Product ' . $job->method . 'problem in soap client !');
-                return false;
-            }
+            Log::info($shopUrl . ' Product ' . $job->method . 'problem in soap client !');
+            return false;
         }
         return true;
     }
@@ -202,7 +204,7 @@ class ProductController extends Controller {
                 fclose($h);
                 unset($file);
                 unlink($tmpfile);
-               // echo htmlentities($client->__getLastRequest());
+                // echo htmlentities($client->__getLastRequest());
                 if ($result)
                     return redirect()->back()
                                     ->with('success-message', 'Product synchronization completed successfully!');
