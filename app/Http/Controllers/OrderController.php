@@ -398,6 +398,7 @@ class OrderController extends Controller {
         $request = json_decode($job->request_data);
         $client = $this->_client;
         $shopUrl = $job->shop_url;
+         $user = User::Where('shop_url', $shopUrl)->first();
         if ($request->financial_status == 'pending') {
             $order_status = 6;
         } else {
