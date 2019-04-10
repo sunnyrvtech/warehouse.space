@@ -53,7 +53,7 @@ class OrderController extends Controller {
         }
     }
 
-    public static function dispatchOrderByCronJob($job) {
+    public function dispatchOrderByCronJob($job) {
         $request = json_decode($job->request_data);
         $client = $this->_client;
         $shopUrl = $job->shop_url;

@@ -25,14 +25,14 @@ class Kernel extends ConsoleKernel {
      * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
      * @return void
      */
-    protected function schedule(Schedule $schedule) {
+    protected function schedule(Schedule $schedule,OrderController $ordercontroller) {
         $schedule->call(function () {
             // Log::info("Cron running " . date('H:i:s'));
               $jobs = Job::get();
               if ($jobs->toArray()) {
               foreach ($jobs as $job) {
                 if($job->api == 'order'){
-                    $result = OrderController::dispatchOrderByCronJob($job);
+                    $result = $ordercontroller->dispatchOrderByCronJob($job);
                     if($result){
                         $job->delete();
                     }
