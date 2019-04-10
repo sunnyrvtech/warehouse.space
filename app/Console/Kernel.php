@@ -27,7 +27,7 @@ class Kernel extends ConsoleKernel {
      */
     protected function schedule(Schedule $schedule) {
         $schedule->call(function () {
-            $ordercontroller = OrderController;
+            $ordercontroller = new OrderController;
             // Log::info("Cron running " . date('H:i:s'));
               $jobs = Job::get();
               if ($jobs->toArray()) {
