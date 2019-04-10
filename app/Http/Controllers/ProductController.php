@@ -26,8 +26,7 @@ class ProductController extends Controller {
     public function __construct() {
 
         $this->middleware(function ($request, $next) {
-            Log::info('yes it is coming');
-            $route_name = $request->route()->getName();
+            //$route_name = $request->route()->getName();
             $this->_user = auth()->user();
             $user = $this->_user;
             if (isset($user->get_dev_setting)) {
@@ -36,10 +35,10 @@ class ProductController extends Controller {
                 $this->_warehouseNumber = $user->get_dev_setting->warehouse_number;
             }
             $debug = true;
-            if ($route_name == "warehouse.product.sync")
-                $wsdl = env('WSDL_MATERIAL_URL');
-            else
-                $wsdl = env('WSDL_URL');
+            // if ($route_name == "warehouse.product.sync")
+            $wsdl = env('WSDL_MATERIAL_URL');
+//            else
+//                $wsdl = env('WSDL_URL');
 
             try {
                 $this->_client = new SoapClient($wsdl, array(
@@ -55,7 +54,6 @@ class ProductController extends Controller {
             }
             return $next($request);
         });
-        Log::info('not coming');
     }
 
     public function handleProducts(Request $request, $slug) {
@@ -70,6 +68,20 @@ class ProductController extends Controller {
     }
 
     public function dispatchProductByCronJob($job) {
+        $wsdl = env('WSDL_URL');
+        $debug = true;
+        try {
+            $this->_client = new SoapClient($wsdl, array(
+                'connection_timeout' => 5000,
+                'cache_wsdl' => $debug ? WSDL_CACHE_NONE : WSDL_CACHE_MEMORY,
+                'trace' => true,
+                'exceptions' => true,
+                'soap_version' => SOAP_1_1
+                    )
+            );
+        } catch (SoapFault $fault) {
+            Log::info('Soap client error: ' . $fault->getMessage());
+        }
         $request = json_decode($job->request_data);
         $client = $this->_client;
         $shopUrl = $job->shop_url;
