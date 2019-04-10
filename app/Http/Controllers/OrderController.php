@@ -427,10 +427,10 @@ class OrderController extends Controller {
         $order_create_array = array();
         foreach ($request->line_items as $key => $item_data) {
             $article_array[$key] = (object) array(
-                        'Article' => $item_data['sku'],
-                        'ArticleDescr' => $item_data['name'],
-                        'ProductID' => $item_data['variant_id'],
-                        'Quantity' => $item_data['quantity']
+                        'Article' => $item_data->sku,
+                        'ArticleDescr' => $item_data->name,
+                        'ProductID' => $item_data->variant_id,
+                        'Quantity' => $item_data->quantity
             );
         }
 
@@ -466,7 +466,7 @@ class OrderController extends Controller {
         $order_array->ShortCode = "";
         $order_array->TaxAmount = $request->total_tax;
         $order_array->CurrencyCode = $request->currency;
-        $order_array->ShipmentCost = isset($request->shipping_lines[0]['price']) ? $request->shipping_lines[0]['price'] : 0.00;
+        $order_array->ShipmentCost = isset($request->shipping_lines[0]->price) ? $request->shipping_lines[0]->price : 0.00;
         $order_array->Warehouse = $user->get_dev_setting->warehouse_number;
         $order_array->AccountKey = $user->get_dev_setting->account_key . '|' . $user->get_dev_setting->store_id;
        
