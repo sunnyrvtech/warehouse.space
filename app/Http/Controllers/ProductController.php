@@ -119,7 +119,7 @@ class ProductController extends Controller {
                 return false;
             }
         } else {
-            if ($slug != "delete"){
+            if ($job->method  != "delete"){
                 Log::info($shopUrl . ' Product ' . $job->method . 'problem in soap client !');
                 return false;
             }
