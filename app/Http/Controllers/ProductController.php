@@ -228,4 +228,30 @@ class ProductController extends Controller {
                         ->with('error-message', 'Something went wrong,please try again later!');
     }
 
+    public function connectInventory($storeId, $token, $location_id, $product_id) {
+        $user = DeveloperSetting::Where(['store_id' => $storeId, 'warehouse_token' => $token])->first();
+        if (isset($user->get_user)) {
+            $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->get_user->shop_url, 'ACCESS_TOKEN' => $user->get_user->access_token]);
+            try {
+                $product_variant = $shopify->call(['URL' => 'variants/' . $product_id . '/.json', 'METHOD' => 'GET']);
+            } catch (\Exception $e) {
+                 return json_encode(array('success' => false, 'message' => $e->getMessage()));
+            }
+            
+            dd($product_variant);
+            
+            
+        } else {
+            return json_encode(array('success' => false, 'message' => 'user not found!'));
+        }
+    }
+
+    public function setInventory($storeId, $token, $location_id, $product_id, $qnty) {
+        
+    }
+
+    public function adjustInventory($storeId, $token, $location_id, $product_id, $qnty) {
+        
+    }
+
 }
