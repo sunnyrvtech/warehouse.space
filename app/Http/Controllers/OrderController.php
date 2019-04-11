@@ -39,13 +39,13 @@ class OrderController extends Controller {
         //Log::info('Orders ' . $slug . ':' . json_encode($request->all()));
         $shopUrl = $request->headers->get('x-shopify-shop-domain');
         if ($slug == "create") {
-            Job::create(array('shop_url'=>$shopUrl,'request_data'=>json_encode($request->all()),'api'=>'order','method'=>$slug));
+            Job::create(array('shop_url' => $shopUrl, 'request_data' => json_encode($request->all()), 'api' => 'order', 'method' => $slug));
             return response()->json(['success' => true], 200);
         } else if ($slug == "update") {
             Log::info($shopUrl . ' Order ' . $request->get('id') . $slug);
             return response()->json(['success' => true], 200);
         } else if ($slug == "paid" || $slug == "cancelled") {
-            Job::create(array('shop_url'=>$shopUrl,'request_data'=>json_encode($request->all()),'api'=>'order','method'=>$slug));
+            Job::create(array('shop_url' => $shopUrl, 'request_data' => json_encode($request->all()), 'api' => 'order', 'method' => $slug));
             return response()->json(['success' => true], 200);
         } else {///    this is use to handle delete request
             Log::info($shopUrl . ' Order ' . $request->get('id') . $slug);
@@ -130,8 +130,8 @@ class OrderController extends Controller {
         $order_array->Customer = $billing_first_name . ' ' . $billing_last_name;
         $order_array->Comments = $request->note;
         $order_array->ContactPersonName = $shipping_first_name . ' ' . $shipping_last_name;
-        $order_array->ContactPersonPhone = isset($request->shipping_address->phone)?$request->shipping_address->phone:'';
-        $order_array->Shipper = isset($request->processing_method)?$request->processing_method:'';
+        $order_array->ContactPersonPhone = isset($request->shipping_address->phone) ? $request->shipping_address->phone : '';
+        $order_array->Shipper = isset($request->processing_method) ? $request->processing_method : '';
         $order_array->InvReference = $request->id;
         $order_array->InvStatus = $order_status;
         $order_array->InvDate = date('Y-m-d-H:i', strtotime($request->created_at));
@@ -140,14 +140,14 @@ class OrderController extends Controller {
         $order_array->InvAmountDue = 0;
         $order_array->ErpTimestamp = date('Y-m-d-H:i');
         $order_array->PartnerKey = '';
-        $order_array->DeliverAddress = isset($request->shipping_address->address1)?$request->shipping_address->address1:'';
-        $order_array->DeliverAddress2 = isset($request->shipping_address->address2)?$request->shipping_address->address2:'';
-        $order_array->DeliveryPostCodeZIP = isset($request->shipping_address->zip)?$request->shipping_address->zip:'';
-        $order_array->Country = isset($request->shipping_address->country)?$request->shipping_address->country:'';
-        $order_array->CountryCode = isset($request->shipping_address->country_code)?$request->shipping_address->country_code:'';
-        $order_array->City = isset($request->shipping_address->city)?$request->shipping_address->city:'';
-        $order_array->StateOrProvinceCode = isset($request->shipping_address->province_code)?$request->shipping_address->province_code:'';
-        $order_array->CompanyName = isset($request->shipping_address->company)?$request->shipping_address->company:'';
+        $order_array->DeliverAddress = isset($request->shipping_address->address1) ? $request->shipping_address->address1 : '';
+        $order_array->DeliverAddress2 = isset($request->shipping_address->address2) ? $request->shipping_address->address2 : '';
+        $order_array->DeliveryPostCodeZIP = isset($request->shipping_address->zip) ? $request->shipping_address->zip : '';
+        $order_array->Country = isset($request->shipping_address->country) ? $request->shipping_address->country : '';
+        $order_array->CountryCode = isset($request->shipping_address->country_code) ? $request->shipping_address->country_code : '';
+        $order_array->City = isset($request->shipping_address->city) ? $request->shipping_address->city : '';
+        $order_array->StateOrProvinceCode = isset($request->shipping_address->province_code) ? $request->shipping_address->province_code : '';
+        $order_array->CompanyName = isset($request->shipping_address->company) ? $request->shipping_address->company : '';
         $order_array->EmailAddress = $request->email;
         $order_array->PaymentMethod = $request->gateway;
         $order_array->PaymentDescription = $request->gateway;
@@ -198,7 +198,7 @@ class OrderController extends Controller {
 //        echo htmlentities($client->__getLastRequest());
 //        echo "<pre>";
 //        print_r($request_array);
-//        dd($warehouse_order);
+        dd($warehouse_order);
         if (isset($warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo)) {
             $warehouse_shipment = $warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo->Shipments;
             $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
@@ -329,10 +329,16 @@ class OrderController extends Controller {
                 $warehouse_order = $warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo;
                 try {
                     $orders = $shopify->call(['URL' => 'orders/' . $id . '.json?fields=id,financial_status,fulfillment_status,created_at,line_items', 'METHOD' => 'GET']);
+                } catch (\Exception $e) {
+                    return json_encode(array('success' => false, 'message' => $e->getMessage()));
+                }
+       
+                try {
                     $locations = $shopify->call(['URL' => 'locations.json', 'METHOD' => 'GET']);
                 } catch (\Exception $e) {
                     return json_encode(array('success' => false, 'message' => $e->getMessage()));
                 }
+
                 //dd($orders);
 
                 if ($warehouse_order->OrderStatus == 4 && $orders->order->fulfillment_status == null && isset($warehouse_order->Shipments->ShipmentDetail)) {
