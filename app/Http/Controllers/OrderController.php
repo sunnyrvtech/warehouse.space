@@ -206,7 +206,8 @@ class OrderController extends Controller {
             if($warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo->Shipments == null){
                 die('dddffff');
             }
-            echo "<pre>";
+    
+            dd(count((array)$warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo->Shipments));
             print_r($warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo->Shipments);
             die;
             if (isset($warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo->Shipments)) {
