@@ -199,6 +199,7 @@ class SettingController extends Controller {
     }
 
     public function getFulfillmentLocations($id, $token) {
+        die('hello');
         $user = DeveloperSetting::Where(['store_id' => $id, 'warehouse_token' => $token])->first();
         if (isset($user->get_user)) {
             $sh = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
