@@ -336,17 +336,6 @@ class OrderController extends Controller {
                     return json_encode(array('success' => false, 'message' => $e->getMessage()));
                 }
 
-                if ($warehouse_order->LocationID == 0) {
-                    try {
-                        $locations = $shopify->call(['URL' => 'locations.json', 'METHOD' => 'GET']);
-                    } catch (\Exception $e) {
-                        return json_encode(array('success' => false, 'message' => $e->getMessage()));
-                    }
-                    $location_id = $locations->locations[0]->id;
-                } else {
-                    $location_id = $warehouse_order->LocationID;
-                }
-
                 //dd($orders);
 
                 if ($warehouse_order->OrderStatus == 4 && $orders->order->fulfillment_status == null && isset($warehouse_order->Shipments->ShipmentDetail)) {
@@ -367,6 +356,17 @@ class OrderController extends Controller {
                         $product_id_array = array_column($articles, 'ProductID');
                         if (empty($product_id_array)) {
                             return json_encode(array('success' => false, 'message' => 'product id not found in the response'));
+                        }
+                        
+                        if ($shipment->LocationID == 0) {
+                            try {
+                                $locations = $shopify->call(['URL' => 'locations.json', 'METHOD' => 'GET']);
+                            } catch (\Exception $e) {
+                                return json_encode(array('success' => false, 'message' => $e->getMessage()));
+                            }
+                            $location_id = $locations->locations[0]->id;
+                        } else {
+                            $location_id = $warehouse_order->LocationID;
                         }
 
                         //print_r($product_id_array);
