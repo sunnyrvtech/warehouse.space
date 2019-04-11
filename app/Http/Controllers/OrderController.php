@@ -206,7 +206,9 @@ class OrderController extends Controller {
             if($warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo->Shipments == null){
                 die('dddffff');
             }
-            dd($warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo->Shipments);
+            echo "<pre>"
+            print_r($warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo->Shipments);
+            die;
             if (isset($warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo->Shipments)) {
                 $warehouse_shipment = $warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo->Shipments;
                 $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
