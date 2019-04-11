@@ -411,7 +411,7 @@ class OrderController extends Controller {
         $user = User::Where(['id' => $id])->first();
         $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
         try {
-           $shopify_result = $shopify->call(['URL' => 'inventory_levels/adjust.json', 'METHOD' => 'POST', "DATA" => ["location_id" => 15732867124, "inventory_item_id" => 8522445652020, "available_adjustment" => 100]]);
+           $shopify_result = $shopify->call(['URL' => 'inventory_levels/adjust.json', 'METHOD' => 'POST', "DATA" => ["location_id" => 15732867124, "inventory_item_id" => 8522454499380, "available_adjustment" => 100]]);
         } catch (\Exception $e) {
             dd($e->getMessage());
         }
