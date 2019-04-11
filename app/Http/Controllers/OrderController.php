@@ -360,7 +360,7 @@ class OrderController extends Controller {
                             return json_encode(array('success' => false, 'message' => 'product id not found in the response'));
                         }
                         
-                        dd($shipment);
+                        dd($shipment->LocationID);
                         
                         if ($shipment->LocationID == 0) {
                             try {
