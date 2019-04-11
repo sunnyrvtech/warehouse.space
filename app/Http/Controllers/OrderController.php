@@ -338,7 +338,7 @@ class OrderController extends Controller {
                     return json_encode(array('success' => false, 'message' => $e->getMessage()));
                 }
 
-                dd($orders);
+                //dd($orders);
 
                 if ($warehouse_order->OrderStatus == 4 && $orders->order->fulfillment_status == null && isset($warehouse_order->Shipments->ShipmentDetail)) {
                     $warehouse_shipment = $warehouse_order->Shipments->ShipmentDetail;
@@ -382,10 +382,10 @@ class OrderController extends Controller {
                         $item_ids_array = array_values($item_ids_array);
                         // echo count($warehouse_shipment);
                         //dd($item_ids_array);
-                        echo $shipment->TrackingNumber;
-                        echo "<br>";
-                        echo $location_id;
-                        dd($item_ids_array);
+//                        echo $shipment->TrackingNumber;
+//                        echo "<br>";
+//                        echo $location_id;
+//                        dd($item_ids_array);
                         try {
                             $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => array("location_id" => $location_id, "tracking_number" => $shipment->TrackingNumber, "line_items" => $item_ids_array, "notify_customer" => true)]]);
                         } catch (\Exception $e) {
