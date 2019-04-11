@@ -207,7 +207,7 @@ class SettingController extends Controller {
             } catch (\Exception $e) {
                 return json_encode(array());
             }
-            return $locations;
+           dd($locations);
         } else {
             return json_encode(array());
         }
