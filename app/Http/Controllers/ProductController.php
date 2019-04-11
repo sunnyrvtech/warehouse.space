@@ -251,6 +251,7 @@ class ProductController extends Controller {
     }
 
     public function setInventory($storeId, $token, $location_id, $product_id, $qnty) {
+        die('hello');
         $user = DeveloperSetting::Where(['store_id' => $storeId, 'warehouse_token' => $token])->first();
         if (isset($user->get_user)) {
             $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->get_user->shop_url, 'ACCESS_TOKEN' => $user->get_user->access_token]);
