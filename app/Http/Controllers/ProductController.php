@@ -236,12 +236,14 @@ class ProductController extends Controller {
             try {
                 $product_variant = $shopify->call(['URL' => 'variants/' . $product_id . '.json', 'METHOD' => 'GET']);
             } catch (\Exception $e) {
-                 return json_encode(array('success' => false, 'message' => $e->getMessage()));
+                return json_encode(array('success' => false, 'message' => "problem in product variant api !"));
             }
-            
-            dd($product_variant);
-            
-            
+            $inventory_item_id = $product_variant->inventory_item_id;
+            try {
+                $shopify_result = $shopify->call(['URL' => 'inventory_levels/connect.json', 'METHOD' => 'POST', "DATA" => ["location_id" => $location_id, "inventory_item_id" => $inventory_item_id]]);
+            } catch (\Exception $e) {
+                return json_encode(array('success' => false, 'message' => "problem in product connect api !"));
+            }
         } else {
             return json_encode(array('success' => false, 'message' => 'user not found!'));
         }
