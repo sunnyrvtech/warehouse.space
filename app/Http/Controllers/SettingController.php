@@ -36,7 +36,7 @@ class SettingController extends Controller {
         }
     }
 
-    public function warehouseSetting(Request $request,$slug) {
+    public function warehouseSetting(Request $request, $slug) {
         $data['users'] = auth()->user();
         $data['slug'] = $slug;
         return view('setting', $data);
@@ -95,7 +95,7 @@ class SettingController extends Controller {
         if (isset($user->get_dev_setting)) {
             $dev_data = $user->get_dev_setting;
             if ($user->get_dev_setting->warehouse_token == null || ($data['account_key'] != $user->get_dev_setting->account_key || $data['warehouse_number'] != $user->get_dev_setting->warehouse_number)) {
-                $token = $this->getWarehouseToken($user,$data);
+                $token = $this->getWarehouseToken($user, $data);
                 if ($token->RegisterStoreResult->Success) {
                     $data['store_id'] = $token->RegisterStoreResult->StoreID;
                     $data['warehouse_token'] = $token->RegisterStoreResult->Token;
@@ -106,7 +106,7 @@ class SettingController extends Controller {
             }
             $dev_data->fill($data)->save();
         } else {
-            $token = $this->getWarehouseToken($user,$data);
+            $token = $this->getWarehouseToken($user, $data);
             if ($token->RegisterStoreResult->Success) {
                 $data['store_id'] = $token->RegisterStoreResult->StoreID;
                 $data['warehouse_token'] = $token->RegisterStoreResult->Token;
@@ -124,7 +124,7 @@ class SettingController extends Controller {
                         ->with('success-message', 'Developer setting saved successfully!');
     }
 
-    public function getWarehouseToken($user,$data) {
+    public function getWarehouseToken($user, $data) {
         $client = $this->_client;
         $request_array = (object) array();
         $request_array->AccountKey = $data['account_key'];
@@ -196,6 +196,21 @@ class SettingController extends Controller {
         $webhook = Webhook::Where('user_id', $user->id)->first();
         $webhook->fill($update_array)->save();
         return true;
+    }
+
+    public function getFulfillmentLocations($id, $token) {
+        $user = DeveloperSetting::Where(['store_id' => $id, 'warehouse_token' => $token])->first();
+        if (isset($user->get_user)) {
+            $sh = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
+            try {
+                $locations = $shopify->call(['URL' => 'locations.json', 'METHOD' => 'GET']);
+            } catch (\Exception $e) {
+                return json_encode(array());
+            }
+            return $locations;
+        } else {
+            return json_encode(array());
+        }
     }
 
 }

@@ -26,5 +26,6 @@ Route::post('webhooks/orders/{slug}', 'OrderController@handleOrders')->name('web
 Route::post('customers/redact', 'OrderController@orderRedact');
 Route::post('shop/redact', 'Auth\ShopifyController@shopRedact');
 Route::get('webhooks/order/{id}/{no}/{token}', 'OrderController@updateOrderStatus');
+Route::get('webhooks/fulfillment/locations/{id}/{token}', 'SettingController@getFulfillmentLocations');
 
 Route::get('auth/check_webhook/{id}', 'Auth\ShopifyController@getWebhooks');
