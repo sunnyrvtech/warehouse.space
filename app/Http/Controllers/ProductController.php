@@ -238,6 +238,8 @@ class ProductController extends Controller {
             } catch (\Exception $e) {
                 return json_encode(array('success' => false, 'message' => "problem in product variant api !"));
             }
+            dd($product_variant);
+            
             $inventory_item_id = $product_variant->inventory_item_id;
             try {
                 $shopify_result = $shopify->call(['URL' => 'inventory_levels/connect.json', 'METHOD' => 'POST', "DATA" => ["location_id" => $location_id, "inventory_item_id" => $inventory_item_id]]);
