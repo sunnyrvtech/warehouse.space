@@ -234,7 +234,7 @@ class ProductController extends Controller {
         if (isset($user->get_user)) {
             $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->get_user->shop_url, 'ACCESS_TOKEN' => $user->get_user->access_token]);
             try {
-                $product_variant = $shopify->call(['URL' => 'variants/' . $product_id . '/.json', 'METHOD' => 'GET']);
+                $product_variant = $shopify->call(['URL' => 'variants/' . $product_id . '.json', 'METHOD' => 'GET']);
             } catch (\Exception $e) {
                  return json_encode(array('success' => false, 'message' => $e->getMessage()));
             }
