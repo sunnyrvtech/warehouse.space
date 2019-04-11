@@ -410,6 +410,7 @@ class OrderController extends Controller {
         $client = $this->_client;
         $user = User::Where(['id' => $id])->first();
         $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
+        dd($shopify);
         try {
            $shopify_result = $shopify->call(['URL' => 'inventory_levels/adjust.json', 'METHOD' => 'POST', "DATA" => ["location_id" => '15732867124', "inventory_item_id" => '8495831253044', "available_adjustment" => 100]]);
         } catch (\Exception $e) {
