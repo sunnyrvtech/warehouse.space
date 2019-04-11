@@ -200,113 +200,116 @@ class OrderController extends Controller {
 //        print_r($request_array);
 //        dd($warehouse_order);
         if (isset($warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo)) {
-            $warehouse_shipment = $warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo->Shipments;
-            $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
+            if (isset($warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo->Shipments)) {
+                $warehouse_shipment = $warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo->Shipments;
+                $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
 
-            $warehouse_order = $warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo;
+                $warehouse_order = $warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo;
 
 //            dd($warehouse_order);
-            try {
-                $orders = $shopify->call(['URL' => 'orders/' . $warehouse_order->InvNumber . '.json?fields=id,financial_status,fulfillment_status,created_at,line_items', 'METHOD' => 'GET']);
-            } catch (\Exception $e) {
-                return redirect()->route('dashboard', $slug)->with('error-message', $e->getMessage());
-            }
-            // dd($orders);
-
-            $order_details = (object) array();
-            $order_details->order_id = $orders->order->id;
-            $order_details->payment_status = $orders->order->financial_status;
-            $order_details->order_date = date('M d,Y', strtotime($orders->order->created_at));
-            if ($warehouse_order->OrderStatus == 0)
-                $order_status = "Pending";
-            elseif ($warehouse_order->OrderStatus == 2)
-                $order_status = "Selected/picked";
-            elseif ($warehouse_order->OrderStatus == 3)
-                $order_status = "In Progress";
-            elseif ($warehouse_order->OrderStatus == 4)
-                $order_status = "Completed";
-            elseif ($warehouse_order->OrderStatus == 6)
-                $order_status = "On Hold";
-            elseif ($warehouse_order->OrderStatus == 7)
-                $order_status = "Cancelled";
-            else
-                $order_status = "";
-
-            $order_details->order_status = $order_status;
-
-            if ($warehouse_shipment != null) {
-                $warehouse_shipment = $warehouse_shipment->ShipmentDetail;
-                if (count($warehouse_shipment) == 1) {
-                    $shipment_array[0] = $warehouse_shipment;
-                    $warehouse_shipment = $shipment_array;
+                try {
+                    $orders = $shopify->call(['URL' => 'orders/' . $warehouse_order->InvNumber . '.json?fields=id,financial_status,fulfillment_status,created_at,line_items', 'METHOD' => 'GET']);
+                } catch (\Exception $e) {
+                    return redirect()->route('dashboard', $slug)->with('error-message', $e->getMessage());
                 }
-                $item = (object) array();
-                foreach ($warehouse_shipment as $key => $shipment) {
+                // dd($orders);
 
-                    $articles = $shipment->Articles->Article;
-                    if (count($shipment->Articles->Article) == 1) {
-                        $article_array[0] = $shipment->Articles->Article;
-                        $articles = $article_array;
+                $order_details = (object) array();
+                $order_details->order_id = $orders->order->id;
+                $order_details->payment_status = $orders->order->financial_status;
+                $order_details->order_date = date('M d,Y', strtotime($orders->order->created_at));
+                if ($warehouse_order->OrderStatus == 0)
+                    $order_status = "Pending";
+                elseif ($warehouse_order->OrderStatus == 2)
+                    $order_status = "Selected/picked";
+                elseif ($warehouse_order->OrderStatus == 3)
+                    $order_status = "In Progress";
+                elseif ($warehouse_order->OrderStatus == 4)
+                    $order_status = "Completed";
+                elseif ($warehouse_order->OrderStatus == 6)
+                    $order_status = "On Hold";
+                elseif ($warehouse_order->OrderStatus == 7)
+                    $order_status = "Cancelled";
+                else
+                    $order_status = "";
+
+                $order_details->order_status = $order_status;
+
+                if ($warehouse_shipment != null) {
+                    $warehouse_shipment = $warehouse_shipment->ShipmentDetail;
+                    if (count($warehouse_shipment) == 1) {
+                        $shipment_array[0] = $warehouse_shipment;
+                        $warehouse_shipment = $shipment_array;
                     }
+                    $item = (object) array();
+                    foreach ($warehouse_shipment as $key => $shipment) {
 
-                    $product_id_array = array_column($articles, 'ProductID');
+                        $articles = $shipment->Articles->Article;
+                        if (count($shipment->Articles->Article) == 1) {
+                            $article_array[0] = $shipment->Articles->Article;
+                            $articles = $article_array;
+                        }
+
+                        $product_id_array = array_column($articles, 'ProductID');
 
 //                    print_r($product_id_array);
-                    foreach ($orders->order->line_items as $k => $order) {
-                        if (in_array($order->variant_id, $product_id_array)) {
+                        foreach ($orders->order->line_items as $k => $order) {
+                            if (in_array($order->variant_id, $product_id_array)) {
 
-                            $item->variant_id = $order->variant_id;
-                            $item->product_name = $order->title;
-                            $item->variant_title = $order->variant_title;
-                            $item->product_link = 'https://' . $user->shop_url . '/admin/products/' . $order->product_id . '/variants/' . $order->variant_id;
+                                $item->variant_id = $order->variant_id;
+                                $item->product_name = $order->title;
+                                $item->variant_title = $order->variant_title;
+                                $item->product_link = 'https://' . $user->shop_url . '/admin/products/' . $order->product_id . '/variants/' . $order->variant_id;
 //                $item->description = $warehouse_order[$key]->Description;
-                            $item->sku = $order->sku;
+                                $item->sku = $order->sku;
 //                $item->quantity = $order->quantity;
 //                $item->price = $order->price;
-                            $item->PackerName = $shipment->PackerName;
-                            $item->FrieghtCost = $shipment->FrieghtCost;
-                            $item->DispatchTime = date('M d,Y H:I A', strtotime($shipment->DispatchTime));
-                            $item->PackingStartTime = date('M d,Y H:i A', strtotime($shipment->PackingStartTime));
-                            $item->PackingEndTime = date('M d,Y H:i A', strtotime($shipment->PackingEndTime));
-                            $item->Shipper = $shipment->Shipper;
-                            $item->TrackingNumber = $shipment->TrackingNumber;
+                                $item->PackerName = $shipment->PackerName;
+                                $item->FrieghtCost = $shipment->FrieghtCost;
+                                $item->DispatchTime = date('M d,Y H:I A', strtotime($shipment->DispatchTime));
+                                $item->PackingStartTime = date('M d,Y H:i A', strtotime($shipment->PackingStartTime));
+                                $item->PackingEndTime = date('M d,Y H:i A', strtotime($shipment->PackingEndTime));
+                                $item->Shipper = $shipment->Shipper;
+                                $item->TrackingNumber = $shipment->TrackingNumber;
 
-                            $video_id = explode("?v=", $shipment->YoutubeUrl);
-                            $video_id = $video_id[1];
-                            $item->YoutubeUrl = 'https://www.youtube.com/embed/' . $video_id . '/?controls=0';
-                            $order_details->items[$k] = $item;
+                                $video_id = explode("?v=", $shipment->YoutubeUrl);
+                                $video_id = $video_id[1];
+                                $item->YoutubeUrl = 'https://www.youtube.com/embed/' . $video_id . '/?controls=0';
+                                $order_details->items[$k] = $item;
+                            }
                         }
                     }
-                }
-            } else {
-                foreach ($orders->order->line_items as $key => $order) {
-                    $item = (object) array();
-                    $item->variant_id = $order->variant_id;
-                    $item->product_name = $order->title;
-                    $item->variant_title = $order->variant_title;
-                    $item->product_link = 'https://' . $user->shop_url . '/admin/products/' . $order->product_id . '/variants/' . $order->variant_id;
+                } else {
+                    foreach ($orders->order->line_items as $key => $order) {
+                        $item = (object) array();
+                        $item->variant_id = $order->variant_id;
+                        $item->product_name = $order->title;
+                        $item->variant_title = $order->variant_title;
+                        $item->product_link = 'https://' . $user->shop_url . '/admin/products/' . $order->product_id . '/variants/' . $order->variant_id;
 //                $item->description = $warehouse_order[$key]->Description;
-                    $item->sku = $order->sku;
+                        $item->sku = $order->sku;
 //                $item->quantity = $order->quantity;
 //                $item->price = $order->price;
-                    $item->PackerName = '******';
-                    $item->FrieghtCost = '******';
-                    $item->DispatchTime = '******';
-                    $item->PackingStartTime = '******';
-                    $item->PackingEndTime = '******';
-                    $item->Shipper = '******';
-                    $item->TrackingNumber = '******';
-                    $item->YoutubeUrl = '';
+                        $item->PackerName = '******';
+                        $item->FrieghtCost = '******';
+                        $item->DispatchTime = '******';
+                        $item->PackingStartTime = '******';
+                        $item->PackingEndTime = '******';
+                        $item->Shipper = '******';
+                        $item->TrackingNumber = '******';
+                        $item->YoutubeUrl = '';
 
-                    $order_details->items[$key] = $item;
+                        $order_details->items[$key] = $item;
+                    }
                 }
-            }
 //            dd($order_details);
-            $data['order_details'] = $order_details;
-            $data['slug'] = $slug;
-            return view('order_detail', $data);
+                $data['order_details'] = $order_details;
+                $data['slug'] = $slug;
+                return view('order_detail', $data);
+            } else {
+                return redirect()->route('dashboard', $slug)->with('error-message', 'order shipment detail not found!');
+            }
         }
-
         return redirect()->route('dashboard', $slug)->with('error-message', 'sorry! this order is not found in warehouse.');
     }
 
@@ -332,7 +335,7 @@ class OrderController extends Controller {
                 } catch (\Exception $e) {
                     return json_encode(array('success' => false, 'message' => $e->getMessage()));
                 }
-       
+
                 try {
                     $locations = $shopify->call(['URL' => 'locations.json', 'METHOD' => 'GET']);
                 } catch (\Exception $e) {
