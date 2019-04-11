@@ -325,10 +325,10 @@ class OrderController extends Controller {
             $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->get_user->shop_url, 'ACCESS_TOKEN' => $user->get_user->access_token]);
 //            Log::info('Order api response'. json_encode($warehouse_order));
                           
-            echo "<pre>";
+//            echo "<pre>";
 //            print_r($request_array);
-            print_r($warehouse_order);
-            die;
+//            print_r($warehouse_order);
+//            die;
 
             if (isset($warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo)) {
                 $warehouse_order = $warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo;
@@ -382,10 +382,10 @@ class OrderController extends Controller {
                         $item_ids_array = array_values($item_ids_array);
                         // echo count($warehouse_shipment);
                         //dd($item_ids_array);
-//                        echo $shipment->TrackingNumber;
-//                        echo "<br>";
-//                        echo $location_id;
-//                        dd($item_ids_array);
+                        echo $shipment->TrackingNumber;
+                        echo "<br>";
+                        echo $location_id;
+                        dd($item_ids_array);
                         try {
                             $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => array("location_id" => $location_id, "tracking_number" => $shipment->TrackingNumber, "line_items" => $item_ids_array, "notify_customer" => true)]]);
                         } catch (\Exception $e) {
