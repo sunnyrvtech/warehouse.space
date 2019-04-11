@@ -348,7 +348,7 @@ class OrderController extends Controller {
                     }
                     //echo "<pre>";
                     //print_r($warehouse_shipment);
-
+                    echo count($warehouse_shipment);
                     foreach ($warehouse_shipment as $shipment) {
                         $articles = $shipment->Articles->Article;
                         if (count($shipment->Articles->Article) == 1) {
