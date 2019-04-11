@@ -244,18 +244,52 @@ class ProductController extends Controller {
             } catch (\Exception $e) {
                 return json_encode(array('success' => false, 'message' => "problem in product connect api !"));
             }
-            return json_encode(array('success' => true, 'message' => 'successfully connect'));
+            return json_encode(array('success' => true, 'message' => 'Inventory successfully connect'));
         } else {
             return json_encode(array('success' => false, 'message' => 'user not found!'));
         }
     }
 
     public function setInventory($storeId, $token, $location_id, $product_id, $qnty) {
-        
+        $user = DeveloperSetting::Where(['store_id' => $storeId, 'warehouse_token' => $token])->first();
+        if (isset($user->get_user)) {
+            $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->get_user->shop_url, 'ACCESS_TOKEN' => $user->get_user->access_token]);
+            try {
+                $product_variant = $shopify->call(['URL' => 'variants/' . $product_id . '.json', 'METHOD' => 'GET']);
+            } catch (\Exception $e) {
+                return json_encode(array('success' => false, 'message' => "problem in product variant api !"));
+            }
+            $inventory_item_id = $product_variant->variant->inventory_item_id;
+            try {
+                $shopify_result = $shopify->call(['URL' => 'inventory_levels/set.json', 'METHOD' => 'POST', "DATA" => ["location_id" => $location_id, "inventory_item_id" => $inventory_item_id, "available" => $qnty]]);
+            } catch (\Exception $e) {
+                return json_encode(array('success' => false, 'message' => "problem in product inventory set api !"));
+            }
+            return json_encode(array('success' => true, 'message' => 'Inventory successfully set'));
+        } else {
+            return json_encode(array('success' => false, 'message' => 'user not found!'));
+        }
     }
 
     public function adjustInventory($storeId, $token, $location_id, $product_id, $qnty) {
-        
+        $user = DeveloperSetting::Where(['store_id' => $storeId, 'warehouse_token' => $token])->first();
+        if (isset($user->get_user)) {
+            $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->get_user->shop_url, 'ACCESS_TOKEN' => $user->get_user->access_token]);
+            try {
+                $product_variant = $shopify->call(['URL' => 'variants/' . $product_id . '.json', 'METHOD' => 'GET']);
+            } catch (\Exception $e) {
+                return json_encode(array('success' => false, 'message' => "problem in product variant api !"));
+            }
+            $inventory_item_id = $product_variant->variant->inventory_item_id;
+            try {
+                $shopify_result = $shopify->call(['URL' => 'inventory_levels/adjust.json', 'METHOD' => 'POST', "DATA" => ["location_id" => $location_id, "inventory_item_id" => $inventory_item_id, "available_adjustment" => $qnty]]);
+            } catch (\Exception $e) {
+                return json_encode(array('success' => false, 'message' => "problem in product inventory adjust api !"));
+            }
+            return json_encode(array('success' => true, 'message' => 'Inventory successfully adjust'));
+        } else {
+            return json_encode(array('success' => false, 'message' => 'user not found!'));
+        }
     }
 
 }
