@@ -198,9 +198,9 @@ class OrderController extends Controller {
 //        echo htmlentities($client->__getLastRequest());
 //        echo "<pre>";
 //        print_r($request_array);
-        dd($warehouse_order);
+//        dd($warehouse_order);
         if (isset($warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo)) {
-            if (isset($warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo->Shipments) && count((array)$warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo->Shipments)) {
+            if (isset($warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo->Shipments) && count((array) $warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo->Shipments)) {
                 $warehouse_shipment = $warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo->Shipments;
                 $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
 
@@ -336,10 +336,15 @@ class OrderController extends Controller {
                     return json_encode(array('success' => false, 'message' => $e->getMessage()));
                 }
 
-                try {
-                    $locations = $shopify->call(['URL' => 'locations.json', 'METHOD' => 'GET']);
-                } catch (\Exception $e) {
-                    return json_encode(array('success' => false, 'message' => $e->getMessage()));
+                if ($warehouse_order->LocationID == 0) {
+                    try {
+                        $locations = $shopify->call(['URL' => 'locations.json', 'METHOD' => 'GET']);
+                    } catch (\Exception $e) {
+                        return json_encode(array('success' => false, 'message' => $e->getMessage()));
+                    }
+                    $location_id = $locations->locations[0]->id;
+                } else {
+                    $location_id = $warehouse_order->LocationID;
                 }
 
                 //dd($orders);
@@ -376,7 +381,7 @@ class OrderController extends Controller {
                         // echo count($warehouse_shipment);
                         //dd($item_ids_array);
                         try {
-                            $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => array("location_id" => $locations->locations[0]->id, "tracking_number" => $shipment->TrackingNumber, "line_items" => $item_ids_array, "notify_customer" => true)]]);
+                            $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => array("location_id" => $location_id, "tracking_number" => $shipment->TrackingNumber, "line_items" => $item_ids_array, "notify_customer" => true)]]);
                         } catch (\Exception $e) {
                             Log::info('Order status update error ' . $id . $e->getMessage());
                             return json_encode(array('success' => false, 'message' => $e->getMessage()));
