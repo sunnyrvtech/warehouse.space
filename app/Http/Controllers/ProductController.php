@@ -244,6 +244,7 @@ class ProductController extends Controller {
             } catch (\Exception $e) {
                 return json_encode(array('success' => false, 'message' => "problem in product connect api !"));
             }
+            return json_encode(array('success' => true, 'message' => 'successfully connect'));
         } else {
             return json_encode(array('success' => false, 'message' => 'user not found!'));
         }
