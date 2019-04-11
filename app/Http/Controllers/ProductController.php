@@ -7,6 +7,7 @@ use Log;
 use SoapClient;
 use SoapFault;
 use App\User;
+use App\DeveloperSetting;
 use App\Job;
 use App;
 use ZipArchive;
