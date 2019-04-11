@@ -200,6 +200,12 @@ class OrderController extends Controller {
 //        print_r($request_array);
 //        dd($warehouse_order);
         if (isset($warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo)) {
+            if($warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo->Shipments == ''){
+                die('ddd');
+            }
+            if($warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo->Shipments == null){
+                die('dddffff');
+            }
             dd($warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo->Shipments);
             if (isset($warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo->Shipments)) {
                 $warehouse_shipment = $warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo->Shipments;
