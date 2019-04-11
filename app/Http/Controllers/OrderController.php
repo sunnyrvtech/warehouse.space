@@ -348,7 +348,7 @@ class OrderController extends Controller {
                     }
                     //echo "<pre>";
                     //print_r($warehouse_shipment);
-                    echo count($warehouse_shipment);
+
                     foreach ($warehouse_shipment as $shipment) {
                         $articles = $shipment->Articles->Article;
                         if (count($shipment->Articles->Article) == 1) {
@@ -360,8 +360,6 @@ class OrderController extends Controller {
                             return json_encode(array('success' => false, 'message' => 'product id not found in the response'));
                         }
                         
-                        dd($shipment->LocationID);
-                        
                         if ($shipment->LocationID == 0) {
                             try {
                                 $locations = $shopify->call(['URL' => 'locations.json', 'METHOD' => 'GET']);
@@ -370,7 +368,7 @@ class OrderController extends Controller {
                             }
                             $location_id = $locations->locations[0]->id;
                         } else {
-                            $location_id = $warehouse_order->LocationID;
+                            $location_id = $shipment->LocationID;
                         }
 
                         //print_r($product_id_array);
