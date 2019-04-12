@@ -452,12 +452,9 @@ class OrderController extends Controller {
                         } else {
                             $fulfillment_array['tracking_number'] = null;
                         }
-                        
-                        echo 'orders/' . $id . '/fulfillments/'.$fulfilled_id.'json';
-                        die;
 
                         try {
-                            $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments/'.$fulfilled_id.'json', 'METHOD' => 'PUT', "DATA" => ["fulfillment" => $fulfillment_array]]);
+                            $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments/'.$fulfilled_id.'.json', 'METHOD' => 'PUT', "DATA" => ["fulfillment" => $fulfillment_array]]);
                         } catch (\Exception $e) {
                             Log::info('Order status update error ' . $id . $e->getMessage());
                             return json_encode(array('success' => false, 'message' => $e->getMessage()));
