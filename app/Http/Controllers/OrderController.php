@@ -443,8 +443,7 @@ class OrderController extends Controller {
                             return json_encode(array('success' => false, 'message' => 'fulfillment not exist'));
                         }
 
-                        echo $fulfilled_id = $fulfillment->fulfillments[0]->id;
-                        die;
+                        $fulfilled_id = $fulfillment->fulfillments[0]->id;
                         $fulfillment_array = array(
                             "location_id" => $location_id,
                         );
@@ -455,7 +454,7 @@ class OrderController extends Controller {
                         }
 
                         try {
-                            $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'PUT', "DATA" => ["fulfillment" => $fulfillment_array]]);
+                            $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments/'.$fulfilled_id.'json', 'METHOD' => 'PUT', "DATA" => ["fulfillment" => $fulfillment_array]]);
                         } catch (\Exception $e) {
                             Log::info('Order status update error ' . $id . $e->getMessage());
                             return json_encode(array('success' => false, 'message' => $e->getMessage()));
