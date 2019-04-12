@@ -198,7 +198,7 @@ class OrderController extends Controller {
 //        echo htmlentities($client->__getLastRequest());
 //        echo "<pre>";
 //        print_r($request_array);
-        dd($warehouse_order);
+//        dd($warehouse_order);
         if (isset($warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo)) {
             if (isset($warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo->Shipments) && count((array) $warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo->Shipments)) {
                 $warehouse_shipment = $warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo->Shipments;
@@ -271,10 +271,13 @@ class OrderController extends Controller {
                                 $item->PackingEndTime = date('M d,Y H:i A', strtotime($shipment->PackingEndTime));
                                 $item->Shipper = $shipment->Shipper;
                                 $item->TrackingNumber = $shipment->TrackingNumber;
-
-                                $video_id = explode("?v=", $shipment->YoutubeUrl);
-                                $video_id = $video_id[1];
-                                $item->YoutubeUrl = 'https://www.youtube.com/embed/' . $video_id . '/?controls=0';
+                                if ($shipment->YoutubeUrl != null && $shipment->YoutubeUrl != "") {
+                                    $video_id = explode("?v=", $shipment->YoutubeUrl);
+                                    $video_id = $video_id[1];
+                                    $item->YoutubeUrl = 'https://www.youtube.com/embed/' . $video_id . '/?controls=0';
+                                } else {
+                                    $item->YoutubeUrl = '';
+                                }
                                 $order_details->items[$k] = $item;
                             }
                         }
@@ -324,7 +327,6 @@ class OrderController extends Controller {
             $warehouse_order = $client->GetOrderShipmentInfo($request_array);
             $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->get_user->shop_url, 'ACCESS_TOKEN' => $user->get_user->access_token]);
 //            Log::info('Order api response'. json_encode($warehouse_order));
-                          
 //            echo "<pre>";
 //            print_r($request_array);
 //            print_r($warehouse_order);
@@ -359,7 +361,7 @@ class OrderController extends Controller {
                         if (empty($product_id_array)) {
                             return json_encode(array('success' => false, 'message' => 'product id not found in the response'));
                         }
-                        
+
                         if ($shipment->LocationID == 0) {
                             try {
                                 $locations = $shopify->call(['URL' => 'locations.json', 'METHOD' => 'GET']);
@@ -388,17 +390,17 @@ class OrderController extends Controller {
 //                        dd($item_ids_array);
                         $fulfillment_array = array(
                             "location_id" => $location_id,
-                            "line_items" => $item_ids_array, 
+                            "line_items" => $item_ids_array,
                             "notify_customer" => true
-                            );
-                        if($shipment->Shipper != null && $shipment->Shipper != ""){
+                        );
+                        if ($shipment->Shipper != null && $shipment->Shipper != "") {
                             $fulfillment_array['tracking_company'] = $shipment->Shipper;
                         }
-                        if($shipment->TrackingNumber != null && $shipment->TrackingNumber != "" && $shipment->TrackingUrl != null && $shipment->TrackingUrl != ""){
+                        if ($shipment->TrackingNumber != null && $shipment->TrackingNumber != "" && $shipment->TrackingUrl != null && $shipment->TrackingUrl != "") {
                             $fulfillment_array['tracking_number'] = $shipment->TrackingNumber;
                             $fulfillment_array['tracking_url'] = $shipment->TrackingUrl;
                         }
-                        
+
                         try {
                             $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => $fulfillment_array]]);
                         } catch (\Exception $e) {
@@ -435,7 +437,7 @@ class OrderController extends Controller {
 //            dd($e->getMessage());
 //        }
         try {
-           $shopify_result = $shopify->call(['URL' => 'inventory_levels/connect.json', 'METHOD' => 'POST', "DATA" => ["location_id" => 15732867124, "inventory_item_id" => 8522454499380]]);
+            $shopify_result = $shopify->call(['URL' => 'inventory_levels/connect.json', 'METHOD' => 'POST', "DATA" => ["location_id" => 15732867124, "inventory_item_id" => 8522454499380]]);
         } catch (\Exception $e) {
             dd($e->getMessage());
         }
