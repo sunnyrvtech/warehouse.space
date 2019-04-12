@@ -350,7 +350,7 @@ class OrderController extends Controller {
                     return json_encode(array('success' => false, 'message' => $e->getMessage()));
                 }
 
-                dd($orders);
+                //dd($orders);
 
                 if ($warehouse_order->OrderStatus == 4 && $orders->order->fulfillment_status == null && isset($warehouse_order->Shipments->ShipmentDetail)) {
                     $warehouse_shipment = $warehouse_order->Shipments->ShipmentDetail;
@@ -422,7 +422,7 @@ class OrderController extends Controller {
                     }
                     return response()->json(['success' => true], 200);
                 } else if ($warehouse_order->OrderStatus == 4 && $orders->order->fulfillment_status != null && isset($warehouse_order->Shipments->ShipmentDetail)) {
-                    
+
                     // this is used to updated tracking number
                     $warehouse_shipment = $warehouse_order->Shipments->ShipmentDetail;
                     foreach ($warehouse_shipment as $shipment) {
@@ -436,18 +436,24 @@ class OrderController extends Controller {
                         } else {
                             $location_id = $shipment->LocationID;
                         }
-                        
-                        echo $fulfilled_id = $orders->fulfillments->id;
+
+                        try {
+                            $fulfillment = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'GET']);
+                        } catch (\Exception $e) {
+                            return json_encode(array('success' => false, 'message' => 'fulfillment not exist'));
+                        }
+
+                        echo $fulfilled_id = $fulfillment->id;
                         die;
                         $fulfillment_array = array(
                             "location_id" => $location_id,
                         );
                         if ($shipment->TrackingNumber != null && $shipment->TrackingNumber != "") {
                             $fulfillment_array['tracking_number'] = $shipment->TrackingNumber;
-                        }else{
+                        } else {
                             $fulfillment_array['tracking_number'] = null;
                         }
-                   
+
                         try {
                             $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'PUT', "DATA" => ["fulfillment" => $fulfillment_array]]);
                         } catch (\Exception $e) {
