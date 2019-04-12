@@ -436,6 +436,9 @@ class OrderController extends Controller {
                         } else {
                             $location_id = $shipment->LocationID;
                         }
+                        
+                        echo $fulfilled_id = $orders->order->fulfillments->id;
+                        die;
                         $fulfillment_array = array(
                             "location_id" => $location_id,
                         );
@@ -444,7 +447,7 @@ class OrderController extends Controller {
                         }else{
                             $fulfillment_array['tracking_number'] = null;
                         }
-                   dd($fulfillment_array);
+                   
                         try {
                             $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'PUT', "DATA" => ["fulfillment" => $fulfillment_array]]);
                         } catch (\Exception $e) {
