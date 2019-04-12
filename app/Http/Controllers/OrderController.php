@@ -453,7 +453,7 @@ class OrderController extends Controller {
                             $fulfillment_array['tracking_number'] = null;
                         }
                         
-                        echo "orders/' . $id . '/fulfillments/'.$fulfilled_id.'json";
+                        echo 'orders/' . $id . '/fulfillments/'.$fulfilled_id.'json';
                         die;
 
                         try {
