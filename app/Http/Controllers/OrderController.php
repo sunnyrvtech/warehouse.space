@@ -359,7 +359,7 @@ class OrderController extends Controller {
                         $warehouse_shipment = $shipment_array;
                     }
                     //echo "<pre>";
-                    //print_r($warehouse_shipment);
+                    dd($warehouse_shipment);
 
                     foreach ($warehouse_shipment as $shipment) {
                         $articles = $shipment->Articles->Article;
