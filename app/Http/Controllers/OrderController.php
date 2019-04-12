@@ -452,6 +452,9 @@ class OrderController extends Controller {
                         } else {
                             $fulfillment_array['tracking_number'] = null;
                         }
+                        
+                        echo "orders/' . $id . '/fulfillments/'.$fulfilled_id.'json";
+                        die;
 
                         try {
                             $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments/'.$fulfilled_id.'json', 'METHOD' => 'PUT', "DATA" => ["fulfillment" => $fulfillment_array]]);
