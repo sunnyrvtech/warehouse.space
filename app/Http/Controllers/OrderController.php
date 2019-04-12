@@ -270,7 +270,13 @@ class OrderController extends Controller {
                                 $item->PackingStartTime = date('M d,Y H:i A', strtotime($shipment->PackingStartTime));
                                 $item->PackingEndTime = date('M d,Y H:i A', strtotime($shipment->PackingEndTime));
                                 $item->Shipper = $shipment->Shipper;
-                                $item->TrackingNumber = $shipment->TrackingNumber;
+                                if ($shipment->TrackingNumber != null && $shipment->TrackingNumber != "" && $shipment->TrackingUrl != null && $shipment->TrackingUrl != "") {
+                                    $item->TrackingNumber = $shipment->TrackingNumber;
+                                    $item->TrackingUrl = $shipment->TrackingUrl;
+                                } else {
+                                    $item->TrackingNumber = '******';
+                                    $item->TrackingUrl = null;
+                                }
                                 if ($shipment->YoutubeUrl != null && $shipment->YoutubeUrl != "") {
                                     $video_id = explode("?v=", $shipment->YoutubeUrl);
                                     $video_id = $video_id[1];
@@ -300,6 +306,7 @@ class OrderController extends Controller {
                         $item->PackingEndTime = '******';
                         $item->Shipper = '******';
                         $item->TrackingNumber = '******';
+                        $item->TrackingUrl = '******';
                         $item->YoutubeUrl = '';
 
                         $order_details->items[$key] = $item;

@@ -50,6 +50,9 @@
                                                     <p><b>Packed At</b> - {{ $value->PackingEndTime }}</p>
                                                     <p><b>Dispached At</b> - {{ $value->DispatchTime }}</p>
                                                     <p><b>Tracking Number</b> - {{ $value->TrackingNumber }}</p>
+                                                    @if($value->TrackingUrl)
+                                                    <p><b>Tracking Url</b> - <a href="{{ $value->TrackingUrl }}" target="_blank">{{ $value->TrackingUrl }}</a></p>
+                                                    @endif
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
