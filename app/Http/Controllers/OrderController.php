@@ -424,43 +424,42 @@ class OrderController extends Controller {
                 } else if ($warehouse_order->OrderStatus == 4 && $orders->order->fulfillment_status != null && isset($warehouse_order->Shipments->ShipmentDetail)) {
 
                     // this is used to updated tracking number
-                    $warehouse_shipment = $warehouse_order->Shipments->ShipmentDetail;
-                    foreach ($warehouse_shipment as $shipment) {
-                        if ($shipment->LocationID == 0) {
-                            try {
-                                $locations = $shopify->call(['URL' => 'locations.json', 'METHOD' => 'GET']);
-                            } catch (\Exception $e) {
-                                return json_encode(array('success' => false, 'message' => $e->getMessage()));
-                            }
-                            $location_id = $locations->locations[0]->id;
-                        } else {
-                            $location_id = $shipment->LocationID;
-                        }
-
+                    $shipment = $warehouse_order->Shipments->ShipmentDetail[0];
+                    if ($shipment->LocationID == 0) {
                         try {
-                            $fulfillment = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'GET']);
+                            $locations = $shopify->call(['URL' => 'locations.json', 'METHOD' => 'GET']);
                         } catch (\Exception $e) {
-                            return json_encode(array('success' => false, 'message' => 'fulfillment not exist'));
-                        }
-
-                        $fulfilled_id = $fulfillment->fulfillments[0]->id;
-                        $fulfillment_array = array(
-                            "location_id" => $location_id,
-                        );
-                        if ($shipment->TrackingNumber != null && $shipment->TrackingNumber != "") {
-                            $fulfillment_array['tracking_number'] = $shipment->TrackingNumber;
-                        } else {
-                            $fulfillment_array['tracking_number'] = null;
-                        }
-
-                        try {
-                            $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments/'.$fulfilled_id.'.json', 'METHOD' => 'PUT', "DATA" => ["fulfillment" => $fulfillment_array]]);
-                        } catch (\Exception $e) {
-                            Log::info('Order status update error ' . $id . $e->getMessage());
                             return json_encode(array('success' => false, 'message' => $e->getMessage()));
                         }
-                        Log::info('Order status update success');
+                        $location_id = $locations->locations[0]->id;
+                    } else {
+                        $location_id = $shipment->LocationID;
                     }
+
+                    try {
+                        $fulfillment = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'GET']);
+                    } catch (\Exception $e) {
+                        return json_encode(array('success' => false, 'message' => 'fulfillment not exist'));
+                    }
+
+                    $fulfilled_id = $fulfillment->fulfillments[0]->id;
+                    $fulfillment_array = array(
+                        "location_id" => $location_id,
+                    );
+                    if ($shipment->TrackingNumber != null && $shipment->TrackingNumber != "") {
+                        $fulfillment_array['tracking_number'] = $shipment->TrackingNumber;
+                    } else {
+                        $fulfillment_array['tracking_number'] = null;
+                    }
+
+                    try {
+                        $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments/' . $fulfilled_id . '.json', 'METHOD' => 'PUT', "DATA" => ["fulfillment" => $fulfillment_array]]);
+                    } catch (\Exception $e) {
+                        Log::info('Order status update error ' . $id . $e->getMessage());
+                        return json_encode(array('success' => false, 'message' => $e->getMessage()));
+                    }
+                    Log::info('Order status update success');
+
                     return response()->json(['success' => true], 200);
                 }
             }
