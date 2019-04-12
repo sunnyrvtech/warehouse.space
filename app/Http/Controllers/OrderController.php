@@ -437,7 +437,7 @@ class OrderController extends Controller {
                             $location_id = $shipment->LocationID;
                         }
                         
-                        echo $fulfilled_id = $orders->order->fulfillments->id;
+                        echo $fulfilled_id = $orders->fulfillments->id;
                         die;
                         $fulfillment_array = array(
                             "location_id" => $location_id,
