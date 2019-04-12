@@ -350,7 +350,7 @@ class OrderController extends Controller {
                     return json_encode(array('success' => false, 'message' => $e->getMessage()));
                 }
 
-                //dd($orders);
+                dd($orders);
 
                 if ($warehouse_order->OrderStatus == 4 && $orders->order->fulfillment_status == null && isset($warehouse_order->Shipments->ShipmentDetail)) {
                     $warehouse_shipment = $warehouse_order->Shipments->ShipmentDetail;
