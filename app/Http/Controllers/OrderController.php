@@ -386,8 +386,21 @@ class OrderController extends Controller {
 //                        echo "<br>";
 //                        echo $location_id;
 //                        dd($item_ids_array);
+                        $fulfillment_array = array(
+                            "location_id" => $location_id,
+                            "line_items" => $item_ids_array, 
+                            "notify_customer" => true
+                            );
+                        if($shipment->Shipper != null && $shipment->Shipper != ""){
+                            $fulfillment_array['tracking_company'] = $shipment->Shipper;
+                        }
+                        if($shipment->TrackingNumber != null && $shipment->TrackingNumber != "" && $shipment->TrackingUrl != null && $shipment->TrackingUrl != ""){
+                            $fulfillment_array['tracking_number'] = $shipment->TrackingNumber;
+                            $fulfillment_array['tracking_url'] = $shipment->TrackingUrl;
+                        }
+                        
                         try {
-                            $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => array("location_id" => $location_id,"tracking_company"=> $shipment->Shipper, "tracking_number" => $shipment->TrackingNumber, "line_items" => $item_ids_array, "notify_customer" => true)]]);
+                            $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => $fulfillment_array]]);
                         } catch (\Exception $e) {
                             Log::info('Order status update error ' . $id . $e->getMessage());
                             return json_encode(array('success' => false, 'message' => $e->getMessage()));
