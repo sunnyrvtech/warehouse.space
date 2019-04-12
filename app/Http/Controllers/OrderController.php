@@ -442,8 +442,8 @@ class OrderController extends Controller {
                         } catch (\Exception $e) {
                             return json_encode(array('success' => false, 'message' => 'fulfillment not exist'));
                         }
-dd($fulfillment);
-                        echo $fulfilled_id = $fulfillment->id;
+
+                        echo $fulfilled_id = $fulfillment->fulfillments[0]->id;
                         die;
                         $fulfillment_array = array(
                             "location_id" => $location_id,
