@@ -422,6 +422,8 @@ class OrderController extends Controller {
                     }
                     return response()->json(['success' => true], 200);
                 } else if ($warehouse_order->OrderStatus == 4 && $orders->order->fulfillment_status != null && isset($warehouse_order->Shipments->ShipmentDetail)) {
+                    
+                    // this is used to updated tracking number
                     $warehouse_shipment = $warehouse_order->Shipments->ShipmentDetail;
                     foreach ($warehouse_shipment as $shipment) {
                         if ($shipment->LocationID == 0) {
