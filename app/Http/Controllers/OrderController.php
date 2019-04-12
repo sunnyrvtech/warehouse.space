@@ -270,11 +270,14 @@ class OrderController extends Controller {
                                 $item->PackingStartTime = date('M d,Y H:i A', strtotime($shipment->PackingStartTime));
                                 $item->PackingEndTime = date('M d,Y H:i A', strtotime($shipment->PackingEndTime));
                                 $item->Shipper = $shipment->Shipper;
-                                if ($shipment->TrackingNumber != null && $shipment->TrackingNumber != "" && $shipment->TrackingUrl != null && $shipment->TrackingUrl != "") {
+                                if ($shipment->TrackingNumber != null && $shipment->TrackingNumber != "") {
                                     $item->TrackingNumber = $shipment->TrackingNumber;
-                                    $item->TrackingUrl = $shipment->TrackingUrl;
                                 } else {
                                     $item->TrackingNumber = '******';
+                                }
+                                if ($shipment->TrackingUrl != null && $shipment->TrackingUrl != "") {
+                                    $item->TrackingUrl = $shipment->TrackingUrl;
+                                }else{
                                     $item->TrackingUrl = null;
                                 }
                                 if ($shipment->YoutubeUrl != null && $shipment->YoutubeUrl != "") {
@@ -403,11 +406,12 @@ class OrderController extends Controller {
                         if ($shipment->Shipper != null && $shipment->Shipper != "") {
                             $fulfillment_array['tracking_company'] = $shipment->Shipper;
                         }
-                        if ($shipment->TrackingNumber != null && $shipment->TrackingNumber != "" && $shipment->TrackingUrl != null && $shipment->TrackingUrl != "") {
+                        if ($shipment->TrackingNumber != null && $shipment->TrackingNumber != "") {
                             $fulfillment_array['tracking_number'] = $shipment->TrackingNumber;
+                        }
+                        if ($shipment->TrackingUrl != null && $shipment->TrackingUrl != "") {
                             $fulfillment_array['tracking_url'] = $shipment->TrackingUrl;
                         }
-
                         try {
                             $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => $fulfillment_array]]);
                         } catch (\Exception $e) {
