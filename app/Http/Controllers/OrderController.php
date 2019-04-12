@@ -449,6 +449,7 @@ class OrderController extends Controller {
                             return json_encode(array('success' => false, 'message' => $e->getMessage()));
                         }
                     }
+                    return response()->json(['success' => true], 200);
                 }
             }
             if (isset($warehouse_order->OrderStatus)) {
