@@ -337,10 +337,10 @@ class OrderController extends Controller {
             $warehouse_order = $client->GetOrderShipmentInfo($request_array);
             $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->get_user->shop_url, 'ACCESS_TOKEN' => $user->get_user->access_token]);
 //            Log::info('Order api response'. json_encode($warehouse_order));
-            echo "<pre>";
+//            echo "<pre>";
 //            print_r($request_array);
-            print_r($warehouse_order);
-            die;
+//            print_r($warehouse_order);
+//            die;
 
             if (isset($warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo)) {
                 $warehouse_order = $warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo;
@@ -357,9 +357,11 @@ class OrderController extends Controller {
                     if (count($warehouse_order->Shipments->ShipmentDetail) == 1) {
                         $shipment_array[0] = $warehouse_order->Shipments->ShipmentDetail;
                         $warehouse_shipment = $shipment_array;
+                    }else{
+                          $shipment_array[0] = $warehouse_order->Shipments->ShipmentDetail[0];   /////  i have code this like that we have multiple shipment but we are not handling more then one item shipment   and now there is a possibilty that one item contain more info then i have taken one array value
                     }
-                    //echo "<pre>";
-                    dd($warehouse_shipment);
+                    echo "<pre>";
+                    print_r($warehouse_shipment);
 
                     foreach ($warehouse_shipment as $shipment) {
                         $articles = $shipment->Articles->Article;
@@ -368,8 +370,6 @@ class OrderController extends Controller {
                             $articles = $article_array;
                         }
                         $product_id_array = array_column($articles, 'ProductID');
-                        
-                        dd($product_id_array);
                         if (empty($product_id_array)) {
                             return json_encode(array('success' => false, 'message' => 'product id not found in the response'));
                         }
