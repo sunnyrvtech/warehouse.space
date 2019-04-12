@@ -277,7 +277,7 @@ class OrderController extends Controller {
                                 }
                                 if ($shipment->TrackingUrl != null && $shipment->TrackingUrl != "") {
                                     $item->TrackingUrl = $shipment->TrackingUrl;
-                                }else{
+                                } else {
                                     $item->TrackingUrl = null;
                                 }
                                 if ($shipment->YoutubeUrl != null && $shipment->YoutubeUrl != "") {
@@ -337,9 +337,9 @@ class OrderController extends Controller {
             $warehouse_order = $client->GetOrderShipmentInfo($request_array);
             $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->get_user->shop_url, 'ACCESS_TOKEN' => $user->get_user->access_token]);
 //            Log::info('Order api response'. json_encode($warehouse_order));
-            echo "<pre>";
+//            echo "<pre>";
 //            print_r($request_array);
-            print_r($warehouse_order);
+//            print_r($warehouse_order);
 //            die;
 
             if (isset($warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo)) {
@@ -350,18 +350,16 @@ class OrderController extends Controller {
                     return json_encode(array('success' => false, 'message' => $e->getMessage()));
                 }
 
-                dd($orders);
+                //dd($orders);
 
                 if ($warehouse_order->OrderStatus == 4 && $orders->order->fulfillment_status == null && isset($warehouse_order->Shipments->ShipmentDetail)) {
                     $warehouse_shipment = $warehouse_order->Shipments->ShipmentDetail;
                     if (count($warehouse_order->Shipments->ShipmentDetail) == 1) {
                         $shipment_array[0] = $warehouse_order->Shipments->ShipmentDetail;
                         $warehouse_shipment = $shipment_array;
-                    }else{
-                          $shipment_array[0] = $warehouse_order->Shipments->ShipmentDetail[0];   /////  i have code this like that we have multiple shipment but we are not handling more then one item shipment   and now there is a possibilty that one item contain more info then i have taken one array value
                     }
-                    echo "<pre>";
-                    print_r($warehouse_shipment);
+                    //echo "<pre>";
+                    //print_r($warehouse_shipment);
 
                     foreach ($warehouse_shipment as $shipment) {
                         $articles = $shipment->Articles->Article;
@@ -423,6 +421,34 @@ class OrderController extends Controller {
 //                            dd($shopify_result);
                     }
                     return response()->json(['success' => true], 200);
+                } else if ($warehouse_order->OrderStatus == 4 && $orders->order->fulfillment_status != null && isset($warehouse_order->Shipments->ShipmentDetail)) {
+                    $warehouse_shipment = $warehouse_order->Shipments->ShipmentDetail;
+                    foreach ($warehouse_shipment as $shipment) {
+                        if ($shipment->LocationID == 0) {
+                            try {
+                                $locations = $shopify->call(['URL' => 'locations.json', 'METHOD' => 'GET']);
+                            } catch (\Exception $e) {
+                                return json_encode(array('success' => false, 'message' => $e->getMessage()));
+                            }
+                            $location_id = $locations->locations[0]->id;
+                        } else {
+                            $location_id = $shipment->LocationID;
+                        }
+                        $fulfillment_array = array(
+                            "location_id" => $location_id,
+                        );
+                        if ($shipment->TrackingNumber != null && $shipment->TrackingNumber != "") {
+                            $fulfillment_array['tracking_number'] = $shipment->TrackingNumber;
+                        }else{
+                            $fulfillment_array['tracking_number'] = null;
+                        }
+                        try {
+                            $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'PUT', "DATA" => ["fulfillment" => $fulfillment_array]]);
+                        } catch (\Exception $e) {
+                            Log::info('Order status update error ' . $id . $e->getMessage());
+                            return json_encode(array('success' => false, 'message' => $e->getMessage()));
+                        }
+                    }
                 }
             }
             if (isset($warehouse_order->OrderStatus)) {
