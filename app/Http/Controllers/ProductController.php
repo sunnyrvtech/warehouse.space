@@ -202,7 +202,7 @@ class ProductController extends Controller {
             }
 //            echo $dom->getElementsByTagName('MaterialArticle')->length;
 //            echo '<xmp>' . $dom->saveXML() . '</xmp>';
-//            $dom->save('result.xml') or die('XML Create Error');
+           $dom->save('result.xml') or die('XML Create Error');
             $tmpfile = tempnam(sys_get_temp_dir(), 'zip');
             rename($tmpfile, substr($tmpfile, 0, strlen($tmpfile) - 4) . '.zip');
             $tmpfile = substr($tmpfile, 0, strlen($tmpfile) - 4) . '.zip';
