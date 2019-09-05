@@ -149,6 +149,8 @@ class ProductController extends Controller {
         $client = $this->_client;
         $shopify = $this->_shopify;
         if ($client != null && $shopify != null) {
+        	echo $totalproducts = $shopify->call(['URL' => 'products/count.json', 'METHOD' => 'GET']);
+    		$limit = 50;
             $productinfo = $shopify->call(['URL' => 'products.json', 'METHOD' => 'GET']);
             $dom = new DOMDocument('1.0');
             $dom->formatOutput = true;
@@ -156,8 +158,7 @@ class ProductController extends Controller {
             $dom->appendChild($root);
 
             foreach ($productinfo->products as $key => $product) {
-            	echo count($product->title);
-                $images = "";
+I                $images = "";
                 if ($product->images != null) {
                     $images = $dom->createElement('Images');
                     foreach ($product->images as $img) {
