@@ -158,7 +158,7 @@ class ProductController extends Controller {
             $dom->appendChild($root);
 
             foreach ($productinfo->products as $key => $product) {
-I                $images = "";
+                $images = "";
                 if ($product->images != null) {
                     $images = $dom->createElement('Images');
                     foreach ($product->images as $img) {
