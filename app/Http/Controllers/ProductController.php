@@ -153,12 +153,12 @@ class ProductController extends Controller {
         	$totalcount = $totalproducts->count;
     		$limit = 50;
     		$totalpage = ceil($totalcount/$limit);
+    		$dom = new DOMDocument('1.0');
+            $dom->formatOutput = true;
+            $root = $dom->createElement('ArrayOfMaterialArticle');
+            $dom->appendChild($root);
     		for($i=1; $i<=$totalpage; $i++){
-	            $productinfo = $shopify->call(['URL' => 'products.json?limit=50&page='.$i, 'METHOD' => 'GET']);
-	            $dom = new DOMDocument('1.0');
-	            $dom->formatOutput = true;
-	            $root = $dom->createElement('ArrayOfMaterialArticle');
-	            $dom->appendChild($root);
+	            $productinfo = $shopify->call(['URL' => 'products.json?limit=50&page='.$i, 'METHOD' => 'GET']);            
 
 	            foreach ($productinfo->products as $key => $product) {
 	                $images = "";
