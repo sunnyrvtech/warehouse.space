@@ -161,7 +161,6 @@ class ProductController extends Controller {
 	            $dom->appendChild($root);
 
 	            foreach ($productinfo->products as $key => $product) {
-	            	echo $key;
 	                $images = "";
 	                if ($product->images != null) {
 	                    $images = $dom->createElement('Images');
@@ -207,7 +206,6 @@ class ProductController extends Controller {
 	                }
 	            }
 	         }   
-            die("hello");
 //            echo $dom->getElementsByTagName('MaterialArticle')->length;
 //            echo '<xmp>' . $dom->saveXML() . '</xmp>';
            $dom->save('result.xml') or die('XML Create Error');
