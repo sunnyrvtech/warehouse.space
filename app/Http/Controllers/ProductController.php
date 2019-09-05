@@ -150,9 +150,9 @@ class ProductController extends Controller {
         $shopify = $this->_shopify;
         if ($client != null && $shopify != null) {
         	$totalproducts = $shopify->call(['URL' => 'products/count.json', 'METHOD' => 'GET']);
-        	echo $totalcount = $totalproducts->count;
+        	$totalcount = $totalproducts->count;
     		$limit = 50;
-    		//$totalpage = ceil($totalproducts/$limit);
+    		echo $totalpage = ceil($totalcount/$limit);
             $productinfo = $shopify->call(['URL' => 'products.json', 'METHOD' => 'GET']);
             $dom = new DOMDocument('1.0');
             $dom->formatOutput = true;
