@@ -180,7 +180,7 @@ class ProductController extends Controller {
 	                        $items->appendChild($dom->createElement('Barcode', $item_value->barcode));
 	                    $items->appendChild($dom->createElement('BuyPrice', $item_value->price));
 	                    if ($product->product_type != "")
-	                        $items->appendChild($dom->createElement('Category', $product->product_type));
+	                        $items->appendChild($dom->createElement('Category', htmlspecialchars($product->product_type)));
 	                    if ($product->body_html != "")
 	                        $items->appendChild($dom->createElement('Description', htmlspecialchars(strip_tags($product->body_html))));
 	//                    $items->appendChild($dom->createElement('ErpTimeStamp', ''));
