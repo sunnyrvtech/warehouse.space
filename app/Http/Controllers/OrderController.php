@@ -424,7 +424,7 @@ class OrderController extends Controller {
                 } else if ($warehouse_order->OrderStatus == 4 && $orders->order->fulfillment_status != null && isset($warehouse_order->Shipments->ShipmentDetail)) {
 
                     // this is used to updated tracking number
-                    $shipment = $warehouse_order->Shipments->ShipmentDetail[0];
+                    $shipment = $warehouse_order->Shipments->ShipmentDetail;
                      echo "<pre>";
                     print_r($shipment);
                     die('gfgf');
