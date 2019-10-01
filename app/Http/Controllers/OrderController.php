@@ -350,8 +350,8 @@ class OrderController extends Controller {
                     return json_encode(array('success' => false, 'message' => $e->getMessage()));
                 }
 
-                dd($orders);
-                 die;
+                // dd($orders);
+                //  die;
 
                 if ($warehouse_order->OrderStatus == 4 && $orders->order->fulfillment_status == null && isset($warehouse_order->Shipments->ShipmentDetail)) {
                     $warehouse_shipment = $warehouse_order->Shipments->ShipmentDetail;
@@ -419,7 +419,8 @@ class OrderController extends Controller {
                             Log::info('Order status update error ' . $id . $e->getMessage());
                             return json_encode(array('success' => false, 'message' => $e->getMessage()));
                         }
-//                            dd($shopify_result);
+                            dd($shopify_result);
+                            die;
                     }
                     return response()->json(['success' => true], 200);
                 } else if ($warehouse_order->OrderStatus == 4 && $orders->order->fulfillment_status != null && isset($warehouse_order->Shipments->ShipmentDetail)) {
