@@ -404,6 +404,7 @@ class OrderController extends Controller {
                             "line_items" => $item_ids_array,
                             "notify_customer" => true
                         );
+                        echo "dfgfdh";
                         dd($fulfillment_array);
                         if ($shipment->Shipper != null && $shipment->Shipper != "") {
                             $fulfillment_array['tracking_company'] = $shipment->Shipper;
@@ -414,15 +415,15 @@ class OrderController extends Controller {
                         if ($shipment->TrackingUrl != null && $shipment->TrackingUrl != "") {
                             $fulfillment_array['tracking_url'] = $shipment->TrackingUrl;
                         }
-                        dd($fulfillment_array);
+                        // dd($fulfillment_array);
                         try {
                             $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => $fulfillment_array]]);
                         } catch (\Exception $e) {
                             Log::info('Order status update error ' . $id . $e->getMessage());
                             return json_encode(array('success' => false, 'message' => $e->getMessage()));
                         }
-                            dd($shopify_result);
-                            die;
+                            // dd($shopify_result);
+                            // die;
                     }
                     return response()->json(['success' => true], 200);
                 } else if ($warehouse_order->OrderStatus == 4 && $orders->order->fulfillment_status != null && isset($warehouse_order->Shipments->ShipmentDetail)) {
