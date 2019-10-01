@@ -404,7 +404,7 @@ class OrderController extends Controller {
                             "line_items" => $item_ids_array,
                             "notify_customer" => true
                         );
-
+                        dd($fulfillment_array);
                         if ($shipment->Shipper != null && $shipment->Shipper != "") {
                             $fulfillment_array['tracking_company'] = $shipment->Shipper;
                         }
