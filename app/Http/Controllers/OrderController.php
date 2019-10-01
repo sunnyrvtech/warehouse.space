@@ -395,15 +395,16 @@ class OrderController extends Controller {
                         $item_ids_array = array_values($item_ids_array);
                         // echo count($warehouse_shipment);
                         // dd($item_ids_array);
-                       echo $shipment->TrackingNumber;
-                       echo "<br>";
-                       echo $location_id;
-                       dd($item_ids_array);
+                       // echo $shipment->TrackingNumber;
+                       // echo "<br>";
+                       // echo $location_id;
+                       // dd($item_ids_array);
                         $fulfillment_array = array(
                             "location_id" => $location_id,
                             "line_items" => $item_ids_array,
                             "notify_customer" => true
                         );
+
                         if ($shipment->Shipper != null && $shipment->Shipper != "") {
                             $fulfillment_array['tracking_company'] = $shipment->Shipper;
                         }
@@ -413,6 +414,7 @@ class OrderController extends Controller {
                         if ($shipment->TrackingUrl != null && $shipment->TrackingUrl != "") {
                             $fulfillment_array['tracking_url'] = $shipment->TrackingUrl;
                         }
+                        dd($fulfillment_array);
                         try {
                             $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => $fulfillment_array]]);
                         } catch (\Exception $e) {
