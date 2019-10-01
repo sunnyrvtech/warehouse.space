@@ -336,11 +336,11 @@ class OrderController extends Controller {
             $request_array->ListInvNumbers = array($id);
             $warehouse_order = $client->GetOrderShipmentInfo($request_array);
             $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->get_user->shop_url, 'ACCESS_TOKEN' => $user->get_user->access_token]);
-           // Log::info('Order api response'. json_encode($warehouse_order));
-           // echo "<pre>";
-           // print_r($request_array);
-           // print_r($warehouse_order);
-           // die;
+//            Log::info('Order api response'. json_encode($warehouse_order));
+//            echo "<pre>";
+//            print_r($request_array);
+//            print_r($warehouse_order);
+//            die;
 
             if (isset($warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo)) {
                 $warehouse_order = $warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo;
@@ -350,7 +350,7 @@ class OrderController extends Controller {
                     return json_encode(array('success' => false, 'message' => $e->getMessage()));
                 }
 
-                //dd($orders);
+                dd($orders);
 
                 if ($warehouse_order->OrderStatus == 4 && $orders->order->fulfillment_status == null && isset($warehouse_order->Shipments->ShipmentDetail)) {
                     $warehouse_shipment = $warehouse_order->Shipments->ShipmentDetail;
@@ -358,9 +358,9 @@ class OrderController extends Controller {
                         $shipment_array[0] = $warehouse_order->Shipments->ShipmentDetail;
                         $warehouse_shipment = $shipment_array;
                     }
-                    echo "<pre>";
-                    print_r($warehouse_shipment);
-                    die;
+                    //echo "<pre>";
+                    //print_r($warehouse_shipment);
+
                     foreach ($warehouse_shipment as $shipment) {
                         $articles = $shipment->Articles->Article;
                         if (count($shipment->Articles->Article) == 1) {
@@ -412,9 +412,6 @@ class OrderController extends Controller {
                         if ($shipment->TrackingUrl != null && $shipment->TrackingUrl != "") {
                             $fulfillment_array['tracking_url'] = $shipment->TrackingUrl;
                         }
-                        echo "<pre>";
-                        print_r($fulfillment_array);
-                        die('sdfd');
                         try {
                             $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => $fulfillment_array]]);
                         } catch (\Exception $e) {
