@@ -358,9 +358,9 @@ class OrderController extends Controller {
                         $shipment_array[0] = $warehouse_order->Shipments->ShipmentDetail;
                         $warehouse_shipment = $shipment_array;
                     }
-                    //echo "<pre>";
-                    //print_r($warehouse_shipment);
-
+                    echo "<pre>";
+                    print_r($warehouse_shipment);
+                    die;
                     foreach ($warehouse_shipment as $shipment) {
                         $articles = $shipment->Articles->Article;
                         if (count($shipment->Articles->Article) == 1) {
