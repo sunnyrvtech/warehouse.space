@@ -461,6 +461,9 @@ class OrderController extends Controller {
                         Log::info('Order status update error ' . $id . $e->getMessage());
                         return json_encode(array('success' => false, 'message' => $e->getMessage()));
                     }
+                    echo "<pre>";
+                    print_r($shopify_result);
+                    die;
                     Log::info('Order status update success');
 
                     return response()->json(['success' => true], 200);
