@@ -170,6 +170,8 @@ class ProductController extends Controller {
 	                }
 
 	                foreach ($product->variants as $item_value) {
+	                	echo "<pre>";
+	                	print_r($item_value);
 	                    $items = $dom->createElement('MaterialArticle');
 	                    $items->appendChild($dom->createElement('AccountKey', $this->_accountKey));
 	                    $items->appendChild($dom->createElement('ProductID', $item_value->id));
@@ -204,6 +206,7 @@ class ProductController extends Controller {
 	//                    $items->appendChild($dom->createElement('WeightCat', ''));
 	                    $root->appendChild($items);
 	                }
+	                die('dgfg');
 	            }
 	         }   
 //            echo $dom->getElementsByTagName('MaterialArticle')->length;
