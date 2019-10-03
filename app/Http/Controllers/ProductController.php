@@ -168,9 +168,10 @@ class ProductController extends Controller {
 	                        $images->appendChild($dom->createElement('string', $img->src));
 	                    }
 	                }
-
+	                echo "<pre>";
+	                print_r($product);
 	                foreach ($product->variants as $item_value) {
-	                	echo "<pre>";
+	                	
 	                	print_r($item_value);
 	                    $items = $dom->createElement('MaterialArticle');
 	                    $items->appendChild($dom->createElement('AccountKey', $this->_accountKey));
