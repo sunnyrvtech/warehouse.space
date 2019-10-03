@@ -175,8 +175,10 @@ class ProductController extends Controller {
 	                    if ($item_value->sku != "")
 	                        $items->appendChild($dom->createElement('Article', $item_value->sku));
 	                    if($item_value->title != 'Default Title'){
+	                    echo "not working";	
 	                    $items->appendChild($dom->createElement('Title', htmlspecialchars($product->title.':'.$item_value->title)));
 	                    }else{
+	                    echo "working"; 	
 	                    $items->appendChild($dom->createElement('Title', htmlspecialchars($product->title)));	
 	                    }
 	                    if ($item_value->barcode != "")
@@ -208,6 +210,7 @@ class ProductController extends Controller {
 	                    $root->appendChild($items);
 	                }
 	            }
+	            die('dgfg');
 	         }   
 //            echo $dom->getElementsByTagName('MaterialArticle')->length;
 //            echo '<xmp>' . $dom->saveXML() . '</xmp>';
