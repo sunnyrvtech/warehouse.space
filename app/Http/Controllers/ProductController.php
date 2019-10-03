@@ -169,7 +169,7 @@ class ProductController extends Controller {
 	                    }
 	                }
 	                echo "<pre>";
-	                print_r($product);
+	                echo $product->title;
 	                foreach ($product->variants as $item_value) {
 	                	
 	                	print_r($item_value);
