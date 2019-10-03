@@ -171,14 +171,12 @@ class ProductController extends Controller {
 	                echo "<pre>";
 	                echo $product->title;
 	                foreach ($product->variants as $item_value) {
-	                	
-	                	print_r($item_value);
 	                    $items = $dom->createElement('MaterialArticle');
 	                    $items->appendChild($dom->createElement('AccountKey', $this->_accountKey));
 	                    $items->appendChild($dom->createElement('ProductID', $item_value->id));
 	                    if ($item_value->sku != "")
 	                        $items->appendChild($dom->createElement('Article', $item_value->sku));
-	                    $items->appendChild($dom->createElement('Title', htmlspecialchars($product->title.':'.$item_value->title)));
+	                    echo $items->appendChild($dom->createElement('Title', htmlspecialchars($product->title.':'.$item_value->title)));
 	                    if ($item_value->barcode != "")
 	                        $items->appendChild($dom->createElement('Barcode', $item_value->barcode));
 	                    $items->appendChild($dom->createElement('BuyPrice', $item_value->price));
