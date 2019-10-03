@@ -175,10 +175,14 @@ class ProductController extends Controller {
 	                    if ($item_value->sku != "")
 	                        $items->appendChild($dom->createElement('Article', $item_value->sku));
 	                    if($item_value->title != 'Default Title'){
-	                    //echo "not working";	
+	                    echo "not working";	
+	                    echo $item_value->title;
+	                    echo "<br>";
 	                    $items->appendChild($dom->createElement('Title', htmlspecialchars($product->title.':'.$item_value->title)));
 	                    }else{
-	                    //echo "working"; 	
+	                    echo "working";
+	                    echo $product->title; 
+	                    echo "<br>";	
 	                    $items->appendChild($dom->createElement('Title', htmlspecialchars($product->title)));	
 	                    }
 	                    if ($item_value->barcode != "")
