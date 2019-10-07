@@ -340,7 +340,7 @@ class OrderController extends Controller {
            echo "<pre>";
            print_r($request_array);
            print_r($warehouse_order);
-           die;
+           // die;
 
             if (isset($warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo)) {
                 $warehouse_order = $warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo;
