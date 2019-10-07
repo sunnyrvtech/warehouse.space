@@ -98,6 +98,7 @@ class ProductController extends Controller {
                 	}
                     $i = 0;
                     $product_array = array();
+                    Log::info('product array'. json_encode($request->variants));
                     foreach ($request->variants as $item_value) {
                         $item_value = (object) $item_value;
                         $item_array = (object) array();
