@@ -84,7 +84,7 @@ class ProductController extends Controller {
             Log::info('Soap client error: ' . $fault->getMessage());
         }
         $request = json_decode($job->request_data);
-        Log::info("request data".$request);
+        Log::info("request data".json_encode($request));
         $client = $this->_client;
         $shopUrl = $job->shop_url;
         if ($client != null) {
