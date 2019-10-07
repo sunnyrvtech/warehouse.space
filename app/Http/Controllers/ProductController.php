@@ -93,7 +93,9 @@ class ProductController extends Controller {
             $user = User::Where('shop_url', $shopUrl)->first();
             if (isset($user->get_dev_setting)) {
                 if ($job->method == "create" || $job->method == "update") {
-                    $product_images = array_column($request->images, 'src');
+                	if(isset($request->images)){
+                    	$product_images = array_column($request->images, 'src');
+                	}
                     $i = 0;
                     $product_array = array();
                     foreach ($request->variants as $item_value) {
