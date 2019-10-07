@@ -105,10 +105,10 @@ class ProductController extends Controller {
                         $item_array->ProductID = $item_value->id;
                         $item_array->Article = $item_value->sku;
                         $item_array->Title = htmlspecialchars($item_value->title);
-                        if($item_value->barcode !=""){
-		                    $item_array->Barcode = $item_value->barcode;
+                        if($item_value->barcode ==null){
+		                    $item_array->Barcode = null;
 		                }else{
-                            $item_array->Barcode ="";
+                            $item_array->Barcode =$item_value->barcode;
 		                }
                         $item_array->Description = htmlspecialchars(strip_tags($request->body_html));
 //                    $item_array->ErpTimeStamp = date('Y-m-d-H:i');
