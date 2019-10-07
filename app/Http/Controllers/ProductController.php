@@ -104,7 +104,7 @@ class ProductController extends Controller {
                         $item_array->ProductID = $item_value->id;
                         $item_array->Article = $item_value->sku;
                         $item_array->Title = htmlspecialchars($item_value->title);
-                        if($item_value->barcode != ""){
+                        if($item_value->barcode != null){
 		                    $item_array->Barcode = $item_value->barcode;
 		                }
                         $item_array->Description = htmlspecialchars(strip_tags($request->body_html));
