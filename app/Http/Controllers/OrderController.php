@@ -336,7 +336,7 @@ class OrderController extends Controller {
             $request_array->ListInvNumbers = array($id);
             $warehouse_order = $client->GetOrderShipmentInfo($request_array);
             $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->get_user->shop_url, 'ACCESS_TOKEN' => $user->get_user->access_token]);
-           Log::info('Order api response'. json_encode($warehouse_order));
+//            Log::info('Order api response'. json_encode($warehouse_order));
 //            echo "<pre>";
 //            print_r($request_array);
 //            print_r($warehouse_order);
@@ -454,7 +454,7 @@ class OrderController extends Controller {
                     } else {
                         $fulfillment_array['tracking_number'] = null;
                     }
-
+                    Log::info($fulfillment_array);
                     try {
                         $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments/' . $fulfilled_id . '.json', 'METHOD' => 'PUT', "DATA" => ["fulfillment" => $fulfillment_array]]);
                     } catch (\Exception $e) {
