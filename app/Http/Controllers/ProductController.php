@@ -71,7 +71,6 @@ class ProductController extends Controller {
     public function dispatchProductByCronJob($job) {
         $wsdl = env('WSDL_URL');
         $debug = true;
-        //Log::info("request data".$job->request_data);
         try {
             $this->_client = new SoapClient($wsdl, array(
                 'connection_timeout' => 5000,
@@ -84,21 +83,16 @@ class ProductController extends Controller {
         } catch (SoapFault $fault) {
             Log::info('Soap client error: ' . $fault->getMessage());
         }
-       
         $request = json_decode($job->request_data);
-        //Log::info("request data fgfh".$job->request_data);
         $client = $this->_client;
         $shopUrl = $job->shop_url;
         if ($client != null) {
             $user = User::Where('shop_url', $shopUrl)->first();
             if (isset($user->get_dev_setting)) {
                 if ($job->method == "create" || $job->method == "update") {
-                	if(isset($request->images)){
-                    	$product_images = array_column($request->images, 'src');
-                	}
+                    $product_images = array_column($request->images, 'src');
                     $i = 0;
                     $product_array = array();
-                    Log::info('product arrayssss'. json_encode($request->variants));
                     foreach ($request->variants as $item_value) {
                         $item_value = (object) $item_value;
                         $item_array = (object) array();
@@ -114,9 +108,7 @@ class ProductController extends Controller {
                         $item_array->BuyPrice = $item_value->price;
                         $item_array->SellPrice = $item_value->compare_at_price;
                         $item_array->Supplier = "";
-                        if(isset($request->images)){
-                        	$item_array->Images = $product_images;
-                    	}
+                        $item_array->Images = $product_images;
                         $item_array->Manufacturer = "";
                         $item_array->MinQuantity = 0;
                         $item_array->ItemWeight = $item_value->weight;
@@ -132,7 +124,7 @@ class ProductController extends Controller {
                         $product_array[$i] = $item_array;
                         $i++;
                     }
-                    Log::info('product array'. json_encode($product_array));
+
                     $final_product_array = (object) array();
                     $final_product_array->ArticlesList = $product_array;
 
