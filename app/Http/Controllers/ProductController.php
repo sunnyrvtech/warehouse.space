@@ -99,14 +99,13 @@ class ProductController extends Controller {
                     $i = 0;
                     $product_array = array();
                     foreach ($request->variants as $item_value) {
-                    	Log::info("items data". json_encode($item_value));
                         $item_value = (object) $item_value;
                         $item_array = (object) array();
                         $item_array->ProductID = $item_value->id;
                         $item_array->Article = $item_value->sku;
                         $item_array->Title = htmlspecialchars($item_value->title);
-                        $item_array->Barcode = null;
-		                $item_array->Description = htmlspecialchars(strip_tags($request->body_html));
+                        $item_array->Barcode = $item_value->barcode;
+                        $item_array->Description = htmlspecialchars(strip_tags($request->body_html));
 //                    $item_array->ErpTimeStamp = date('Y-m-d-H:i');
 //                    $item_array->TimeStamp = date('Y-m-d-H:i');
                         $item_array->HSCode = "";
@@ -132,7 +131,7 @@ class ProductController extends Controller {
                         $product_array[$i] = $item_array;
                         $i++;
                     }
-
+                    Log::info('product array'. json_encode($product_array));
                     $final_product_array = (object) array();
                     $final_product_array->ArticlesList = $product_array;
 
