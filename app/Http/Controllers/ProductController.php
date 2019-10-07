@@ -99,7 +99,7 @@ class ProductController extends Controller {
                     $i = 0;
                     $product_array = array();
                     foreach ($request->variants as $item_value) {
-                    	Log::info("items data". $item_value);
+                    	Log::info("items data". json_encode($item_value));
                         $item_value = (object) $item_value;
                         $item_array = (object) array();
                         $item_array->ProductID = $item_value->id;
