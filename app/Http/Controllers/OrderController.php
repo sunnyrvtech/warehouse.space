@@ -351,6 +351,8 @@ class OrderController extends Controller {
                 }
 
                 //dd($orders);
+                echo "<pre>";
+                print_r($orders);
 
                 if ($warehouse_order->OrderStatus == 4 && $orders->order->fulfillment_status == null && isset($warehouse_order->Shipments->ShipmentDetail)) {
                     $warehouse_shipment = $warehouse_order->Shipments->ShipmentDetail;
@@ -358,8 +360,8 @@ class OrderController extends Controller {
                         $shipment_array[0] = $warehouse_order->Shipments->ShipmentDetail;
                         $warehouse_shipment = $shipment_array;
                     }
-                    //echo "<pre>";
-                    //print_r($warehouse_shipment);
+                    echo "<pre>";
+                    print_r($warehouse_shipment);
 
                     foreach ($warehouse_shipment as $shipment) {
                         $articles = $shipment->Articles->Article;
