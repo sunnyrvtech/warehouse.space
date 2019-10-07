@@ -32,6 +32,7 @@ class Kernel extends ConsoleKernel {
             $Productcontroller = new ProductController;
             // Log::info("Cron running " . date('H:i:s'));
               $jobs = Job::get();
+              Log::info("Cron running " . $jobs);
               if ($jobs->toArray()) {
               foreach ($jobs as $job) {
                 if($job->api == 'order'){
