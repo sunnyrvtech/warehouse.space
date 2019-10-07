@@ -86,7 +86,7 @@ class ProductController extends Controller {
         }
        
         $request = json_decode($job->request_data);
-        Log::info("request data fgfh".$job->request_data);
+        //Log::info("request data fgfh".$job->request_data);
         $client = $this->_client;
         $shopUrl = $job->shop_url;
         if ($client != null) {
@@ -104,7 +104,9 @@ class ProductController extends Controller {
                         $item_array->ProductID = $item_value->id;
                         $item_array->Article = $item_value->sku;
                         $item_array->Title = htmlspecialchars($item_value->title);
-                        $item_array->Barcode = $item_value->barcode;
+                        if($item_value->barcode != ""){
+		                    $item_array->Barcode = $item_value->barcode;
+		                }
                         $item_array->Description = htmlspecialchars(strip_tags($request->body_html));
 //                    $item_array->ErpTimeStamp = date('Y-m-d-H:i');
 //                    $item_array->TimeStamp = date('Y-m-d-H:i');
