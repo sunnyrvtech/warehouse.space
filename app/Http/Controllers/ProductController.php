@@ -71,6 +71,7 @@ class ProductController extends Controller {
     public function dispatchProductByCronJob($job) {
         $wsdl = env('WSDL_URL');
         $debug = true;
+        Log::info("request data".$job);
         try {
             $this->_client = new SoapClient($wsdl, array(
                 'connection_timeout' => 5000,
