@@ -86,7 +86,7 @@ class ProductController extends Controller {
         }
        
         $request = json_decode($job->request_data);
-        Log::info("request data fgfh".json_decode($job->request_data));
+        Log::info("request data fgfh".json_decode($job->request_data, true));
         $client = $this->_client;
         $shopUrl = $job->shop_url;
         if ($client != null) {
