@@ -237,6 +237,7 @@ class SettingController extends Controller {
      }
 
      public function store(Request $request) {
+        return redirect()->back();
         $webhook_id = $request->get('webhook_id');
         $webhook_array = $this->getwebhhokDetails();
 
@@ -261,7 +262,7 @@ class SettingController extends Controller {
         // $update_array['webhook'] = json_encode($old_value_array);
         // $webhook = Webhook::Where('user_id', $user->id)->first();
         // $webhook->fill($update_array)->save();
-            return route()->back();
+            return redirect()->back();
         }
 
      }
