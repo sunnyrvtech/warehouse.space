@@ -15,7 +15,7 @@
                 </tr>
                 @forelse ($webhookinfo as $webhook)
                 <tr>
-                    <td>{{ $webhook->topic }}</td>
+                    <td><?php print_r($webhook) ?></td>
                 </tr>
                 @empty
                 <tr>
