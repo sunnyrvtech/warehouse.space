@@ -173,18 +173,6 @@ class ShopifyController extends Controller {
         $user->delete();
     }
 
-    public function getallWebhooks(Request $request, $id) {
-        die('sdfsdfsd');
-        $user = User::find($id);
-
-        $sh = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
-
-        $webhookinfo = $sh->call(['URL' => 'webhooks.json', 'METHOD' => 'GET']);
-
-        $data['webhookinfo'] = $webhookinfo;
-        return view('admin.webhooks.index');
-    }
-
     public function storeAuthenticate(Request $request, $slug) {
         $shopify_parameter = json_decode(base64_decode($slug));
         $user = User::Where('shop_url', $shopify_parameter->shop)->first();

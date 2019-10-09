@@ -40,7 +40,7 @@ Route::group(['prefix' => 'admin_warehouse', 'middleware' => 'IsAdmin'], functio
     Route::get('/', 'Admin\IndexController@index')->name('admin');
     Route::resource('users', 'Admin\UserController');
     Route::get('customer/login/{id}', 'Admin\IndexController@customerLogin')->name('customer.login');
-    Route::get('webhooks/view/{id}', 'Auth\ShopifyController@getallWebhooks')->name('webhooks');
+    Route::get('user/webhooks/{id}', 'SettingController@getallWebhooks')->name('user-webhook');
 });
 
 
