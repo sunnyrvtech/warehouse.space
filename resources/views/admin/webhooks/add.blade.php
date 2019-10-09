@@ -12,7 +12,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 col-md-3 control-label" for="name">Webhook Name:</label>
                             <div class="col-sm-9 col-md-9">
-                                <select class="form-control" name="Webhook_name">
+                                <select class="form-control" name="Webhook_id">
                                     <option value="">select....</option>
                                     @foreach($webhook_array as $key=>$value)
                                         <option value="{{ $key }}">{{ $value['name'] }}</option>
