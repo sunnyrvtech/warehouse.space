@@ -173,7 +173,7 @@ class ShopifyController extends Controller {
         $user->delete();
     }
 
-    public function getWebhooks(Request $request, $id) {
+    public function getallWebhooks(Request $request, $id) {
         die('sdfsdfsd');
         $user = User::find($id);
 
