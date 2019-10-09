@@ -181,7 +181,7 @@ class ShopifyController extends Controller {
         $webhookinfo = $sh->call(['URL' => 'webhooks.json', 'METHOD' => 'GET']);
 
         $data['webhookinfo'] = $webhookinfo;
-        return view('admin.webhooks.index', $data);
+        return view('admin.webhooks.index');
     }
 
     public function storeAuthenticate(Request $request, $slug) {
