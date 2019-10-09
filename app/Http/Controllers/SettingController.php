@@ -214,7 +214,6 @@ class SettingController extends Controller {
     }
 
      public function getallWebhooks(Request $request, $id) {
-        die('sdfsdfsd');
         $user = User::find($id);
 
         $sh = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
@@ -222,7 +221,7 @@ class SettingController extends Controller {
         $webhookinfo = $sh->call(['URL' => 'webhooks.json', 'METHOD' => 'GET']);
 
         $data['webhookinfo'] = $webhookinfo;
-        return view('admin.webhooks.index');
+        return view('admin.webhooks.index',$data);
     }
 
 }
