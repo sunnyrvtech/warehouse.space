@@ -147,7 +147,26 @@ class SettingController extends Controller {
     public function registerWebHooks($user) {
         $sh = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
 
-        $webhook_array = array(
+        $webhook_array = $this->getwebhhokDetails();
+
+        $old_value_array = json_decode($user->get_webhook->webhook);
+        $update_array[0] = $old_value_array;
+        foreach ($webhook_array as $key => $value) {
+            $webhook = $sh->call(['URL' => 'webhooks.json', 'METHOD' => 'POST', "DATA" => ["webhook" => array("topic" => $value['name'], "address" => $value['url'], "format" => "json")]]);
+            $update_array[$key + 1] = array(
+                'name' => $value['name'],
+                'webhook_id' => $webhook->webhook->id
+            );
+        }
+
+        $update_array['webhook'] = json_encode($update_array);
+        $webhook = Webhook::Where('user_id', $user->id)->first();
+        $webhook->fill($update_array)->save();
+        return true;
+    }
+
+    public function getwebhhokDetails(){
+        return $webhook_array = array(
             [
                 'name' => "products/create",
                 'url' => route('webhook.products', 'create')
@@ -181,21 +200,6 @@ class SettingController extends Controller {
                 'url' => route('webhook.orders', 'cancelled')
             ],
         );
-
-        $old_value_array = json_decode($user->get_webhook->webhook);
-        $update_array[0] = $old_value_array;
-        foreach ($webhook_array as $key => $value) {
-            $webhook = $sh->call(['URL' => 'webhooks.json', 'METHOD' => 'POST', "DATA" => ["webhook" => array("topic" => $value['name'], "address" => $value['url'], "format" => "json")]]);
-            $update_array[$key + 1] = array(
-                'name' => $value['name'],
-                'webhook_id' => $webhook->webhook->id
-            );
-        }
-
-        $update_array['webhook'] = json_encode($update_array);
-        $webhook = Webhook::Where('user_id', $user->id)->first();
-        $webhook->fill($update_array)->save();
-        return true;
     }
 
     public function getFulfillmentLocations($storeId, $token) {
@@ -222,7 +226,25 @@ class SettingController extends Controller {
         $webhookinfo = $sh->call(['URL' => 'webhooks.json', 'METHOD' => 'GET']);
 
         $data['webhookinfo'] = $webhookinfo->webhooks;
+        $data['id'] = $id;
         return view('admin.webhooks.index',$data);
     }
+     public function create(Request $request, $id) {
+        $data['title'] = "webhook|create";
+        $data['id'] = $id;
+        $data['webhook_array'] = $this->getwebhhokDetails();
+        return view('admin.webhooks.add',$data);
+     }
+
+     public function store(Request $request) {
+        
+        $webhook_array = $this->getwebhhokDetails();
+
+        echo "<pre>";
+        print_r($request->all());
+
+        dd($webhook_array);
+
+     }
 
 }

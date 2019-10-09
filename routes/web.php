@@ -41,6 +41,9 @@ Route::group(['prefix' => 'admin_warehouse', 'middleware' => 'IsAdmin'], functio
     Route::resource('users', 'Admin\UserController');
     Route::get('customer/login/{id}', 'Admin\IndexController@customerLogin')->name('customer.login');
     Route::get('user/webhooks/{id}', 'SettingController@getallWebhooks')->name('user-webhook');
+    Route::get('user/webhooks/create/{id}', 'SettingController@create')->name('webhook-create');
+    Route::post('user/webhooks/store', 'SettingController@store')->name('webhook-store');
+});
 });
 
 

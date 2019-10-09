@@ -3,7 +3,7 @@
 @section('content')
 <div class="row form-group">
     <div class="col-md-12">
-        <!--<a href="" class="btn btn-primary">Add New</a>-->
+        <a href="{{ route('webhook-create',$id) }}" class="btn btn-primary">Create Webhook</a>
     </div>
 </div>
 <div class="row">
