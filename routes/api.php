@@ -30,5 +30,3 @@ Route::get('webhooks/fulfillment/locations/{storeId}/{token}', 'SettingControlle
 Route::get('webhooks/inventory/connect/{storeId}/{token}/{locationId}/{product_id}', 'ProductController@connectInventory');
 Route::get('webhooks/inventory/set/{storeId}/{token}/{locationId}/{product_id}/{qnty}', 'ProductController@setInventory');
 Route::get('webhooks/inventory/adjust/{storeId}/{token}/{locationId}/{product_id}/{qnty}', 'ProductController@adjustInventory');
-
-Route::get('auth/check_webhook/{id}', 'Auth\ShopifyController@getWebhooks');

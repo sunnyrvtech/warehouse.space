@@ -22,6 +22,7 @@
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->created_at }}</td>
                     <td><a href="{{ route('customer.login',$user->id) }}" class="btn btn-outline-success">Login</a></td>
+                    <td><a href="{{ route('webhook-view',$user->id) }}" class="btn btn-outline-success">View Webhook</a></td>
                 </tr>
                 @empty
                 <tr>
