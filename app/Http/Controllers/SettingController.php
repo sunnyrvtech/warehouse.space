@@ -221,6 +221,8 @@ class SettingController extends Controller {
 
         $webhookinfo = $sh->call(['URL' => 'webhooks.json', 'METHOD' => 'GET']);
 
+        dd($webhookinfo);
+
         $data['webhookinfo'] = $webhookinfo;
         return view('admin.webhooks.index',$data);
     }
