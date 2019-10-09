@@ -245,20 +245,6 @@ class SettingController extends Controller {
         if($user){
             $sh = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
 
-
-        $old_value_array = json_decode($user->get_webhook->webhook);
-$key = array_search ($webhook_array[$webhook_id]['name'], $old_value_array);
-
-echo "<pre>";
-print_r($old_value_array);
-echo $key."fjhsdfjhsdfsdfsfg";
-
-die('dddd');
-
-
-
-
-
             try {
                 $webhook = $sh->call(['URL' => 'webhooks.json', 'METHOD' => 'POST', "DATA" => ["webhook" => array("topic" => $webhook_array[$webhook_id]['name'], "address" => $webhook_array[$webhook_id]['url'], "format" => "json")]]);
             } catch (\Exception $e) {
@@ -268,11 +254,13 @@ die('dddd');
             //     'name' => $value['name'],
             //     'webhook_id' => $webhook->webhook->id
             // );
-        
+       // $old_value_array = json_decode($user->get_webhook->webhook);
+        //$key = array_search ($webhook_array[$webhook_id]['name'], $old_value_array);
+        //$old_value_array[$key]['webhook_id'] = $webhook->webhook->id;
 
-        $update_array['webhook'] = json_encode($update_array);
-        $webhook = Webhook::Where('user_id', $user->id)->first();
-        $webhook->fill($update_array)->save();
+        // $update_array['webhook'] = json_encode($old_value_array);
+        // $webhook = Webhook::Where('user_id', $user->id)->first();
+        // $webhook->fill($update_array)->save();
         }
 
      }
