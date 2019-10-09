@@ -178,7 +178,9 @@ class ShopifyController extends Controller {
 
         $sh = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
 
-        $data['webhookinfo'] = $sh->call(['URL' => 'webhooks.json', 'METHOD' => 'GET']);
+        $webhookinfo = $sh->call(['URL' => 'webhooks.json', 'METHOD' => 'GET']);
+
+        $data['webhookinfo'] = $webhookinfo;
         return view('webhooks.index', $data);
     }
 
