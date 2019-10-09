@@ -44,6 +44,5 @@ Route::group(['prefix' => 'admin_warehouse', 'middleware' => 'IsAdmin'], functio
     Route::get('user/webhooks/create/{id}', 'SettingController@create')->name('webhook-create');
     Route::post('user/webhooks/store', 'SettingController@store')->name('webhook-store');
 });
-});
 
 
