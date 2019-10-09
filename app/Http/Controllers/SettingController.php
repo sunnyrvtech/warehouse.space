@@ -237,7 +237,9 @@ class SettingController extends Controller {
      }
 
      public function store(Request $request) {
-        return redirect()->back();
+        $this->validate($request, [
+            'webhook_id' => 'required'
+        ]);
         $webhook_id = $request->get('webhook_id');
         $webhook_array = $this->getwebhhokDetails();
 
