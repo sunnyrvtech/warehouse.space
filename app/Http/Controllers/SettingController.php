@@ -245,7 +245,7 @@ class SettingController extends Controller {
         if($user){
             $sh = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->shop_url, 'ACCESS_TOKEN' => $user->access_token]);
 echo "<pre>";
-print_r($webhook_array);
+print_r($webhook_array[3]);
 die;
         $old_value_array = json_decode($user->get_webhook->webhook);
 $key = array_search ($webhook_array[$webhook_id]['name'], $old_value_array);
