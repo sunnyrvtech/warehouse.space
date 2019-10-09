@@ -15,7 +15,7 @@
                                 <select class="form-control" name="Webhook_name">
                                     <option value="">select....</option>
                                     @foreach($webhook_array as $key=>$value)
-                                        <option id={{ $key }}>{{ $value->name }}</option>
+                                        <option id="{{ $key }}">{{ $value['name'] }}</option>
                                     @endforeach
                                 </select>
                                 <input type="hidden" name="id" value="{{ $id }}" >
