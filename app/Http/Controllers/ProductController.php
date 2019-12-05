@@ -161,8 +161,6 @@ class ProductController extends Controller {
 	            $productinfo = $shopify->call(['URL' => 'products.json?limit=50&page='.$i, 'METHOD' => 'GET']);            
 
 	            foreach ($productinfo->products as $key => $product) {
-                    echo "<pre>";
-                    print_r($product);
 	                $images = "";
 	                if ($product->images != null) {
 	                    $images = $dom->createElement('Images');
@@ -216,8 +214,7 @@ class ProductController extends Controller {
 	                    $root->appendChild($items);
 	                }
 	            }
-	         }  
-             die('ssss00'); 
+	         }   
 //            echo $dom->getElementsByTagName('MaterialArticle')->length;
 //            echo '<xmp>' . $dom->saveXML() . '</xmp>';
            //$dom->save('result.xml') or die('XML Create Error');

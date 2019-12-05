@@ -201,7 +201,7 @@ class OrderController extends Controller {
 //        echo htmlentities($client->__getLastRequest());
 //        echo "<pre>";
 //        print_r($request_array);
-//        dd($warehouse_order);
+       dd($warehouse_order);
         if (isset($warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo)) {
             if (isset($warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo->Shipments) && count((array) $warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo->Shipments)) {
                 $warehouse_shipment = $warehouse_order->GetOrderShipmentInfoResult->OrderShipmentInfo->Shipments;
