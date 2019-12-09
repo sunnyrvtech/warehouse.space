@@ -198,7 +198,7 @@ class OrderController extends Controller {
         $request_array->ListInvNumbers = array($order_id);
 
         $warehouse_order = $client->GetOrderShipmentInfo($request_array);
-        Log::info(' Order update' . htmlentities($client->__getLastRequest()));
+        //Log::info(' Order update' . htmlentities($client->__getLastRequest()));
        // echo htmlentities($client->__getLastRequest());
 //        echo "<pre>";
 //        print_r($request_array);
@@ -458,7 +458,7 @@ class OrderController extends Controller {
                     } else {
                         $fulfillment_array['tracking_number'] = null;
                     }
-                    Log::info($fulfillment_array);
+                    //Log::info($fulfillment_array);
                     try {
                         $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments/' . $fulfilled_id . '.json', 'METHOD' => 'PUT', "DATA" => ["fulfillment" => $fulfillment_array]]);
                     } catch (\Exception $e) {
