@@ -164,7 +164,7 @@ class OrderController extends Controller {
         // Log::info('Create order details:'.$result);
         // echo "<pre>";
         // print_r($result);
-        //Log::info(' Order update' . $client->__getLastRequest());
+        // Log::info(' Order update' . $client->__getLastRequest());
 //        Log::info(' Order update' . $client->__getLastResponse());
         return $result;
     }
@@ -198,7 +198,8 @@ class OrderController extends Controller {
         $request_array->ListInvNumbers = array($order_id);
 
         $warehouse_order = $client->GetOrderShipmentInfo($request_array);
-//        echo htmlentities($client->__getLastRequest());
+        Log::info(' Order update' . htmlentities($client->__getLastRequest()));
+       // echo htmlentities($client->__getLastRequest());
 //        echo "<pre>";
 //        print_r($request_array);
 //        dd($warehouse_order);
