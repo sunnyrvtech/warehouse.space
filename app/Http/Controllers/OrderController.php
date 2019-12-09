@@ -164,7 +164,7 @@ class OrderController extends Controller {
         // Log::info('Create order details:'.$result);
         // echo "<pre>";
         // print_r($result);
-        Log::info('Order update fhgjfhdgjhfdjghfj');
+        Log::info(' Order update hello' . $client->__getLastRequest());
 //        Log::info(' Order update' . $client->__getLastResponse());
         return $result;
     }
