@@ -407,6 +407,11 @@ class OrderController extends Controller {
                             "line_items" => $item_ids_array,
                             "notify_customer" => true
                         );
+
+
+                      Log::info('Fullfillment Array Details post123');
+                      Log::info('Fullfillment Array Details post321'. json_encode($fulfillment_array));
+
                         if ($shipment->Shipper != null && $shipment->Shipper != "") {
                             $fulfillment_array['tracking_company'] = $shipment->Shipper;
                         }
