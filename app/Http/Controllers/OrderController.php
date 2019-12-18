@@ -420,6 +420,7 @@ class OrderController extends Controller {
                         try {
                             $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => $fulfillment_array]]);
                         } catch (\Exception $e) {
+                            Log::info('Fullfillment Array Details post catch'. json_encode($fulfillment_array));
                             Log::info('Order status update error post' . $id . $e->getMessage());
                             return json_encode(array('success' => false, 'message' => $e->getMessage()));
                         }
