@@ -164,7 +164,7 @@ class OrderController extends Controller {
        // Log::info('Create order details newwww:'.json_encode($result));
         // echo "<pre>";
         // print_r($result);
-        //Log::info(' Order update hello' . $client->__getLastRequest());
+        Log::info(' Order update hello' . $client->__getLastRequest());
 //        Log::info(' Order update' . $client->__getLastResponse());
         return $result;
     }
@@ -340,7 +340,7 @@ class OrderController extends Controller {
             $request_array->ListInvNumbers = array($id);
             $warehouse_order = $client->GetOrderShipmentInfo($request_array);
             $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->get_user->shop_url, 'ACCESS_TOKEN' => $user->get_user->access_token]);
-           Log::info('Order api response'. json_encode($warehouse_order));
+//            Log::info('Order api response'. json_encode($warehouse_order));
 //            echo "<pre>";
 //            print_r($request_array);
 //            print_r($warehouse_order);
@@ -407,11 +407,6 @@ class OrderController extends Controller {
                             "line_items" => $item_ids_array,
                             "notify_customer" => true
                         );
-
-
-                      Log::info('Fullfillment Array Details post123');
-                      Log::info('Fullfillment Array Details post321'. json_encode($fulfillment_array));
-
                         if ($shipment->Shipper != null && $shipment->Shipper != "") {
                             $fulfillment_array['tracking_company'] = $shipment->Shipper;
                         }
@@ -421,14 +416,10 @@ class OrderController extends Controller {
                         if ($shipment->TrackingUrl != null && $shipment->TrackingUrl != "") {
                             $fulfillment_array['tracking_url'] = $shipment->TrackingUrl;
                         }
-                        Log::info('Fullfillment Array Details post'. json_encode($fulfillment_array));
-                        $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => $fulfillment_array]]);
-                        Log::info('shopify_result'. json_encode($shopify_result));
                         try {
                             $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => $fulfillment_array]]);
                         } catch (\Exception $e) {
-                            Log::info('Fullfillment Array Details post catch'. json_encode($fulfillment_array));
-                            Log::info('Order status update error post' . $id . $e->getMessage());
+                            Log::info('Order status update error ' . $id . $e->getMessage());
                             return json_encode(array('success' => false, 'message' => $e->getMessage()));
                         }
 //                            dd($shopify_result);
@@ -467,11 +458,11 @@ class OrderController extends Controller {
                     } else {
                         $fulfillment_array['tracking_number'] = null;
                     }
-                    Log::info('Fullfillment Array Details put'. json_encode($fulfillment_array));
+                    //Log::info($fulfillment_array);
                     try {
                         $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments/' . $fulfilled_id . '.json', 'METHOD' => 'PUT', "DATA" => ["fulfillment" => $fulfillment_array]]);
                     } catch (\Exception $e) {
-                        Log::info('Order status update error put' . $id . $e->getMessage());
+                        Log::info('Order status update error ' . $id . $e->getMessage());
                         return json_encode(array('success' => false, 'message' => $e->getMessage()));
                     }
                     Log::info('Order status update success');
