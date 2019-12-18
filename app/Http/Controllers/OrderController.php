@@ -422,6 +422,8 @@ class OrderController extends Controller {
                             $fulfillment_array['tracking_url'] = $shipment->TrackingUrl;
                         }
                         Log::info('Fullfillment Array Details post'. json_encode($fulfillment_array));
+                        $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => $fulfillment_array]]);
+                        Log::info('shopify_result'. json_encode($shopify_result));
                         try {
                             $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => $fulfillment_array]]);
                         } catch (\Exception $e) {
