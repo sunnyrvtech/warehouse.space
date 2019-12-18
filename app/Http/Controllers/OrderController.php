@@ -420,7 +420,7 @@ class OrderController extends Controller {
                         try {
                             $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => $fulfillment_array]]);
                         } catch (\Exception $e) {
-                            Log::info('Order status update error ' . $id . $e->getMessage());
+                            Log::info('Order status update error post' . $id . $e->getMessage());
                             return json_encode(array('success' => false, 'message' => $e->getMessage()));
                         }
 //                            dd($shopify_result);
@@ -463,7 +463,7 @@ class OrderController extends Controller {
                     try {
                         $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments/' . $fulfilled_id . '.json', 'METHOD' => 'PUT', "DATA" => ["fulfillment" => $fulfillment_array]]);
                     } catch (\Exception $e) {
-                        Log::info('Order status update error ' . $id . $e->getMessage());
+                        Log::info('Order status update error put' . $id . $e->getMessage());
                         return json_encode(array('success' => false, 'message' => $e->getMessage()));
                     }
                     Log::info('Order status update success');
