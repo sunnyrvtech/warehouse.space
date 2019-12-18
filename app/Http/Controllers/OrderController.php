@@ -416,7 +416,7 @@ class OrderController extends Controller {
                         if ($shipment->TrackingUrl != null && $shipment->TrackingUrl != "") {
                             $fulfillment_array['tracking_url'] = $shipment->TrackingUrl;
                         }
-                        Log::info('Fullfillment Array Details'. json_encode($fulfillment_array));
+                        Log::info('Fullfillment Array Details post'. json_encode($fulfillment_array));
                         try {
                             $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => $fulfillment_array]]);
                         } catch (\Exception $e) {
@@ -459,7 +459,7 @@ class OrderController extends Controller {
                     } else {
                         $fulfillment_array['tracking_number'] = null;
                     }
-                    //Log::info($fulfillment_array);
+                    Log::info('Fullfillment Array Details put'. json_encode($fulfillment_array));
                     try {
                         $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments/' . $fulfilled_id . '.json', 'METHOD' => 'PUT', "DATA" => ["fulfillment" => $fulfillment_array]]);
                     } catch (\Exception $e) {
