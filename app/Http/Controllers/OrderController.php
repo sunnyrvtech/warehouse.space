@@ -340,7 +340,7 @@ class OrderController extends Controller {
             $request_array->ListInvNumbers = array($id);
             $warehouse_order = $client->GetOrderShipmentInfo($request_array);
             $shopify = App::makeWith('ShopifyAPI', ['API_KEY' => env('SHOPIFY_APP_KEY'), 'API_SECRET' => env('SHOPIFY_APP_SECRET'), 'SHOP_DOMAIN' => $user->get_user->shop_url, 'ACCESS_TOKEN' => $user->get_user->access_token]);
-//            Log::info('Order api response'. json_encode($warehouse_order));
+           Log::info('Order api response new'. json_encode($warehouse_order));
 //            echo "<pre>";
 //            print_r($request_array);
 //            print_r($warehouse_order);
@@ -416,10 +416,12 @@ class OrderController extends Controller {
                         if ($shipment->TrackingUrl != null && $shipment->TrackingUrl != "") {
                             $fulfillment_array['tracking_url'] = $shipment->TrackingUrl;
                         }
+                        Log::info('Fullfillment Array Post deatils');
+                        Log::info('Fullfillment Array Post ' .json_encode($fulfillment_array));
                         try {
                             $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => $fulfillment_array]]);
                         } catch (\Exception $e) {
-                            Log::info('Order status update error ' . $id . $e->getMessage());
+                            Log::info('Order status update error post ' . $id . $e->getMessage());
                             return json_encode(array('success' => false, 'message' => $e->getMessage()));
                         }
 //                            dd($shopify_result);
