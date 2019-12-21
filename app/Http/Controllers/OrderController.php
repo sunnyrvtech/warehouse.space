@@ -413,7 +413,7 @@ class OrderController extends Controller {
                         if ($shipment->TrackingNumber != null && $shipment->TrackingNumber != "") {
                             $fulfillment_array['tracking_number'] = $shipment->TrackingNumber;
                         }
-                        // $fulfillment_array['tracking_number'] = null;
+                        $fulfillment_array['tracking_number'] = null;
                         
                         if ($shipment->TrackingUrl != null && $shipment->TrackingUrl != "") {
                             $fulfillment_array['tracking_url'] = $shipment->TrackingUrl;
@@ -421,14 +421,13 @@ class OrderController extends Controller {
 
 
 
-                        echo "<pre>";
-                        print_r($fulfillment_array);
-                        die;
+                       
                         // Log::info('fullfillment array posts hfhdkfd');
                         // Log::info('fullfillment array posts ' .json_encode($fulfillment_array));
                         try {
                             $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => $fulfillment_array]]);
                         } catch (\Exception $e) {
+                            dd($e->getMessage());
                             Log::info('Order status update error postttt ' . $id . $e->getMessage());
                             return json_encode(array('success' => false, 'message' => $e->getMessage()));
                         }
