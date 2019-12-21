@@ -404,7 +404,6 @@ class OrderController extends Controller {
 //                        dd($item_ids_array);
                         $fulfillment_array = array(
                             "location_id" => $location_id,
-                            "line_items" => $item_ids_array,
                             "notify_customer" => true
                         );
                         if ($shipment->Shipper != null && $shipment->Shipper != "") {
@@ -421,7 +420,7 @@ class OrderController extends Controller {
 
 
 
-                       dd($fulfillment_array);
+                    //    dd($fulfillment_array);
                         // Log::info('fullfillment array posts hfhdkfd');
                         // Log::info('fullfillment array posts ' .json_encode($fulfillment_array));
                         try {
