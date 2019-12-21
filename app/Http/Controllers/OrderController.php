@@ -413,14 +413,13 @@ class OrderController extends Controller {
                         // if ($shipment->TrackingNumber != null && $shipment->TrackingNumber != "") {
                         //     $fulfillment_array['tracking_number'] = $shipment->TrackingNumber;
                         // }
-                        //$fulfillment_array['tracking_number'] = null;
+                        $fulfillment_array['tracking_number'] = null;
                         
                         // if ($shipment->TrackingUrl != null && $shipment->TrackingUrl != "") {
                         //     $fulfillment_array['tracking_url'] = $shipment->TrackingUrl;
                         // }
-                        $locations = $shopify->call(['URL' => 'locations.json', 'METHOD' => 'GET']);
-                            dd($locations);
 
+                        $fulfillment_array['status'] = 'success';
 
                        
                         // Log::info('fullfillment array posts hfhdkfd');
