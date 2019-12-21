@@ -406,6 +406,9 @@ class OrderController extends Controller {
                             // "line_items" => $item_ids_array,
                             "notify_customer" => true
                         );
+
+                        $locations = $shopify->call(['URL' => 'locations.json', 'METHOD' => 'GET']);
+                  dd($locations);
                         if ($shipment->Shipper != null && $shipment->Shipper != "") {
                             $fulfillment_array['tracking_company'] = $shipment->Shipper;
                         }
@@ -443,8 +446,7 @@ class OrderController extends Controller {
                     } else {
                         $location_id = $shipment->LocationID;
                     }
-                    $locations = $shopify->call(['URL' => 'locations.json', 'METHOD' => 'GET']);
-                  dd($locations);
+
                     try {
                         $fulfillment = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'GET']);
                     } catch (\Exception $e) {
