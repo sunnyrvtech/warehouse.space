@@ -387,6 +387,10 @@ class OrderController extends Controller {
                             $location_id = $shipment->LocationID;
                         }
 
+                        $locations = $shopify->call(['URL' => '2019-10/locations.json', 'METHOD' => 'GET']);
+                        dd($locations);
+
+
                         //print_r($product_id_array);
                         $item_ids_array = array();
                         foreach ($orders->order->line_items as $key => $order) {
@@ -419,15 +423,15 @@ class OrderController extends Controller {
                         //     $fulfillment_array['tracking_url'] = $shipment->TrackingUrl;
                         // }
 
-                       // $fulfillment_array['status'] = 'success';
+
 
                        
                         // Log::info('fullfillment array posts hfhdkfd');
                         // Log::info('fullfillment array posts ' .json_encode($fulfillment_array));
                         try {
-                            $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => $fulfillment_array]]);
+                            $shopify_result = $shopify->call(['URL' => '2019-10/orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => $fulfillment_array]]);
                         } catch (\Exception $e) {
-                            dd($e);
+                            dd($e->getMessage());
                             Log::info('Order status update error postttt ' . $id . $e->getMessage());
                             return json_encode(array('success' => false, 'message' => $e->getMessage()));
                         }
