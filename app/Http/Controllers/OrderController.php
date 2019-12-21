@@ -410,16 +410,22 @@ class OrderController extends Controller {
                         if ($shipment->Shipper != null && $shipment->Shipper != "") {
                             $fulfillment_array['tracking_company'] = $shipment->Shipper;
                         }
-                        // if ($shipment->TrackingNumber != null && $shipment->TrackingNumber != "") {
-                        //     $fulfillment_array['tracking_number'] = $shipment->TrackingNumber;
-                        // }
-                        $fulfillment_array['tracking_number'] = null;
+                        if ($shipment->TrackingNumber != null && $shipment->TrackingNumber != "") {
+                            $fulfillment_array['tracking_number'] = $shipment->TrackingNumber;
+                        }
+                        // $fulfillment_array['tracking_number'] = null;
                         
                         if ($shipment->TrackingUrl != null && $shipment->TrackingUrl != "") {
                             $fulfillment_array['tracking_url'] = $shipment->TrackingUrl;
                         }
-                        Log::info('fullfillment array posts hfhdkfd');
-                        Log::info('fullfillment array posts ' .json_encode($fulfillment_array));
+
+
+
+                        echo "<pre>";
+                        print_r($fulfillment_array);
+                        die;
+                        // Log::info('fullfillment array posts hfhdkfd');
+                        // Log::info('fullfillment array posts ' .json_encode($fulfillment_array));
                         try {
                             $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => $fulfillment_array]]);
                         } catch (\Exception $e) {
@@ -430,7 +436,7 @@ class OrderController extends Controller {
                     }
                     return response()->json(['success' => true], 200);
                 } else if ($warehouse_order->OrderStatus == 4 && $orders->order->fulfillment_status != null && isset($warehouse_order->Shipments->ShipmentDetail)) {
-
+die('dddd');
                     // this is used to updated tracking number
                     $shipment = $warehouse_order->Shipments->ShipmentDetail;
                     //  echo "<pre>";
