@@ -413,7 +413,7 @@ class OrderController extends Controller {
                             $fulfillment_array['tracking_number'] = $shipment->TrackingNumber;
                         }
 
-                        $fulfillment_array['tracking_number'] = null;
+                       // $fulfillment_array['tracking_number'] = null;
 
                         if ($shipment->TrackingUrl != null && $shipment->TrackingUrl != "") {
                             $fulfillment_array['tracking_url'] = $shipment->TrackingUrl;
