@@ -395,7 +395,7 @@ class OrderController extends Controller {
                                 $item_ids_array[$key]['id'] = $order->id;
                             }
                         }
-                        $item_ids_array = (object) array_values($item_ids_array);
+                        $item_ids_array = array_values($item_ids_array);
                         // echo count($warehouse_shipment);
                         //dd($item_ids_array);
 //                        echo $shipment->TrackingNumber;
@@ -409,24 +409,19 @@ class OrderController extends Controller {
                         if ($shipment->Shipper != null && $shipment->Shipper != "") {
                             $fulfillment_array['tracking_company'] = $shipment->Shipper;
                         }
-                        // if ($shipment->TrackingNumber != null && $shipment->TrackingNumber != "") {
-                        //     $fulfillment_array['tracking_number'] = $shipment->TrackingNumber;
-                        // }
-                        $fulfillment_array['tracking_number'] = "42342424234";
+                        if ($shipment->TrackingNumber != null && $shipment->TrackingNumber != "") {
+                            $fulfillment_array['tracking_number'] = $shipment->TrackingNumber;
+                        }
                         
-                        // if ($shipment->TrackingUrl != null && $shipment->TrackingUrl != "") {
-                        //     $fulfillment_array['tracking_url'] = $shipment->TrackingUrl;
-                        // }
-
-
-
-                    //    dd($fulfillment_array);
-                        // Log::info('fullfillment array posts hfhdkfd');
-                        // Log::info('fullfillment array posts ' .json_encode($fulfillment_array));
+                        if ($shipment->TrackingUrl != null && $shipment->TrackingUrl != "") {
+                            $fulfillment_array['tracking_url'] = $shipment->TrackingUrl;
+                        }
+                        dd($fulfillment_array);
+                        //Log::info('fullfillment array posts hfhdkfd');
+                        //Log::info('fullfillment array posts ' .json_encode($fulfillment_array));
                         try {
                             $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => $fulfillment_array]]);
                         } catch (\Exception $e) {
-                            dd($e->getMessage());
                             Log::info('Order status update error postttt ' . $id . $e->getMessage());
                             return json_encode(array('success' => false, 'message' => $e->getMessage()));
                         }
@@ -434,7 +429,7 @@ class OrderController extends Controller {
                     }
                     return response()->json(['success' => true], 200);
                 } else if ($warehouse_order->OrderStatus == 4 && $orders->order->fulfillment_status != null && isset($warehouse_order->Shipments->ShipmentDetail)) {
-die('dddd');
+
                     // this is used to updated tracking number
                     $shipment = $warehouse_order->Shipments->ShipmentDetail;
                     //  echo "<pre>";
