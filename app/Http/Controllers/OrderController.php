@@ -430,9 +430,9 @@ class OrderController extends Controller {
 
                     // this is used to updated tracking number
                     $shipment = $warehouse_order->Shipments->ShipmentDetail;
-                    //  echo "<pre>";
-                    // print_r($shipment);
-                    // die('gfgf');
+                     echo "<pre>";
+                    print_r($shipment);
+                    die('gfgf');
                     if ($shipment->LocationID == 0) {
                         try {
                             $locations = $shopify->call(['URL' => 'locations.json', 'METHOD' => 'GET']);
