@@ -430,6 +430,7 @@ class OrderController extends Controller {
 
                     // this is used to updated tracking number
                     $shipment = $warehouse_order->Shipments->ShipmentDetail;
+                    $shipment = end($shipment);
                      echo "<pre>";
                     print_r($shipment);
                     die('gfgf');
