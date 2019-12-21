@@ -419,7 +419,7 @@ class OrderController extends Controller {
                         //     $fulfillment_array['tracking_url'] = $shipment->TrackingUrl;
                         // }
 
-                        $fulfillment_array['status'] = 'success';
+                       // $fulfillment_array['status'] = 'success';
 
                        
                         // Log::info('fullfillment array posts hfhdkfd');
@@ -427,7 +427,7 @@ class OrderController extends Controller {
                         try {
                             $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => $fulfillment_array]]);
                         } catch (\Exception $e) {
-                            dd($e->getMessage());
+                            dd($e);
                             Log::info('Order status update error postttt ' . $id . $e->getMessage());
                             return json_encode(array('success' => false, 'message' => $e->getMessage()));
                         }
