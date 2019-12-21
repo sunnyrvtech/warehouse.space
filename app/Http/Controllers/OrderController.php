@@ -418,6 +418,9 @@ class OrderController extends Controller {
                         if ($shipment->TrackingUrl != null && $shipment->TrackingUrl != "") {
                             $fulfillment_array['tracking_url'] = $shipment->TrackingUrl;
                         }
+
+dd($fulfillment_array);
+
                         try {
                             $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => $fulfillment_array]]);
                         } catch (\Exception $e) {
