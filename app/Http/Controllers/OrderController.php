@@ -375,17 +375,8 @@ class OrderController extends Controller {
                             return json_encode(array('success' => false, 'message' => 'product id not found in the response'));
                         }
 
-                        if ($shipment->LocationID == 0) {
-                            try {
-                                $locations = $shopify->call(['URL' => 'locations.json', 'METHOD' => 'GET']);
-                            } catch (\Exception $e) {
-                                return json_encode(array('success' => false, 'message' => $e->getMessage()));
-                            }
-                            $location_id = $locations->locations[0]->id;
-                        } else {
-                            $location_id = $shipment->LocationID;
-                        }
-
+                        $location_id = $shipment->LocationID;
+                        
                         //print_r($product_id_array);
                         // $item_ids_array = array();
                         // foreach ($orders->order->line_items as $key => $order) {
@@ -430,20 +421,9 @@ class OrderController extends Controller {
 
                     // this is used to updated tracking number
                     $shipment = $warehouse_order->Shipments->ShipmentDetail;
-                    $shipment = end($shipment);
-                     echo "<pre>";
-                    print_r($shipment);
-                    die('gfgf');
-                    if ($shipment->LocationID == 0) {
-                        try {
-                            $locations = $shopify->call(['URL' => 'locations.json', 'METHOD' => 'GET']);
-                        } catch (\Exception $e) {
-                            return json_encode(array('success' => false, 'message' => $e->getMessage()));
-                        }
-                        $location_id = $locations->locations[0]->id;
-                    } else {
-                        $location_id = $shipment->LocationID;
-                    }
+                    $shipment = end($shipment);  ///  this is used to update latest shipment
+                    
+                    $location_id = $shipment->LocationID;
 
                     try {
                         $fulfillment = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'GET']);
