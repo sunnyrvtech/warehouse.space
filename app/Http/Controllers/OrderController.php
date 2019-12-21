@@ -395,7 +395,7 @@ class OrderController extends Controller {
                                 $item_ids_array[$key]['id'] = $order->id;
                             }
                         }
-                        $item_ids_array = array_values($item_ids_array);
+                        $item_ids_array = (object) array_values($item_ids_array);
                         // echo count($warehouse_shipment);
                         //dd($item_ids_array);
 //                        echo $shipment->TrackingNumber;
