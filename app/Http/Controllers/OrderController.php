@@ -385,7 +385,8 @@ class OrderController extends Controller {
                         } else {
                             $location_id = $shipment->LocationID;
                         }
-
+                        $locations = $shopify->call(['URL' => 'locations.json', 'METHOD' => 'GET']);
+                          dd($locations);
                         //print_r($product_id_array);
                         // $item_ids_array = array();
                         // foreach ($orders->order->line_items as $key => $order) {
