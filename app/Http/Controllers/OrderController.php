@@ -414,8 +414,7 @@ class OrderController extends Controller {
                         //     $fulfillment_array['tracking_number'] = $shipment->TrackingNumber;
                         // }
                         $fulfillment_array['tracking_number'] = "42342424234";
-                        $shopify_result = $shopify->call(['URL' => 'orders/' . $id . '/fulfillments.json', 'METHOD' => 'POST', "DATA" => ["fulfillment" => $fulfillment_array]]);
-                        dd($shopify_result);
+                        dd($shopify);
                         // if ($shipment->TrackingUrl != null && $shipment->TrackingUrl != "") {
                         //     $fulfillment_array['tracking_url'] = $shipment->TrackingUrl;
                         // }
