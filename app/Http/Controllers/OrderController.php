@@ -387,7 +387,7 @@ class OrderController extends Controller {
                             $location_id = $shipment->LocationID;
                         }
 
-                        $locations = $shopify->call(['URL' => '2019-10/locations.json', 'METHOD' => 'GET']);
+                        $locations = $shopify->call(['URL' => '/2019-10/locations.json', 'METHOD' => 'GET']);
                         dd($locations);
 
 
