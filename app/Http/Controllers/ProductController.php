@@ -169,11 +169,14 @@ class ProductController extends Controller {
 	                    }
 	                }
 	                foreach ($product->variants as $item_value) {
+                        echo "<pre>";
+                        print_r($item_value);
 	                    $items = $dom->createElement('MaterialArticle');
 	                    $items->appendChild($dom->createElement('AccountKey', $this->_accountKey));
 	                    $items->appendChild($dom->createElement('ProductID', $item_value->id));
 	                    if ($item_value->sku != "")
 	                        $items->appendChild($dom->createElement('Article', $item_value->sku));
+
 	                    if($item_value->title != 'Default Title'){
 	                    // echo "not working";	
 	                    // echo $item_value->title;
@@ -215,6 +218,7 @@ class ProductController extends Controller {
 	                }
 	            }
 	         }   
+             die('ss');
 //            echo $dom->getElementsByTagName('MaterialArticle')->length;
 //            echo '<xmp>' . $dom->saveXML() . '</xmp>';
            //$dom->save('result.xml') or die('XML Create Error');
