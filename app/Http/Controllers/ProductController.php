@@ -172,6 +172,7 @@ class ProductController extends Controller {
                     // echo $product->title;
 	                foreach ($product->variants as $item_value) {
                         echo htmlspecialchars($item_value->sku);
+                        die('ss');
 	                    $items = $dom->createElement('MaterialArticle');
 	                    $items->appendChild($dom->createElement('AccountKey', $this->_accountKey));
 	                    $items->appendChild($dom->createElement('ProductID', $item_value->id));
