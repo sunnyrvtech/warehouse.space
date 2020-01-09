@@ -168,8 +168,8 @@ class ProductController extends Controller {
 	                        $images->appendChild($dom->createElement('string', $img->src));
 	                    }
 	                }
-                    // echo "<pre>";
-                    // print_r($product);
+                    echo "<pre>";
+                    echo $product->title;
 	                foreach ($product->variants as $item_value) {
                         
 	                    $items = $dom->createElement('MaterialArticle');
@@ -177,7 +177,7 @@ class ProductController extends Controller {
 	                    $items->appendChild($dom->createElement('ProductID', $item_value->id));
 	                    if ($item_value->sku != "")
 	                        $items->appendChild($dom->createElement('Article', $item_value->sku));
-                        echo $items->appendChild($dom->createElement('Title', htmlspecialchars($product->title.':'.$item_value->title)));
+                        $items->appendChild($dom->createElement('Title', htmlspecialchars($product->title.':'.$item_value->title)));
 
 	                    // if($item_value->title != 'Default Title'){
 	                    // // echo "not working";	
