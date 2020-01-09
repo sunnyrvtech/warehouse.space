@@ -168,8 +168,8 @@ class ProductController extends Controller {
 	                        $images->appendChild($dom->createElement('string', $img->src));
 	                    }
 	                }
-                    echo "<pre>";
-                    print_r($product);
+                    // echo "<pre>";
+                    // print_r($product);
 	                foreach ($product->variants as $item_value) {
                         
 	                    $items = $dom->createElement('MaterialArticle');
@@ -221,7 +221,7 @@ class ProductController extends Controller {
 	                }
 	            }
 	         }   
-             die('ss');
+             // die('ss');
 //            echo $dom->getElementsByTagName('MaterialArticle')->length;
 //            echo '<xmp>' . $dom->saveXML() . '</xmp>';
            //$dom->save('result.xml') or die('XML Create Error');
