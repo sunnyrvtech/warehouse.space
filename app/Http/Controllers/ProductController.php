@@ -168,8 +168,8 @@ class ProductController extends Controller {
 	                        $images->appendChild($dom->createElement('string', $img->src));
 	                    }
 	                }
-                    echo "<pre>";
-                    echo $product->title;
+                    // echo "<pre>";
+                    // echo $product->title;
 	                foreach ($product->variants as $item_value) {
                         
 	                    $items = $dom->createElement('MaterialArticle');
@@ -177,7 +177,7 @@ class ProductController extends Controller {
 	                    $items->appendChild($dom->createElement('ProductID', $item_value->id));
 	                    if ($item_value->sku != "")
 	                        $items->appendChild($dom->createElement('Article', $item_value->sku));
-                        $items->appendChild($dom->createElement('Title', htmlspecialchars($product->title.':'.$item_value->title)));
+                        $items->appendChild($dom->createElement('Title', htmlspecialchars($product->title.'-'.$item_value->title)));
 
 	                    // if($item_value->title != 'Default Title'){
 	                    // // echo "not working";	
@@ -220,7 +220,7 @@ class ProductController extends Controller {
 	                }
 	            }
 	         }   
-             die('ss');
+             // die('ss');
 //            echo $dom->getElementsByTagName('MaterialArticle')->length;
 //            echo '<xmp>' . $dom->saveXML() . '</xmp>';
            //$dom->save('result.xml') or die('XML Create Error');
