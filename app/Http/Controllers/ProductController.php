@@ -220,7 +220,7 @@ class ProductController extends Controller {
 	                }
 	            }
 	         }   
-             die('1111111111');
+             // die('1111111111');
 //            echo $dom->getElementsByTagName('MaterialArticle')->length;
 //            echo '<xmp>' . $dom->saveXML() . '</xmp>';
            //$dom->save('result.xml') or die('XML Create Error');
