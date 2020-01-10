@@ -171,15 +171,14 @@ class ProductController extends Controller {
                     // echo "<pre>";
                     // echo $product->title;
                    // echo htmlspecialchars($product->title.' '.'hjhj hkhk hkjh');
-	                foreach ($product->variants as $item_value) {
-                        echo $product->title;
+	                foreach ($product->variants as $item_value) {                        
 	                    $items = $dom->createElement('MaterialArticle');
 	                    $items->appendChild($dom->createElement('AccountKey', $this->_accountKey));
 	                    $items->appendChild($dom->createElement('ProductID', $item_value->id));
 	                    if ($item_value->sku != "")
 	                         $items->appendChild($dom->createElement('Article', htmlspecialchars($item_value->sku)));
                          $items->appendChild($dom->createElement('Title', htmlspecialchars($product->title)));
-                        // echo htmlspecialchars($product->title.'-'.$item_value->title).'<br>';
+                        echo htmlspecialchars($product->title.'-'.$item_value->title).'<br>';
 	                    // if($item_value->title != 'Default Title'){
 	                    // // echo "not working";	
 	                    // // echo $item_value->title;
