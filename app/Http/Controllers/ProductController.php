@@ -168,9 +168,6 @@ class ProductController extends Controller {
 	                        $images->appendChild($dom->createElement('string', $img->src));
 	                    }
 	                }
-                    // echo "<pre>";
-                    // echo $product->title;
-                   // echo htmlspecialchars($product->title.' '.'hjhj hkhk hkjh');
 	                foreach ($product->variants as $item_value) {                        
 	                    $items = $dom->createElement('MaterialArticle');
 	                    $items->appendChild($dom->createElement('AccountKey', $this->_accountKey));
@@ -178,7 +175,7 @@ class ProductController extends Controller {
 	                    if ($item_value->sku != "")
 	                         $items->appendChild($dom->createElement('Article', htmlspecialchars($item_value->sku)));
                          $items->appendChild($dom->createElement('Title', htmlspecialchars($product->title)));
-                        echo htmlspecialchars($product->title.'-'.$item_value->title).'<br>';
+                        //echo htmlspecialchars($product->title.'-'.$item_value->title).'<br>';
 	                    // if($item_value->title != 'Default Title'){
 	                    // // echo "not working";	
 	                    // // echo $item_value->title;
@@ -220,10 +217,10 @@ class ProductController extends Controller {
 	                }
 	            }
 	         }   
-             die('ASAS');
+             //die('ASAS');
 //            echo $dom->getElementsByTagName('MaterialArticle')->length;
 //            echo '<xmp>' . $dom->saveXML() . '</xmp>';
-           $dom->save('result.xml') or die('XML Create Error');
+           //$dom->save('result.xml') or die('XML Create Error');
             $tmpfile = tempnam(sys_get_temp_dir(), 'zip');
             rename($tmpfile, substr($tmpfile, 0, strlen($tmpfile) - 4) . '.zip');
             $tmpfile = substr($tmpfile, 0, strlen($tmpfile) - 4) . '.zip';
