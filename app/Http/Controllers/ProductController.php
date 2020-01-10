@@ -170,7 +170,7 @@ class ProductController extends Controller {
 	                }
                     // echo "<pre>";
                     // echo $product->title;
-                    htmlspecialchars($product->title.' '.'hjhj hkhk hkjh');
+                    echo htmlspecialchars($product->title.' '.'hjhj hkhk hkjh');
 	                foreach ($product->variants as $item_value) {
 	                    $items = $dom->createElement('MaterialArticle');
 	                    $items->appendChild($dom->createElement('AccountKey', $this->_accountKey));
