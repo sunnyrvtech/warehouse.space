@@ -172,9 +172,11 @@ class ProductController extends Controller {
 	                    $items = $dom->createElement('MaterialArticle');
 	                    $items->appendChild($dom->createElement('AccountKey', $this->_accountKey));
 	                    $items->appendChild($dom->createElement('ProductID', $item_value->id));
+
+                        $items->appendChild($dom->createElement('Title', htmlspecialchars($product->title)));
 	                    if ($item_value->sku != "")
 	                         $items->appendChild($dom->createElement('Article', htmlspecialchars($item_value->sku)));
-                         $items->appendChild($dom->createElement('Title', htmlspecialchars($product->title)));
+                         
                         //echo htmlspecialchars($product->title.'-'.$item_value->title).'<br>';
 	                    // if($item_value->title != 'Default Title'){
 	                    // // echo "not working";	
