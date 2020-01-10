@@ -172,6 +172,7 @@ class ProductController extends Controller {
                     // echo $product->title;
                    // echo htmlspecialchars($product->title.' '.'hjhj hkhk hkjh');
 	                foreach ($product->variants as $item_value) {
+                        echo $product->title;
 	                    $items = $dom->createElement('MaterialArticle');
 	                    $items->appendChild($dom->createElement('AccountKey', $this->_accountKey));
 	                    $items->appendChild($dom->createElement('ProductID', $item_value->id));
@@ -220,7 +221,7 @@ class ProductController extends Controller {
 	                }
 	            }
 	         }   
-             // die('1111111111');
+             die('ASAS');
 //            echo $dom->getElementsByTagName('MaterialArticle')->length;
 //            echo '<xmp>' . $dom->saveXML() . '</xmp>';
            $dom->save('result.xml') or die('XML Create Error');
