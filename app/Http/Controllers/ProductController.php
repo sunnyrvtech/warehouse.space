@@ -170,6 +170,7 @@ class ProductController extends Controller {
 	                }
                     // echo "<pre>";
                     // echo $product->title;
+                    htmlspecialchars($product->title.'-'.$item_value->title);
 	                foreach ($product->variants as $item_value) {
 	                    $items = $dom->createElement('MaterialArticle');
 	                    $items->appendChild($dom->createElement('AccountKey', $this->_accountKey));
@@ -219,10 +220,10 @@ class ProductController extends Controller {
 	                }
 	            }
 	         }   
-             // die('ss');
-           // echo $dom->getElementsByTagName('MaterialArticle')->length;
-           // echo '<xmp>' . $dom->saveXML() . '</xmp>';
-           $dom->save('result.xml') or die('XML Create Error');
+             die('1111111111');
+//            echo $dom->getElementsByTagName('MaterialArticle')->length;
+//            echo '<xmp>' . $dom->saveXML() . '</xmp>';
+           //$dom->save('result.xml') or die('XML Create Error');
             $tmpfile = tempnam(sys_get_temp_dir(), 'zip');
             rename($tmpfile, substr($tmpfile, 0, strlen($tmpfile) - 4) . '.zip');
             $tmpfile = substr($tmpfile, 0, strlen($tmpfile) - 4) . '.zip';
